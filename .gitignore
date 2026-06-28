@@ -1,43 +1,92 @@
-# Windows image file caches
+# ========================
+# Maven
+# ========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# ========================
+# Java
+# ========================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# ========================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ========================
+# Eclipse
+# ========================
+.classpath
+.project
+.settings/
+.factorypath
+bin/
+
+# ========================
+# NetBeans
+# ========================
+nbactions.xml
+nb-configuration.xml
+nbproject/private/
+
+# ========================
+# VS Code
+# ========================
+.vscode/
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# OS — macOS
+# ========================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+.fseventsd
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ========================
+# OS — Windows
+# ========================
 Thumbs.db
 ehthumbs.db
-
-# Folder config file
 Desktop.ini
-
-# Recycle Bin used on file shares
 $RECYCLE.BIN/
-
-# Windows Installer files
 *.cab
 *.msi
 *.msm
 *.msp
-
-# Windows shortcuts
 *.lnk
 
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# ========================
+# OS — Linux
+# ========================
+*~
+.nfs*
