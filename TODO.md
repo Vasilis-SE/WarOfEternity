@@ -61,7 +61,7 @@
   Also `DefaultListModel` in `LoadGameForm` should be `DefaultListModel<String>`.
 
 - [ ] **Replace item-removal loops with `removeIf`**
-  In `Player.RemoveItemFromSelectedItemsByPlayer` and `RemoveItemFromPlayerEquipedInventory`:
+  In `Player.removeItemFromSelectedItemsByPlayer` and `removeItemFromPlayerEquippedInventory`:
   ```java
   // Before: builds a new list in a loop
   // After
@@ -69,7 +69,7 @@
   ```
 
 - [ ] **Replace `switch` on class strings with `switch` expressions (Java 14+)**
-  `CalculateGeneralPlayerDamage`, `LevelUp`, `GetPlayerClassStartingStats` all switch on
+  `calculateGeneralPlayerDamage`, `levelUp`, `getPlayerClassStartingStats` all switch on
   `this.playerClass` (a raw String). Use `switch` expressions with arrow syntax to eliminate
   fall-through and make the result an assigned value.
 
@@ -95,7 +95,7 @@
   makes construction readable and eliminates constructor confusion.
 
 - [ ] **Replace `JSONObject` as an internal data carrier with a `record`**
-  `GetPlayerClassStartingStats` and `GetAttributePointsFromEquippedItems` use `JSONObject`
+  `getPlayerClassStartingStats` and `getAttributePointsFromEquippedItems` use `JSONObject`
   as a plain map. Define a small `record ClassStats(int strength, int agility, int intelligence)`
   and return that instead. No JSON serialization library needed for in-memory data.
 
@@ -139,7 +139,7 @@
   that only tests would catch.
 
 - [ ] **Add unit tests for `Player` stat calculations**
-  `CalculateGeneralPlayerDamage`, `LevelUp`, `BattleExperienceEarned` contain non-trivial
+  `calculateGeneralPlayerDamage`, `levelUp`, `battleExperienceEarned` contain non-trivial
   arithmetic with class-dependent branches — good candidates for parameterised tests.
 
 ---

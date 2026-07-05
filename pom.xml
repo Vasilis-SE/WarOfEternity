@@ -23,7 +23,7 @@
          <configuration>
             <archive>
                <manifestEntries>
-                  <SplashScreen-Image>ApplicationImages/spashscreen.gif</SplashScreen-Image>
+                  <SplashScreen-Image>ApplicationImages/splashScreen.gif</SplashScreen-Image>
                </manifestEntries>
             </archive>
          </configuration>

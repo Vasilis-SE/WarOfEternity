@@ -1,21 +1,26 @@
 
-package characters;
+package characters.controller;
 
 import Items.Item;
 import Map.Area;
+import characters.DockYard;
+import characters.DockYardActionModel;
+import characters.ReadDockYardConnections;
 import characters.model.PlayerModel;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Controlling class for sail action commands.
- * 
+ *
  * @author Vasilis Triantaris
  */
 public class DockYardController {
-    
+
     private final List<Area> listOfAreas;
+    @Getter
     private List<DockYard> listOfDockYards;
     private final List<Item> listOfItems;
     
@@ -30,7 +35,7 @@ public class DockYardController {
     /**
      * Method that controlls the reading of the dock yard model.
      */
-    public void DockYardMainControllingMethod(){
+    public void dockYardMainControllingMethod(){
         
         ReadDockYardConnections rdyc = new ReadDockYardConnections();
         
@@ -54,7 +59,7 @@ public class DockYardController {
      * @param verb The verb part of the command.
      * @return Returns a string message that will be displayed to the user.
      */
-    public String DockYardCommandActionProcess(PlayerModel player, List<DockYard> docks, String noun, String verb){
+    public String dockYardCommandActionProcess(PlayerModel player, List<DockYard> docks, String noun, String verb){
         
         String message;
         DockYardActionModel dyam = new DockYardActionModel(docks, noun, this.listOfItems, this.listOfAreas);
@@ -68,10 +73,5 @@ public class DockYardController {
         
         return message;
     }
-    
-    
-    public List<DockYard> GetDockYardList(){
-        return this.listOfDockYards;
-    }
-    
+
 }

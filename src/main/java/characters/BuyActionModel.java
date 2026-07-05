@@ -5,21 +5,21 @@ import java.util.List;
 
 import characters.model.MerchantModel;
 import characters.model.PlayerModel;
+import characters.service.PlayerService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author Vasilhs Triantaris
  */
+@RequiredArgsConstructor
 public class BuyActionModel {
 
-    String merchandise;
-    
-    //Constructor
-    public BuyActionModel(String noun){
-        this.merchandise = noun;
-    }
-    
+    private final String merchandise;
+    private final PlayerService playerService;
+
     /**
      * Main method that handles the buy item from merchant process.
      * 
@@ -108,7 +108,7 @@ public class BuyActionModel {
             goldIntegrity = false;
         }
         
-        if(player.CalculatingPlayerInventoryItemWeight() + eligibleItem.GetItemWeight() > 100.0){
+        if(playerService.calculatingPlayerInventoryItemWeight(player) + eligibleItem.GetItemWeight() > 100.0){
             message = "Exceeding weight limit, can't buy this item!";
             weightIntegrity = false;
         }
@@ -147,8 +147,8 @@ public class BuyActionModel {
                 return message;
             }
         }
-                
-        player.AddItemToSelectedItemsByPlayer(itemToBuy);
+
+        playerService.addItemToSelectedItemsByPlayer(player, itemToBuy);
 
         return message;
     }

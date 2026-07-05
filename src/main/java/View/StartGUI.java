@@ -1,8 +1,8 @@
 package View;
 
-import characters.EnemiesController;
+import characters.controller.EnemiesController;
 import characters.model.PlayerModel;
-import characters.TransactionController;
+import characters.controller.TransactionController;
 import GameFileConfiguration.MainFolderConfig;
 import GameFileConfiguration.SaveFolderConfig;
 import Items.ItemController;

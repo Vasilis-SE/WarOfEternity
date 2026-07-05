@@ -1,9 +1,12 @@
 package Items;
 
-import characters.BattleActionModel;
 import characters.model.EnemyModel;
-import characters.EnemiesController;
+import characters.controller.EnemiesController;
 import characters.model.PlayerModel;
+import characters.service.BattleService;
+import characters.service.PlayerService;
+import lombok.RequiredArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,17 +14,16 @@ import java.util.List;
  *
  * @author Vasilis Triantaris
  */
+@RequiredArgsConstructor
 public class ItemActionModel {
     
     private final List<Item> listOfItems;
-    String verbPartOfCommand;
-    String nounPartOfCommand;
-    
-    public ItemActionModel(List<Item> items, String verb, String noun){
-        this.listOfItems = items;
-        this.verbPartOfCommand = verb;
-        this.nounPartOfCommand = noun;
-    }
+    private final String verbPartOfCommand;
+    private final String nounPartOfCommand;
+
+    private final PlayerService playerService;
+    private final BattleService battleService;
+
     
     /**
      * This method finds the specific item to be used by the player and returns
@@ -67,10 +69,10 @@ public class ItemActionModel {
                     
                 default :
                     this.RemoveItemWithSameTypeThatIsAlreadyEquipedOnPlayer(player, itemToBeEquiped);
-                    player.AddItemToEquipedItemListOfPlayer(itemToBeEquiped);
-                    player.CalculatePlayersAttributePoints();
-                    player.CalculateGeneralPlayerDamage();
-                    player.CalculatePlayersArmor();
+                    playerService.addItemToEquippedItemListOfPlayer(player, itemToBeEquiped);
+                    playerService.calculatePlayersAttributePoints(player);
+                    playerService.calculateGeneralPlayerDamage(player);
+                    playerService.calculatePlayersArmor(player);
                     message = itemToBeEquiped.GetItemName()+" is equiped!";
                 break;
             }
@@ -131,10 +133,8 @@ public class ItemActionModel {
             i++;
         }
         
-        if(enemyController.GetBattleState()){
-            BattleActionModel bam = new BattleActionModel(enemyController.GetJSONEnemiesArray());
-            message += "\n"+bam.AttackFromEnemyToPlayerProcess(enemyToCombat, player);
-        }
+        if(enemyController.getBattleState())
+            message += "\n" + battleService.attackFromEnemyToPlayerProcess(enemyToCombat, player);
 
         return message;
     }
@@ -290,7 +290,7 @@ public class ItemActionModel {
                         (icwa.GetItemUsage().equals("pick")) && (icwa.GetConnectionWithAreaReference().GetAreasName().equals(player.getLocation().GetAreasName()))) {
      
                     //if the summary of weight plus the items is more than the limit then..
-                    if(this.CalculatingPlayerInventoryItemWeight(player) + eachItem.GetItemWeight() > 100.0)
+                    if(playerService.calculatingPlayerInventoryItemWeight(player) + eachItem.GetItemWeight() > 100.0)
                         return "Exceeding weight limit, can't pick that up!";
                     
                     switch(this.listOfItems.get(i).GetItemType()){
@@ -301,7 +301,7 @@ public class ItemActionModel {
                                itemExistsOnTheAreaCheck = true;
                                message = "Item " + this.nounPartOfCommand + " is picked.\n--> Description : " + eachItem.GetItemDescription();
                                this.listOfItems.get(i).SetItemValue(1);
-                               player.AddItemToSelectedItemsByPlayer(this.listOfItems.get(i));
+                               playerService.addItemToSelectedItemsByPlayer(player, this.listOfItems.get(i));
                            }
                            else {
                                itemExistsOnTheAreaCheck = true;
@@ -314,7 +314,7 @@ public class ItemActionModel {
                                 itemExistsOnTheAreaCheck = true;
                                 message = "Item " + this.nounPartOfCommand + " is picked\n--> Decription : " + eachItem.GetItemDescription();
                                 this.listOfItems.get(i).SetItemValue(0);
-                                player.AddItemToSelectedItemsByPlayer(this.listOfItems.get(i));
+                                playerService.addItemToSelectedItemsByPlayer(player, this.listOfItems.get(i));
                             }
                             else{
                                 itemExistsOnTheAreaCheck = true;
@@ -332,32 +332,4 @@ public class ItemActionModel {
         
         return message;
     }
-    
-    /**
-     * Calculating the whole wight of item in the inventory of player.
-     * 
-     * @param player The object that holds all the player data.
-     * @return Returns the whole weight of items that the player is carrying in a double data format.
-     */
-    public double CalculatingPlayerInventoryItemWeight(PlayerModel player){
-        double weightSum = 0.0;
-        
-        for(Item eachItemInInventory : player.getItemsSelected())
-            weightSum += eachItemInInventory.GetItemWeight();
- 
-        return weightSum;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

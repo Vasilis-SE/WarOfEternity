@@ -2,21 +2,22 @@ package characters;
 
 import Items.Item;
 import characters.model.PlayerModel;
+import characters.service.PlayerService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author Vasilhs Triantaris
  */
+@RequiredArgsConstructor
 public class SellActionModel {
     
-    String itemToSell;
+    private final String itemToSell;
+    private final PlayerService playerService;
     
-    //Constructor
-    public SellActionModel(String item){
-        this.itemToSell = item;
-    }
-    
+
     /**
      * Method that handles the selling of an item to a merchant.
      * 
@@ -38,10 +39,8 @@ public class SellActionModel {
         JSONObject itemCheckJSON = this.ItemTypeCheck((Item) findItemJSON.get("item"));
         if(!(boolean) itemCheckJSON.get("status"))
             return (String) itemCheckJSON.get("message");
-        
-        String message = SellTheItemToMerchant(player, (Item) findItemJSON.get("item"));
-        
-        return message;
+
+        return SellTheItemToMerchant(player, (Item) findItemJSON.get("item"));
     }
     
     /**
@@ -107,11 +106,11 @@ public class SellActionModel {
      * @return 
      */
     private String SellTheItemToMerchant(PlayerModel player, Item itemToBeSold){
-        player.RemoveItemFromPlayerEquipedInventory(itemToBeSold);
-        player.setGold(player.getGold() + itemToBeSold.GetItemValueInGold());
-        player.RemoveItemFromSelectedItemsByPlayer(itemToBeSold);
-        player.CalculatePlayersArmor();
-        player.CalculateGeneralPlayerDamage();
+        playerService.removeItemFromPlayerEquippedInventory(player, itemToBeSold);
+        playerService.addGoldToPlayer(player, itemToBeSold.GetItemValueInGold());
+        playerService.removeItemFromSelectedItemsByPlayer(player, itemToBeSold);
+        playerService.calculatePlayersArmor(player);
+        playerService.calculateGeneralPlayerDamage(player);
         
         return "Can help you with anything else sir ?";  
     }

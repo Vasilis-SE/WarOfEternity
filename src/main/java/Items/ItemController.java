@@ -1,9 +1,12 @@
 package Items;
 
 import characters.model.EnemyModel;
-import characters.EnemiesController;
+import characters.controller.EnemiesController;
 import characters.model.PlayerModel;
 import Map.Area;
+import characters.service.BattleService;
+import characters.service.PlayerService;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +61,7 @@ public class ItemController implements Serializable{
     public String ItemActionCommandProcessController(PlayerModel player, EnemiesController enemyController, EnemyModel enemyToCombat){
     
         String resultMessage = null;
-        ItemActionModel iam = new ItemActionModel(this.listOfItems, this.verbPartOfCommand, this.nounPartOfCommand);
+        ItemActionModel iam = new ItemActionModel(this.listOfItems, this.verbPartOfCommand, this.nounPartOfCommand, new PlayerService(), new BattleService());
 
         if(this.verbPartOfCommand.equals("equip")){
             resultMessage = iam.EquipItemPlayerAction(player, this.nounPartOfCommand);

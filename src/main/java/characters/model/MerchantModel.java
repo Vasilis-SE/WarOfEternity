@@ -1,8 +1,9 @@
 package characters.model;
 
 import Items.Item;
+import characters.service.PlayerService;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
@@ -13,11 +14,11 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class MerchantModel extends CharacterAbstractModel implements Serializable {
 
     private List<Item> merchantGoods;
-
+    private final PlayerService playerService;
 
     public void AddItemToMerchantGoods(Item item){
         this.merchantGoods.add(item);
@@ -42,36 +43,29 @@ public class MerchantModel extends CharacterAbstractModel implements Serializabl
                 itemExistance = true;
             }
         }
-        
-        if(itemExistance){
 
-            if(player.CalculatingPlayerInventoryItemWeight() + itemToBuy.GetItemWeight() > 100.0)
-                return "Exceeding weight limit, can't buy this item!";
+        if(!itemExistance)
+            return "There is no item by the name "+merchantGood+" into my goods, sorry...";
 
-            //checks if the player can aford to buy the specific item.
-            if(player.getGold() >= itemToBuy.GetItemValueInGold()){
-                
-                player.setGold(player.getGold() - itemToBuy.GetItemValueInGold());
+        if(playerService.calculatingPlayerInventoryItemWeight(player) + itemToBuy.GetItemWeight() > 100.0)
+            return "Exceeding weight limit, can't buy this item!";
 
-                for(Item eachItemOnInventory : player.getItemsSelected()){
-                    if(eachItemOnInventory.GetItemName().equals(itemToBuy.GetItemName()) && itemToBuy.GetItemType() == 1){
-                        eachItemOnInventory.SetItemValue(eachItemOnInventory.GetItemValue() + 8);
-                        return "Thank you, can i do anything else for you sir ?";
-                     }
-                }
-                
-                player.AddItemToSelectedItemsByPlayer(itemToBuy);
-                message = "Thank you, can i do anything else for you sir ?";
-                
-            }
-            else{
-                message = "Sorry sir, you cant afford this item...";
-            }
+        //checks if the player can aford to buy the specific item.
+        if(player.getGold() < itemToBuy.GetItemValueInGold())
+            return "Sorry sir, you cant afford this item...";
+
+        player.setGold(player.getGold() - itemToBuy.GetItemValueInGold());
+
+        for(Item eachItemOnInventory : player.getItemsSelected()){
+            if(eachItemOnInventory.GetItemName().equals(itemToBuy.GetItemName()) && itemToBuy.GetItemType() == 1){
+                eachItemOnInventory.SetItemValue(eachItemOnInventory.GetItemValue() + 8);
+                return "Thank you, can i do anything else for you sir ?";
+             }
         }
-        else{
-            message = "There is no item by the name "+merchantGood+" into my goods, sorry...";  
-        }
-        
+
+        playerService.addItemToSelectedItemsByPlayer(player, itemToBuy);
+        message = "Thank you, can i do anything else for you sir ?";
+
         return message;
     }
     
@@ -87,7 +81,7 @@ public class MerchantModel extends CharacterAbstractModel implements Serializabl
  
         int i=0;
         for(Item eachSelectedItem : player.getItemsSelected()){
-   
+
             if(eachSelectedItem.GetItemName().equalsIgnoreCase(playerGood)){
                 //The sell transaction type depends on the type of items to be sold if an
                 //items is a key it cannot be sold.
@@ -97,11 +91,12 @@ public class MerchantModel extends CharacterAbstractModel implements Serializabl
                     break;
                 
                     default:
-                        this.RemoveItemFromPlayerEquipedInventory(eachSelectedItem, player);
-                        player.setGold(player.getGold() + eachSelectedItem.GetItemValueInGold());
-                        player.RemoveItemFromSelectedItemsByPlayer(eachSelectedItem);
-                        player.CalculatePlayersArmor();
-                        player.CalculateGeneralPlayerDamage();
+                        this.removeItemFromPlayerEquippedInventory(eachSelectedItem, player);
+
+                        playerService.addGoldToPlayer(player, eachSelectedItem.GetItemValueInGold());
+                        playerService.removeItemFromSelectedItemsByPlayer(player, eachSelectedItem);
+                        playerService.calculatePlayersArmor(player);
+                        playerService.calculateGeneralPlayerDamage(player);
                         message = "Can i help you with anything else sir ?";
                     break;     
                 }
@@ -124,7 +119,7 @@ public class MerchantModel extends CharacterAbstractModel implements Serializabl
      * @param item  The item to be sold to the merchant and its already equipped.
      * @param player The player object.
      */
-    public void RemoveItemFromPlayerEquipedInventory(Item item, PlayerModel player){
+    public void removeItemFromPlayerEquippedInventory(Item item, PlayerModel player){
         List<Item> newListOfEquipedItems = new ArrayList<>();
         
         for(Item eachEquipedItem : player.getEquippedItems())
