@@ -3,13 +3,7 @@ package Parsers;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class that controls the parsing process. First it reads all the parses and 
- * inserts their data into lists after it tries to find the parsing action 
- * through the lists and understand the action command the user typed.
- * 
- * @author Thomas Liakos
- */
+
 public class ParserController {
    
     List<String> directionVerbParser;
@@ -101,13 +95,13 @@ public class ParserController {
     
     /**
      * This method takes as a parameter the whole action that the player given
-     * separated in parts. The the specific verb and the noun part of the command
+     * separated in parts. The specific verb and the noun part of the command
      * the application tries to figure the action command.
      * 
-     * @param playerActionSplitted  The whole action that the player given separated in parts.
+     * @param splitPlayerAction  The whole action that the player given separated in parts.
      * @return Returns a string message that it will be the action type command or if the command is undefined then it will return a proper message.
      */
-    private String PlayerActionDecider(String[] playerActionSplitted){
+    private String PlayerActionDecider(String[] splitPlayerAction){
         String parsingDecision = "";
         
         //pass all the directions verbs.
@@ -115,56 +109,56 @@ public class ParserController {
                 
             //if a direction verb on the parser list is equal to the one the user typed,
             //then the action that the user wants to do is move (change area)
-            if(eachDirection.trim().equalsIgnoreCase(playerActionSplitted[0])){
+            if(eachDirection.trim().equalsIgnoreCase(splitPlayerAction[0])){
                 parsingDecision = "direction";
-                this.nounCommand = this.CreateNounWithMoreThanOneWords(playerActionSplitted); 
-                this.verbCommand = playerActionSplitted[0].trim();
+                this.nounCommand = this.CreateNounWithMoreThanOneWords(splitPlayerAction);
+                this.verbCommand = splitPlayerAction[0].trim();
             }
             
         }
 
         //Passing all the item verbs to decide the parsing decision
         for(String eachItemCommand : this.itemVerbParser){
-            if(eachItemCommand.trim().equalsIgnoreCase(playerActionSplitted[0])){
+            if(eachItemCommand.trim().equalsIgnoreCase(splitPlayerAction[0])){
                 parsingDecision = "item";
-                this.nounCommand = this.CreateNounWithMoreThanOneWords(playerActionSplitted);
-                this.verbCommand = playerActionSplitted[0].trim();
+                this.nounCommand = this.CreateNounWithMoreThanOneWords(splitPlayerAction);
+                this.verbCommand = splitPlayerAction[0].trim();
             }
         }
         
         //Passing all the transaction verbs to decide the parsing decision
         for(String eachTransVerb : this.transactionVerbParser){
-            if(eachTransVerb.trim().equalsIgnoreCase(playerActionSplitted[0])){
+            if(eachTransVerb.trim().equalsIgnoreCase(splitPlayerAction[0])){
                 parsingDecision = "transaction";
-                this.nounCommand = this.CreateNounWithMoreThanOneWords(playerActionSplitted);
-                this.verbCommand = playerActionSplitted[0].trim();
+                this.nounCommand = this.CreateNounWithMoreThanOneWords(splitPlayerAction);
+                this.verbCommand = splitPlayerAction[0].trim();
             }
         }
 
         //Passing all the battle verbs to decide the parsing decision
         for(String eachBattleVerb : this.battleVerbParser){
-            if(eachBattleVerb.trim().equalsIgnoreCase(playerActionSplitted[0])){
+            if(eachBattleVerb.trim().equalsIgnoreCase(splitPlayerAction[0])){
                 parsingDecision = "battle";
-                this.nounCommand = this.CreateNounWithMoreThanOneWords(playerActionSplitted);
-                this.verbCommand = playerActionSplitted[0].trim();
+                this.nounCommand = this.CreateNounWithMoreThanOneWords(splitPlayerAction);
+                this.verbCommand = splitPlayerAction[0].trim();
             }
         }
         
         //Passing all the sail verbs to decide the parsing decision
         for(String eachSailVerb : this.sailVerbParser){
-            if(eachSailVerb.trim().equalsIgnoreCase(playerActionSplitted[0])){
+            if(eachSailVerb.trim().equalsIgnoreCase(splitPlayerAction[0])){
                 parsingDecision = "sail";
-                this.nounCommand = this.CreateNounWithMoreThanOneWords(playerActionSplitted);
-                this.verbCommand = playerActionSplitted[0].trim();
+                this.nounCommand = this.CreateNounWithMoreThanOneWords(splitPlayerAction);
+                this.verbCommand = splitPlayerAction[0].trim();
             }
         }
         
         //Passing all the inspect verbs to decide the parsing decision
         for(String eachInspectVerb : this.inspectVerbParser){
-            if(eachInspectVerb.trim().equalsIgnoreCase(playerActionSplitted[0])){
+            if(eachInspectVerb.trim().equalsIgnoreCase(splitPlayerAction[0])){
                 parsingDecision = "inspect";
-                this.nounCommand = this.CreateNounWithMoreThanOneWords(playerActionSplitted);
-                this.verbCommand = playerActionSplitted[0].trim();
+                this.nounCommand = this.CreateNounWithMoreThanOneWords(splitPlayerAction);
+                this.verbCommand = splitPlayerAction[0].trim();
             }
         }
         
@@ -186,15 +180,14 @@ public class ParserController {
      * Method that if the action command is consisted from more than 
      * one words then it creates the noun part from the second word to the last.
      * 
-     * @param playerActionSplitted  The whole action that the player given separated in parts.
      * @return  Returns a string which is the added parts of a command if that one has more than one word in the noun part of the command.
      */
-    private String CreateNounWithMoreThanOneWords(String[] splittedAction){
+    private String CreateNounWithMoreThanOneWords(String[] splitAction){
         String nounPart = "";
         
-        for(int i=1; i<splittedAction.length; i++){
-            nounPart += splittedAction[i]+" ";
-        }
+        for(int i=1; i<splitAction.length; i++)
+            nounPart += splitAction[i]+" ";
+
         
         return nounPart.trim();
     }

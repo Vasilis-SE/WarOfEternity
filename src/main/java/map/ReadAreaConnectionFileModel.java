@@ -1,6 +1,8 @@
-package Map;
+package map;
 
 import GameFileConfiguration.TextFileProcessing;
+import map.model.Area;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class ReadAreaConnectionFileModel {
      * 
      * @return Returns an array of strings in which every line is a line on the area connection file.
      */
-    public String[] SplitStringBufferToLines(){
+    public String[] splitStringBufferToLines(){
         
         String[] dataOnLines = this.strBufData.toString().split("\n");
         return dataOnLines;
@@ -41,7 +43,7 @@ public class ReadAreaConnectionFileModel {
      * @param dataOnLines   This is the array of string in which every line represent each line on the area connection file.
      * @return Returns the list of current game areas which is the first column on the file.
      */
-    public List<Area> GetListOfCurrentAreas(String dataOnLines[]){
+    public List<Area> getListOfCurrentAreas(String dataOnLines[]){
        
         List<Area> curAreasList = new ArrayList();
         
@@ -55,7 +57,7 @@ public class ReadAreaConnectionFileModel {
             int n=0;
             for(Area eachArea : this.areasList){
                 
-                if(eachArea.GetAreasName().equalsIgnoreCase(dataIndex[0].trim())){
+                if(eachArea.getAreaName().equalsIgnoreCase(dataIndex[0].trim())){
                 
                     curAreasList.add(this.areasList.get(n));
                 }
@@ -76,7 +78,7 @@ public class ReadAreaConnectionFileModel {
      * @param dataOnLines   This is the array of string in which every line represent each line on the area connection file.
      * @return Returns the list of Next game areas which is the second column on the file.
      */
-    public List<Area> GetListOfNextAreas(String dataOnLines[]){
+    public List<Area> getListOfNextAreas(String dataOnLines[]){
         
         List<Area> nextAreaList = new ArrayList();
         
@@ -86,7 +88,7 @@ public class ReadAreaConnectionFileModel {
             int n=0;
             for(Area eachArea : this.areasList){
                 
-                if(eachArea.GetAreasName().equalsIgnoreCase(dataIndex[1].trim())){
+                if(eachArea.getAreaName().equalsIgnoreCase(dataIndex[1].trim())){
                 
                     nextAreaList.add(this.areasList.get(n));
                 }
@@ -107,7 +109,7 @@ public class ReadAreaConnectionFileModel {
      * @param dataOnLine   This is the array of string in which every line represent each line on the area connection file.
      * @return Returns the list are directions which represents the third column in the file.
      */
-    public List<String> GetAreasDirections(String[] dataOnLine){
+    public List<String> getAreasDirections(String[] dataOnLine){
         List<String> directions = new ArrayList();
         
         for (String line : dataOnLine) {

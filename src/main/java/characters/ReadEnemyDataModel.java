@@ -1,7 +1,7 @@
 package characters;
 
 import GameFileConfiguration.TextFileProcessing;
-import Map.Area;
+import map.model.Area;
 import characters.model.EnemyModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -84,7 +84,7 @@ public final class ReadEnemyDataModel {
         List<EnemyModel> listOfEnemiesOnArea = new ArrayList<>();
 
         for(String line : dataOnLines) {
-            if(!line.contains(eachArea.GetAreasName())) continue;
+            if(!line.contains(eachArea.getAreaName())) continue;
             String[] lineFields = line.split("@");
             listOfEnemiesOnArea.add(EnemyModel.builder()
                     .name(lineFields[0].trim())
@@ -100,7 +100,7 @@ public final class ReadEnemyDataModel {
                     .build());
         }
  
-        jObj.put("areaname", eachArea.GetAreasName());
+        jObj.put("areaname", eachArea.getAreaName());
         jObj.put("enemiesonarea", listOfEnemiesOnArea);
         
         return jObj;

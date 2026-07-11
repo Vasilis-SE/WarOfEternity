@@ -1,14 +1,12 @@
-package Map;
+package map;
 
 import GameFileConfiguration.TextFileProcessing;
+import map.model.Area;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class that contains methods to read the GameAreas text file.
- * 
- * @author Thomas Liakos
- */
+
 public class ReadAreaFileModel {
     
     private List<Area> areaList;
@@ -27,7 +25,7 @@ public class ReadAreaFileModel {
      * 
      * @return Returns an array of string in which each line is a line in the GameAreas file.
      */
-    public String[] SplitStringBufferDataToLines(){
+    public String[] splitStringBufferDataToLines(){
     
         String[] dataOnLines = this.strBuff.toString().split("\n");
         
@@ -41,7 +39,7 @@ public class ReadAreaFileModel {
      * @param dataOnLines   The array of string that each string is a data line.
      * @return Returns a boolean variable that reports whether the array list data creation went fine.
      */
-    public boolean SetAreaList(String[] dataOnLines){
+    public boolean setAreaList(String[] dataOnLines){
         
         try{
             for(int i=0; i<dataOnLines.length; i++){
@@ -70,7 +68,7 @@ public class ReadAreaFileModel {
     }
     
     //Method that return the list of areas of the game.
-    public List<Area> GetAreaList(){
+    public List<Area> getAreaList(){
         return this.areaList;
     }
 }

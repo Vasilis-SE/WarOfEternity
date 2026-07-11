@@ -99,9 +99,9 @@
   as a plain map. Define a small `record ClassStats(int strength, int agility, int intelligence)`
   and return that instead. No JSON serialization library needed for in-memory data.
 
-- [ ] **Replace the 6 sequential verb-scan loops in `ParserController` with a `Map`**
+- [ ] **Replace the 6 sequential verb-scan loops in `ParserController` with a `map`**
   `PlayerActionDecider` runs six `for` loops over six lists for every command. Pre-populate
-  a `Map<String, String>` (verb → category) once at construction time and use a single
+  a `map<String, String>` (verb → category) once at construction time and use a single
   `map.get(verb.toLowerCase())` for O(1) lookup. This also fixes the last-wins ambiguity
   if a word appears in multiple verb lists.
 

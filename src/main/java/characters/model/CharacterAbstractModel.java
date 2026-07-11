@@ -1,6 +1,6 @@
 package characters.model;
 
-import Map.Area;
+import map.model.Area;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

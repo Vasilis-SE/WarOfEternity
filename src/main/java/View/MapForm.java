@@ -1,6 +1,6 @@
 package View;
 
-import Map.MapController;
+import map.controller.MapController;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 

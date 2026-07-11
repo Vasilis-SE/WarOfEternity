@@ -3,7 +3,7 @@ package Serialization;
 import characters.model.PlayerModel;
 import GameFileConfiguration.SaveFolderConfig;
 import Items.ItemController;
-import Map.MapController;
+import map.controller.MapController;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -11,12 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Class that handles the whole process of saving the data of the classes that
- * have inherited the Serialization interface. 
- * 
- * @author Thomas Liakos
- */
+
 public class SaveGameData {
   
     private PlayerModel player;

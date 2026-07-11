@@ -137,7 +137,7 @@ public class BuyActionModel {
         String message = "Thank you, can i do anything else for you sir ?";
         player.setGold(player.getGold() - itemToBuy.GetItemValueInGold());
 
-        for(Item eachItemOnInventory : player.getItemsSelected()){
+        for(Item eachItemOnInventory : player.getInventory()){
             
             //If the item the player wants to buy is a potion and it alrady exists on his inventory then
             //don't add a new item row in the inventory just add 8 potion into the quantity of the object.

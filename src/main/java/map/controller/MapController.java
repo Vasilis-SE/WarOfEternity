@@ -1,4 +1,7 @@
-package Map;
+package map.controller;
+
+import map.model.Area;
+import map.model.AreaConnectionMaker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import java.util.List;
  * 
  * @author Vasilis Triantaris
  */
-public class MapController implements Serializable{
+public class MapController implements Serializable {
     
     //List data member that contains all the objects for each area
     private List<Area> areasList;
@@ -26,21 +29,21 @@ public class MapController implements Serializable{
         
         ReadAreaFileController rafc = new ReadAreaFileController();
         //Get the list of areas.
-        this.areasList = rafc.AreaFileControllingMethod();
-       
+        this.areasList = rafc.areaFileControllingMethod();
+
         ReadConnectionFileController rcfcm = new ReadConnectionFileController(this.areasList);
-        rcfcm.ReadConnectionFileControllingMethod();
-        
+        rcfcm.readConnectionFileControllingMethod();
+
         List<Area> currentAreas = rcfcm.currentArea;
         List<Area> nextArea = rcfcm.nextArea;
         List<String> directions = rcfcm.directions;
-        
-        //For every object in the above list call the SetAreaConnection method to
+
+        //For every object in the above list call the setAreaConnection method to
         //create the connection of areas.
         for(int i=0; i<currentAreas.size(); i++){
-            SetAreaConnection(currentAreas.get(i), nextArea.get(i), directions.get(i));
+            setAreaConnection(currentAreas.get(i), nextArea.get(i), directions.get(i));
         }
-        
+
     }
 
     /**
@@ -51,27 +54,27 @@ public class MapController implements Serializable{
      * 
      * @param currentArea   The starting area or just the area that the player might be located.
      * @param connectionsWithOtherAreas     The next area that the previous is connected with.
-     * @param direction     The direction that the player must follow in order to travel from the currentArea to the NextArea.
+     * @param directions     The direction that the player must follow in order to travel from the currentArea to the NextArea.
      */
-    private void SetAreaConnection(Area currentArea, Area connectionsWithOtherAreas, String directions){
-    
-        //Set a area connection with data the next area and the direction to go there. 
-        AreaConnectionMaker acm = new AreaConnectionMaker(directions, connectionsWithOtherAreas);
-    
+    private void setAreaConnection(Area currentArea, Area connectionsWithOtherAreas, String directions){
+
+        //Set a area connection with data the next area and the direction to go there.
+        AreaConnectionMaker acm = new AreaConnectionMaker(connectionsWithOtherAreas, directions);
+
         //Check all the areas on the area list. If the area on the loop is equal
         //to the one current area given in the parametres then set this area as the
         //current - starting area of the connection.
         for(Area currentAreaOnTheLoop : this.areasList){
-            
-            if(currentAreaOnTheLoop.GetAreasName().equals(currentArea.GetAreasName())){
+
+            if(currentAreaOnTheLoop.getAreaName().equals(currentArea.getAreaName())){
                 currentAreaOnTheLoop.addAreaConnection(acm);
             }
-            
+
         }
     }
-    
+
     //Method that return the list of areas.
-    public List<Area> GetAreasList(){
+    public List<Area> getAreasList(){
         return this.areasList;
     }
     

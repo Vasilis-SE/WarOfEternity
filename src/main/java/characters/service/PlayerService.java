@@ -1,7 +1,7 @@
 package characters.service;
 
 import Items.Item;
-import Map.Area;
+import map.model.Area;
 import characters.enums.PlayerClassesEnum;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
@@ -26,7 +26,7 @@ public class PlayerService {
                     .location(startingArea)
                     .health(100)
                     .experience(0)
-                    .itemsSelected(new ArrayList<>())
+                    .inventory(new ArrayList<>())
                     .equippedItems(new ArrayList<>())
                     .build();
             case PlayerClassesEnum.ROGUE -> PlayerModel.builder()
@@ -40,7 +40,7 @@ public class PlayerService {
                     .agility(14)
                     .level(1)
                     .experience(0)
-                    .itemsSelected(new ArrayList<>())
+                    .inventory(new ArrayList<>())
                     .equippedItems(new ArrayList<>())
                     .build();
             case PlayerClassesEnum.MAGE -> PlayerModel.builder()
@@ -54,7 +54,7 @@ public class PlayerService {
                     .agility(9)
                     .level(1)
                     .experience(0)
-                    .itemsSelected(new ArrayList<>())
+                    .inventory(new ArrayList<>())
                     .equippedItems(new ArrayList<>())
                     .build();
         };
@@ -73,7 +73,7 @@ public class PlayerService {
      * @param item The item
      */
     public void addItemToSelectedItemsByPlayer(PlayerModel player, Item item){
-        player.getItemsSelected().add(item);
+        player.getInventory().add(item);
     }
 
 
@@ -95,9 +95,9 @@ public class PlayerService {
      */
     public double calculatingPlayerInventoryItemWeight(PlayerModel player){
         double weightSum = 0.0;
-        if(player.getItemsSelected() == null) return weightSum;
+        if(player.getInventory() == null) return weightSum;
 
-        for(Item eachItemInInventory : player.getItemsSelected())
+        for(Item eachItemInInventory : player.getInventory())
             weightSum += eachItemInInventory.GetItemWeight();
 
         return weightSum;
@@ -113,12 +113,12 @@ public class PlayerService {
     public void removeItemFromSelectedItemsByPlayer(PlayerModel player, Item item){
         List<Item> listOfNewSelectedItems = new ArrayList<>();
 
-        if(player.getItemsSelected() != null)
-            for(Item eachItem : player.getItemsSelected())
+        if(player.getInventory() != null)
+            for(Item eachItem : player.getInventory())
                 if(!eachItem.GetItemName().equals(item.GetItemName()))
                     listOfNewSelectedItems.add(eachItem);
 
-        player.setItemsSelected(listOfNewSelectedItems);
+        player.setInventory(listOfNewSelectedItems);
     }
 
 

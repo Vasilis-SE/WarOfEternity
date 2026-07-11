@@ -2,7 +2,7 @@ package characters;
 
 import Items.Item;
 import Items.ItemConnectionWithArea;
-import Map.AreaConnectionMaker;
+import map.model.AreaConnectionMaker;
 import characters.model.PlayerModel;
 
 import java.util.List;
@@ -36,16 +36,16 @@ public class DirectionActionModel {
         String directionIsBlockedMessage;
         String message = "";
 
-        for(AreaConnectionMaker acm : player.getLocation().GetListOfAreaConnections()){
+        for(AreaConnectionMaker acm : player.getLocation().getAreaConnections()){
             
-            if(acm.GetDirectionToOtherArea().equalsIgnoreCase(this.nounPart)){
+            if(acm.getDirectionsOnCurrentArea().equalsIgnoreCase(this.nounPart)){
                 
                 directionIsBlockedMessage = this.DirectionToNextAreaIsBlockedByItem(acm, player);
                 
                 if(directionIsBlockedMessage.isEmpty()){
-                    player.setLocation(acm.GetNextArea());
+                    player.setLocation(acm.getNextArea());
                     directionToAreaIsCorrect = true;
-                    message = player.getLocation().GetAreaDescription();
+                    message = player.getLocation().getAreaDescription();
                 }
                 else{
                     message = directionIsBlockedMessage;
@@ -77,7 +77,7 @@ public class DirectionActionModel {
                 //If the item in there is a object door/gate in the area that the user is in and is still
                 //closed then...
                 if((eachItem.GetItemType() == 4) && (icwa.GetItemUsage().equals("open") && (eachItem.GetItemValue() == 0) && (eachItem.GetBlockingDirection().equalsIgnoreCase(this.nounPart)) && 
-                        (player.getLocation().GetAreasName().equals(icwa.GetConnectionWithAreaReference().GetAreasName())))){
+                        (player.getLocation().getAreaName().equals(icwa.GetConnectionWithAreaReference().getAreaName())))){
                     checkMessage = "You cannot proceed further. The gate is blocking your path!";
                 }
             }

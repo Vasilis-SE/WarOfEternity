@@ -1,4 +1,7 @@
-package Map;
+package map.controller;
+
+import map.ReadAreaFileModel;
+import map.model.Area;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +26,17 @@ public class ReadAreaFileController {
      * 
      * @return Returns the list of game areas.
      */
-    public List<Area> AreaFileControllingMethod(){
+    public List<Area> areaFileControllingMethod(){
         List<Area> areaList = new ArrayList();
-        
+
         ReadAreaFileModel rafm = new ReadAreaFileModel();
 
-        String[] dataOnLines = rafm.SplitStringBufferDataToLines();
-        boolean setListCheck = rafm.SetAreaList(dataOnLines);
-        
+        String[] dataOnLines = rafm.splitStringBufferDataToLines();
+        boolean setListCheck = rafm.setAreaList(dataOnLines);
+
         //If the processes of makeing the area objects and adding them on the list.
         if(setListCheck)
-            areaList = rafm.GetAreaList();
+            areaList = rafm.getAreaList();
 
         return areaList;
     }

@@ -1,13 +1,15 @@
 package characters.controller;
 
 import Items.Item;
-import Map.Area;
+import map.model.Area;
+import map.model.DockYardModel;
 import java.util.ArrayList;
 import java.util.List;
 
 import characters.*;
 import characters.model.MerchantModel;
 import characters.model.PlayerModel;
+import characters.service.MerchantService;
 import characters.service.PlayerService;
 import lombok.Getter;
 import org.json.simple.JSONObject;
@@ -55,7 +57,7 @@ public class TransactionController {
         this.listOfMerchants = rmc.SetMerchantList(listOfMerchantAreas);
     }
     
-    public String transactionCommandProcessControll(PlayerModel player, List<DockYard> docksList, List<Item> listOfItems){
+    public String transactionCommandProcessControll(PlayerModel player, List<DockYardModel> docksList, List<Item> listOfItems){
     
         String resultMessage;
         String personToContact = this.nounPart.toLowerCase();
@@ -70,18 +72,18 @@ public class TransactionController {
             resultMessage = (String) jObj.get("message");
         }
         else if(((!this.verbPart.equals("sell")) || (!this.verbPart.equals("buy"))) && (personToContact.contains("merchant") || personToContact.contains("merchandise"))){
-            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants);
+            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants, new MerchantService(new PlayerService()));
             resultMessage = mam.SetMerchantItemListToBeDisplayed(player);
         }
         else if(this.verbPart.equals("buy")){
-            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants);
-            JSONObject jObj = mam.PlayersLocationCanStartATransaction(player.getLocation().GetAreasName());
+            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants, new MerchantService(new PlayerService()));
+            JSONObject jObj = mam.PlayersLocationCanStartATransaction(player.getLocation().getAreaName());
             BuyActionModel bam = new BuyActionModel(this.nounPart, new PlayerService());
             resultMessage = bam.BuyItemFromMerchantProcess(player, jObj);
         }
         else if(this.verbPart.equals("sell")){
-            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants);
-            JSONObject jObj = mam.PlayersLocationCanStartATransaction(player.getLocation().GetAreasName());
+            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants, new MerchantService(new PlayerService()));
+            JSONObject jObj = mam.PlayersLocationCanStartATransaction(player.getLocation().getAreaName());
             SellActionModel sam = new SellActionModel(this.nounPart, new PlayerService());
             resultMessage = sam.SellItemToMerchantProcess(player, jObj);
         }

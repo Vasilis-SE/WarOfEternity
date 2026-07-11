@@ -57,7 +57,7 @@ public class SellActionModel {
         String message = "There is no such item in your inventory!";
         boolean status = false;
         
-        for(Item eachInvItem : player.getItemsSelected()){
+        for(Item eachInvItem : player.getInventory()){
             if(eachInvItem.GetItemName().equalsIgnoreCase(this.itemToSell)){
                 itemToBeSold = eachInvItem;
                 message = "";

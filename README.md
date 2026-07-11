@@ -95,9 +95,9 @@ the items can be changed by changing you gear.
 
 <break>
 
-Game Map
+Game map
 
-     By pressing the "Map" button on the right of the game form a new static window will appear on the top left of the screen. This window will show the map 
+     By pressing the "map" button on the right of the game form a new static window will appear on the top left of the screen. This window will show the map 
 of the game and every location (game area) as a pin point. Also on the map there are yellow dashed lines which represent the direction the player must take
 in order to travel from one area to another.
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import characters.model.PlayerModel;
+import map.model.DockYardModel;
 import org.json.simple.JSONObject;
 
 /**
@@ -11,10 +12,10 @@ import org.json.simple.JSONObject;
  * @author Vasilis Triantaris
  */
 public class CaptainActionModel {
-    
-    List<DockYard> listOfDocks;
-    
-    public CaptainActionModel(List<DockYard> docks){
+
+    List<DockYardModel> listOfDocks;
+
+    public CaptainActionModel(List<DockYardModel> docks){
         this.listOfDocks = docks;
     }
  
@@ -31,13 +32,13 @@ public class CaptainActionModel {
         String message = "There is no dockyard in this place!";
         boolean status = false;
         
-        List<DockYard> listOfDocksThatAreConnectedToArea = new ArrayList();
+        List<DockYardModel> listOfDocksThatAreConnectedToArea = new ArrayList();
 
-        for(DockYard eachDock : this.listOfDocks){
-            if(eachDock.GetStartingDockLocation().GetAreasName().equals(player.getLocation().GetAreasName())){
-                if(eachDock.GetSaillingFee() != 0.0)
-                    message = "I can get you to "+ eachDock.GetDestinationDockLocation().GetAreasName() +
-                        " for "+ eachDock.GetSaillingFee() +" gold coins.";
+        for(DockYardModel eachDock : this.listOfDocks){
+            if(eachDock.getStartingDockLocation().getAreaName().equals(player.getLocation().getAreaName())){
+                if(eachDock.getSailingFee() != 0.0)
+                    message = "I can get you to "+ eachDock.getDestinationDockLocation().getAreaName() +
+                        " for "+ eachDock.getSailingFee() +" gold coins.";
                 
                 status = true;
                 listOfDocksThatAreConnectedToArea.add(eachDock);

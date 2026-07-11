@@ -25,6 +25,6 @@ public class PlayerModel extends CharacterAbstractModel implements Serializable 
     private int level;
     private int experience;
 
-    private List<Item> itemsSelected;
+    private List<Item> inventory;
     private List<Item> equippedItems;
 }

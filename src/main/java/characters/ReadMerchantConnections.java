@@ -1,7 +1,7 @@
 package characters;
 
 import GameFileConfiguration.TextFileProcessing;
-import Map.Area;
+import map.model.Area;
 import characters.model.MerchantModel;
 
 import java.util.ArrayList;
@@ -105,7 +105,7 @@ public class ReadMerchantConnections {
         
         for(String eachAreaString : this.stringListOfMerchantArea)
             for(Area eachGameArea : areas)
-                if(eachGameArea.GetAreasName().equals(eachAreaString))
+                if(eachGameArea.getAreaName().equals(eachAreaString))
                     listOfMerchantAreas.add(eachGameArea);
 
         return listOfMerchantAreas;

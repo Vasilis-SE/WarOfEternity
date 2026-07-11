@@ -84,7 +84,7 @@ public class TableItemActionModel {
         
         for(Item eachTablet : listOfStoneTablets){
 
-            if(eachTablet.GetItemArea().GetAreasName().equals(player.getLocation().GetAreasName()))
+            if(eachTablet.GetItemArea().getAreaName().equals(player.getLocation().getAreaName()))
                 eligibleTablet = eachTablet;
         }
 

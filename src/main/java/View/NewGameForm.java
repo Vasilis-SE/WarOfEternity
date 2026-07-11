@@ -9,14 +9,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- * GUI form for creating a new game process. In this form there is a player name
- * area to which the user must type the desired player name which will also be
- * the name of the save file, a terms and agreement area, a back button and a 
- * start game button.
- * 
- * @author Thomas Liakos
- */
 public class NewGameForm extends javax.swing.JFrame {
 
     private final ButtonGroup group;

@@ -1,7 +1,7 @@
 package Items;
 
 import GameFileConfiguration.TextFileProcessing;
-import Map.Area;
+import map.model.Area;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,7 +165,7 @@ public class ReadItemDataModel {
         Area eligibleItemArea = null;
         
         for(Area eachGameArea : this.listOfAreas){
-            if(eachGameArea.GetAreasName().equals(itemAreaName))
+            if(eachGameArea.getAreaName().equals(itemAreaName))
                 eligibleItemArea = eachGameArea;
         }
         

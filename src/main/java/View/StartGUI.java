@@ -6,7 +6,7 @@ import characters.controller.TransactionController;
 import GameFileConfiguration.MainFolderConfig;
 import GameFileConfiguration.SaveFolderConfig;
 import Items.ItemController;
-import Map.MapController;
+import map.controller.MapController;
 import Serialization.SaveGameData;
 import java.awt.HeadlessException;
 import javax.swing.ImageIcon;

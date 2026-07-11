@@ -2,7 +2,7 @@ package characters.controller;
 
 import GameFileConfiguration.MusicConfiguration;
 import Items.Item;
-import Map.Area;
+import map.model.Area;
 import characters.DirectionActionModel;
 import characters.ReadEnemyDataModel;
 import characters.model.EnemyModel;
@@ -84,7 +84,7 @@ public class EnemiesController implements Serializable {
 
             if (eligibleEnemy.getName().equals("Alzor The Destroyer") && actionBeforeBattle.equals("sink")) {
                 player.setLocation(eligibleEnemy.getLocation());
-                resultMessage += "\n" + eligibleEnemy.getLocation().GetAreaDescription();
+                resultMessage += "\n" + eligibleEnemy.getLocation().getAreaDescription();
             } else {
                 DirectionActionModel dam = new DirectionActionModel(actionBeforeBattle, listOfItems);
                 resultMessage += "\n" + dam.PlayerActionCommand(player);

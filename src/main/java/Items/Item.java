@@ -1,17 +1,11 @@
 package Items;
 
 import Interfaces.IItem;
-import Map.Area;
+import map.model.Area;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class Item that implements the basic attributes from the interface IItem and 
- * extends each type of item that has extra special attributes.
- * 
- * @author Thomas Liakos
- */
 public class Item extends GateItem implements IItem, Serializable {
     
     private List<ItemConnectionWithArea> itemConnectionsList;

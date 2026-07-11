@@ -3,7 +3,7 @@ package Items;
 import characters.model.EnemyModel;
 import characters.controller.EnemiesController;
 import characters.model.PlayerModel;
-import Map.Area;
+import map.model.Area;
 import characters.service.BattleService;
 import characters.service.PlayerService;
 

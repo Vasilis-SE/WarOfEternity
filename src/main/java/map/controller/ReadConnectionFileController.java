@@ -1,5 +1,8 @@
 
-package Map;
+package map.controller;
+
+import map.ReadAreaConnectionFileModel;
+import map.model.Area;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +36,15 @@ public class ReadConnectionFileController {
      * file path and sets the three data members currentArea, nextArea and directions
      * after they have been created from the model.
      */
-    public void ReadConnectionFileControllingMethod(){
-       
+    public void readConnectionFileControllingMethod(){
+
         ReadAreaConnectionFileModel rcfm = new ReadAreaConnectionFileModel(this.areasList);
-        
-        String[] dataOnLines = rcfm.SplitStringBufferToLines();
-        this.currentArea = rcfm.GetListOfCurrentAreas(dataOnLines);
-        this.nextArea = rcfm.GetListOfNextAreas(dataOnLines);
-        this.directions = rcfm.GetAreasDirections(dataOnLines);
-        
+
+        String[] dataOnLines = rcfm.splitStringBufferToLines();
+        this.currentArea = rcfm.getListOfCurrentAreas(dataOnLines);
+        this.nextArea = rcfm.getListOfNextAreas(dataOnLines);
+        this.directions = rcfm.getAreasDirections(dataOnLines);
+
     }
     
 }

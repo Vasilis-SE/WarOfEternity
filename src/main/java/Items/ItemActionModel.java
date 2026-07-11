@@ -35,7 +35,7 @@ public class ItemActionModel {
     public int GetTypeOfItemForUsagePurpose(PlayerModel player){
         int itemType = 0;
         
-        for(Item eachSelectedItem : player.getItemsSelected()){
+        for(Item eachSelectedItem : player.getInventory()){
             if(eachSelectedItem.GetItemName().equalsIgnoreCase(this.nounPartOfCommand))
                 itemType = eachSelectedItem.GetItemType();
         }
@@ -54,7 +54,7 @@ public class ItemActionModel {
         String message;
         Item itemToBeEquiped = null;
  
-        for(Item eachItemOnInventory : player.getItemsSelected()){
+        for(Item eachItemOnInventory : player.getInventory()){
             //If the item to be equiped existes in the inventory
             if(eachItemOnInventory.GetItemName().equalsIgnoreCase(equipItemCommand))
                 itemToBeEquiped = eachItemOnInventory;
@@ -113,19 +113,19 @@ public class ItemActionModel {
         List<Item> newInventory = new ArrayList<>();
         
         int i=0;
-        for(Item eachItemOnInventory : player.getItemsSelected()){
+        for(Item eachItemOnInventory : player.getInventory()){
             if((eachItemOnInventory.GetItemName().equalsIgnoreCase(this.nounPartOfCommand)) && (eachItemOnInventory.GetItemValue() > 0)){
                 player.setHealth(player.getHealth() + eachItemOnInventory.GetItemHealingPower());
-                player.getItemsSelected().get(i).SetItemValue(player.getItemsSelected().get(i).GetItemValue() - 1);
+                player.getInventory().get(i).SetItemValue(player.getInventory().get(i).GetItemValue() - 1);
                 
                 //If the player runs out of potion then the item must be removed from inventory
-                if(player.getItemsSelected().get(i).GetItemValue() == 0){
-                    for(Item eachItem: player.getItemsSelected()){
+                if(player.getInventory().get(i).GetItemValue() == 0){
+                    for(Item eachItem: player.getInventory()){
                         if(!eachItem.GetItemName().equals(eachItemOnInventory.GetItemName()))
                             newInventory.add(eachItem); 
                     }
                     
-                    player.setItemsSelected(newInventory);
+                    player.setInventory(newInventory);
                 }
                 
                 message = eachItemOnInventory.GetItemName()+" has been used!";
@@ -155,7 +155,7 @@ public class ItemActionModel {
                 
                 //If the item item to be used its purposed for usage and its already picked by the player and there 
                 //is a usage connection of the item with the speciific are that the player is on then ...
-                if((icwa.GetItemUsage().equals("use")) && (icwa.GetConnectionWithAreaReference().GetAreasName().equals(player.getLocation().GetAreasName()))){
+                if((icwa.GetItemUsage().equals("use")) && (icwa.GetConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName()))){
                     if(this.listOfItems.get(i).GetItemValue() != 0){
 
                         switch(this.listOfItems.get(i).GetItemType()){
@@ -195,7 +195,7 @@ public class ItemActionModel {
             for(ItemConnectionWithArea icwa : eachItem.GetItemConnectionsWithArea()){
                 
                 //If the item connection area is the same one with the players and its a door / gate 
-                if((icwa.GetConnectionWithAreaReference().GetAreasName().equals(player.getLocation().GetAreasName())) && (eachItem.GetItemType() == 4))
+                if((icwa.GetConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName())) && (eachItem.GetItemType() == 4))
                     doorItemNameOnArea = eachItem.GetItemName();
             }
         }
@@ -213,11 +213,11 @@ public class ItemActionModel {
             for(ItemConnectionWithArea icwa : eachItem.GetItemConnectionsWithArea()){
                 
                 //If the item connection area is the same one with the players and its a door / gate 
-                if((icwa.GetConnectionWithAreaReference().GetAreasName().equals(player.getLocation().GetAreasName())) && (eachItem.GetItemType() == 4))
-                    gateLocation = icwa.GetConnectionWithAreaReference().GetAreasName();
+                if((icwa.GetConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName())) && (eachItem.GetItemType() == 4))
+                    gateLocation = icwa.GetConnectionWithAreaReference().getAreaName();
 
                 if((icwa.GetItemConnectedToAreaReference().GetItemName().equalsIgnoreCase(this.nounPartOfCommand)) && (icwa.GetItemUsage().equalsIgnoreCase("use")))
-                    keyLocation = icwa.GetConnectionWithAreaReference().GetAreasName();
+                    keyLocation = icwa.GetConnectionWithAreaReference().getAreaName();
             }
         }
 
@@ -249,10 +249,10 @@ public class ItemActionModel {
             
         for(Item eachItem : this.listOfItems){
             for(ItemConnectionWithArea icwa : eachItem.GetItemConnectionsWithArea()){
-                if((icwa.GetItemUsage().equals("pick")) && (icwa.GetConnectionWithAreaReference().GetAreasName().equals(player.getLocation().GetAreasName())) && (eachItem.GetItemValue() == 0))
+                if((icwa.GetItemUsage().equals("pick")) && (icwa.GetConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName())) && (eachItem.GetItemValue() == 0))
                     message += "--> "+eachItem.GetItemDescription()+"\n";
                 
-                if((icwa.GetItemUsage().equals("open")) && (icwa.GetConnectionWithAreaReference().GetAreasName().equals(player.getLocation().GetAreasName())) && (eachItem.GetItemValue() == 0))
+                if((icwa.GetItemUsage().equals("open")) && (icwa.GetConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName())) && (eachItem.GetItemValue() == 0))
                     message += "--> "+eachItem.GetItemDescription()+"\n";
             }
         }
@@ -287,7 +287,7 @@ public class ItemActionModel {
                 //If the the item is the same with the one that the player is trying to pick and there
                 //is a connection of this specific item with the area that the player is on then ...
                 if(((eachItem.GetItemName().equalsIgnoreCase(this.nounPartOfCommand)) || (eachItem.GetItemDescription().contains(this.nounPartOfCommand))) && 
-                        (icwa.GetItemUsage().equals("pick")) && (icwa.GetConnectionWithAreaReference().GetAreasName().equals(player.getLocation().GetAreasName()))) {
+                        (icwa.GetItemUsage().equals("pick")) && (icwa.GetConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName()))) {
      
                     //if the summary of weight plus the items is more than the limit then..
                     if(playerService.calculatingPlayerInventoryItemWeight(player) + eachItem.GetItemWeight() > 100.0)

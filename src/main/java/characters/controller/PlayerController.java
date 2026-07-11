@@ -4,9 +4,10 @@ import GameFileConfiguration.MusicConfiguration;
 import Items.Item;
 import Items.ItemController;
 import Items.TabletItemsController;
-import Map.Area;
+import map.controller.DockYardController;
+import map.model.Area;
+import map.model.DockYardModel;
 import characters.DirectionActionModel;
-import characters.DockYard;
 import characters.enums.PlayerClassesEnum;
 import characters.model.EnemyModel;
 import characters.model.MerchantModel;
@@ -14,7 +15,6 @@ import characters.model.PlayerModel;
 import characters.service.PlayerService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.json.simple.JSONObject;
 
@@ -48,7 +48,7 @@ public class PlayerController {
 
 
     public String playerMainControllingMethodForActionDecision(PlayerModel player, List<Item> itemList,
-                                                               EnemiesController enemyController, List<Area> areasList, List<DockYard> docksList,
+                                                               EnemiesController enemyController, List<Area> areasList, List<DockYardModel> docksList,
                                                                List<MerchantModel> listOfMerchants, MusicConfiguration mcf,
                                                                String parsingDecision, String nounPartOfCommand, String verbPartOfCommand){
         

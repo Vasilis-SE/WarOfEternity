@@ -2,7 +2,7 @@ package characters.service;
 
 import Items.Item;
 import Items.ItemConnectionWithArea;
-import Map.AreaConnectionMaker;
+import map.model.AreaConnectionMaker;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
 import org.json.simple.JSONArray;
@@ -25,7 +25,7 @@ public class BattleService {
         boolean status = false;
         EnemyModel eligibleEnemy = null;
 
-        if (noun.equals("sink") && player.getLocation().GetAreasName().equals("The Great Jade Sea"))
+        if (noun.equals("sink") && player.getLocation().getAreaName().equals("The Great Jade Sea"))
             eligibleEnemy = getLastBossForFightProcess(jsonEnemiesArray);
         else {
             List<EnemyModel> enemiesOnArea = enemyEncounterAreaIntegrity(player, noun, items, jsonEnemiesArray);
@@ -46,9 +46,9 @@ public class BattleService {
                                                         JSONArray jsonEnemiesArray) {
         List<EnemyModel> enemiesOnArea = new ArrayList<>();
 
-        for (AreaConnectionMaker acm : player.getLocation().GetListOfAreaConnections()) {
+        for (AreaConnectionMaker acm : player.getLocation().getAreaConnections()) {
             String blockedMessage = directionToNextAreaIsBlockedByItem(itemList, player, noun);
-            if (acm.GetDirectionToOtherArea().equalsIgnoreCase(noun) && blockedMessage.isEmpty())
+            if (acm.getDirectionsOnCurrentArea().equalsIgnoreCase(noun) && blockedMessage.isEmpty())
                 enemiesOnArea = getListOfEnemiesThatRoamTheNextArea(acm, jsonEnemiesArray);
         }
 
@@ -63,7 +63,7 @@ public class BattleService {
                 if ((eachItem.GetItemType() == 4) && icwa.GetItemUsage().equals("open")
                         && (eachItem.GetItemValue() == 0)
                         && eachItem.GetBlockingDirection().equalsIgnoreCase(noun)
-                        && player.getLocation().GetAreasName().equals(icwa.GetConnectionWithAreaReference().GetAreasName()))
+                        && player.getLocation().getAreaName().equals(icwa.GetConnectionWithAreaReference().getAreaName()))
                     checkMessage = "You cannot proceed further. The gate is blocking your path!";
             }
         }
@@ -141,7 +141,7 @@ public class BattleService {
 
         for (int i = 0; i < jsonEnemiesArray.size(); i++) {
             JSONObject arrayJSONObj = (JSONObject) jsonEnemiesArray.get(i);
-            if (((String) arrayJSONObj.get("areaname")).equals(acm.GetNextArea().GetAreasName()))
+            if (((String) arrayJSONObj.get("areaname")).equals(acm.getNextArea().getAreaName()))
                 enemiesOnArea = (List<EnemyModel>) arrayJSONObj.get("enemiesonarea");
         }
 

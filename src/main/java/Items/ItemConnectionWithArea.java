@@ -1,16 +1,9 @@
 package Items;
 
-import Map.Area;
+import map.model.Area;
 import java.io.Serializable;
 
-/**
- * Class Item Connections that from which objects of item connections are made 
- * It is necessary to create connections in order to know which item is 
- * connected with which area.
- * 
- * @author Thomas Liakos
- */
-public class ItemConnectionWithArea implements Serializable{
+public class ItemConnectionWithArea implements Serializable {
     
     Area itemArea;
     Item itemRef;

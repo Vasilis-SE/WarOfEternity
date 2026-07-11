@@ -3,10 +3,10 @@ package View;
 import GameFileConfiguration.MusicConfiguration;
 import Items.Item;
 import Items.ItemController;
-import Map.MapController;
+import map.controller.MapController;
 import Parsers.ParserController;
 import Serialization.LoadGameData;
-import characters.controller.DockYardController;
+import map.controller.DockYardController;
 import characters.controller.EnemiesController;
 import characters.controller.PlayerController;
 import characters.controller.TransactionController;
@@ -36,38 +36,44 @@ import java.io.IOException;
  */
 public class MainGame extends javax.swing.JFrame {
     
-    //Data members
     private PlayerModel player;
     private String commandTyped; 
-    private MapController mapController;
-    private ItemController ic;
-    private TransactionController tc;
-    private EnemiesController ec;
-    private DockYardController dyc;
-    
+
     private Model voskModel;
     
     private final MusicConfiguration musicConfiguration;
     private final PlayerController playerController;
-    
+    private final DockYardController dockYardController;
+    private final TransactionController transactionController;
+    private final EnemiesController enemiesController;
+
+    private MapController mapController;
+    private ItemController itemController;
+
+
     public MainGame(String playerName, boolean newGameProcess, LoadGameData loadObj, PlayerClassesEnum playerClass) {
+        initComponents();
+
         playerController = new PlayerController(null, null, new PlayerService());
         mapController = new MapController();
         musicConfiguration = new MusicConfiguration();
-
-        initComponents();
-
-        //Configure the data for the voice recognition
-        this.ConfigureVoiceRecognitionData();
 
         if(newGameProcess)
             this.SettingDataForNewGame(playerName, playerClass);
         else
             this.SettingDataForExistingGame(loadObj);
-      
-        //---------- Setting Parser Data ------------------
-        final ParserController  pc = new ParserController();
- 
+
+        dockYardController = new DockYardController(mapController.getAreasList(), itemController.GetListOfItems());
+        dockYardController.dockYardMainControllingMethod();
+
+        transactionController = new TransactionController(mapController.getAreasList());
+        transactionController.setMerchantSectionDataControllingMethod();
+
+        enemiesController = new EnemiesController(mapController.getAreasList(), itemController.GetListOfItems(), new PlayerService(), new BattleService());
+        enemiesController.setEnemiesForGame();
+
+        configureVoiceRecognitionData();
+
         //-------------- Setting Form Data ----------------
         this.SetBasicComponentData();
 
@@ -79,56 +85,12 @@ public class MainGame extends javax.swing.JFrame {
         //Event listener for the text field.
         jTextField1.addKeyListener(new KeyAdapter() {
                 
-               //Key event.
                @Override
                public void keyPressed(KeyEvent e){
-
-                   //If the button 'Enter' is pressed then ...
-                   if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                       player.setHealth(jProgressBar1.getValue());
-                       String textAreaContent = jTextArea1.getText();
-                       textAreaContent += "\n\n > "+jTextField1.getText();
-                       jTextArea1.setText(textAreaContent);
-                       commandTyped = jTextField1.getText().toString();
-                       
-                       //Decide the parsing action from the verb of action command that the user typed
-                       String parsingDecision = pc.ParserControllingMethodForActionDecision(jTextField1.getText());
-                       boolean basicCom = ConfigureMaintenanceCommands(jTextField1.getText().trim());
-                       
-                       if(!basicCom){
-                            //Sets the data of the enemies every time the user is making an action
-                            //that is because whenever the player is attacking an enemy the enemies
-                            //data are changing.
-                            ec.setEnemiesForGame();
-                       
-                            String actionResult = playerController.playerMainControllingMethodForActionDecision(player,
-                               ic.GetListOfItems(), ec, mapController.GetAreasList(), dyc.getListOfDockYards(), tc.getListOfMerchants(),
-                                    musicConfiguration, parsingDecision, pc.GetNounOnPlayerCommand(), pc.GetVerbOnPlayerCommand());
-        
-                            //if the command that the user gave is invalid then ...
-                            if(actionResult.isEmpty()){
-                                textAreaContent += "\n\n"+parsingDecision;
-                                jTextArea1.setText(textAreaContent);
-                            }
-                            else{
-                                textAreaContent += "\n\n"+actionResult;
-                                jTextArea1.setText(textAreaContent);
-                            }               
-                          
-                       }
-                       
-                       SetImageAfterPlayerActionCommand(playerController);
-                       SetPlayerDataAfterActionCommandHadBeenExcecuted();
-                       SetMusicFileToBePlayedAfterCommand(playerController);
-                       SetEndingWindowWhenBossIsDead();
-                       //Clearing the text field after command submission
-                       jTextField1.setText("");
-                   }
-                   
-                   //When the UP arrow key is pressed then it repeats the previous command
-                   if(e.getKeyCode() == KeyEvent.VK_UP && !commandTyped.isEmpty())
+                   if(e.getKeyCode() == KeyEvent.VK_ENTER)
+                       enterKeyIsPressed();
+                   else if(e.getKeyCode() == KeyEvent.VK_UP && !commandTyped.isEmpty())
                        jTextField1.setText(commandTyped);
-
                }  
             }
         );
@@ -139,20 +101,59 @@ public class MainGame extends javax.swing.JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e){
-                StartGUI sgui = new StartGUI(true, player, ec, tc, mapController, ic);
+                StartGUI sgui = new StartGUI(true, player, enemiesController, transactionController, mapController, itemController);
                 sgui.setVisible(true);
             }
         });
         
     }
+
+    private void enterKeyIsPressed() {
+        final ParserController  pc = new ParserController();
+
+        player.setHealth(jProgressBar1.getValue());
+        String textAreaContent = jTextArea1.getText();
+        textAreaContent += "\n\n > "+jTextField1.getText();
+        jTextArea1.setText(textAreaContent);
+        commandTyped = jTextField1.getText();
+
+        //Decide the parsing action from the verb of action command that the user typed
+        String parsingDecision = pc.ParserControllingMethodForActionDecision(jTextField1.getText());
+        boolean basicCom = ConfigureMaintenanceCommands(jTextField1.getText().trim());
+
+        if(!basicCom){
+            enemiesController.setEnemiesForGame();
+
+            String actionResult = playerController.playerMainControllingMethodForActionDecision(player,
+                    itemController.GetListOfItems(), enemiesController, mapController.getAreasList(), dockYardController.getListOfDockYards(),
+                    transactionController.getListOfMerchants(), musicConfiguration, parsingDecision, pc.GetNounOnPlayerCommand(),
+                    pc.GetVerbOnPlayerCommand());
+
+            //if the command that the user gave is invalid then ...
+            if(actionResult.isEmpty()){
+                textAreaContent += "\n\n"+parsingDecision;
+                jTextArea1.setText(textAreaContent);
+            } else{
+                textAreaContent += "\n\n"+actionResult;
+                jTextArea1.setText(textAreaContent);
+            }
+        }
+
+        SetImageAfterPlayerActionCommand();
+        SetPlayerDataAfterActionCommandHadBeenExcecuted();
+        SetMusicFileToBePlayedAfterCommand();
+        SetEndingWindowWhenBossIsDead();
+        //Clearing the text field after command submission
+        jTextField1.setText("");
+    }
     
-    private void SetMusicFileToBePlayedAfterCommand(PlayerController playerContr){
-        if(musicConfiguration.GetChangeMusicStatus() && ec.getBattleState()){
+    private void SetMusicFileToBePlayedAfterCommand(){
+        if(musicConfiguration.GetChangeMusicStatus() && enemiesController.getBattleState()){
             musicConfiguration.StopMusic();
             musicConfiguration.SetSoundFilePath("combat.wav");
             musicConfiguration.SetMusicStatus(true);
             musicConfiguration.PlaySoundFile();
-        } else if(musicConfiguration.GetChangeMusicStatus() && !ec.getBattleState()) {
+        } else if(musicConfiguration.GetChangeMusicStatus() && !enemiesController.getBattleState()) {
             musicConfiguration.StopMusic();
             musicConfiguration.SetSoundFilePath("outdoor1.wav");
             musicConfiguration.SetMusicStatus(true);
@@ -178,28 +179,22 @@ public class MainGame extends javax.swing.JFrame {
 
         return status;
     }
-    
-    /**
-     * Method that handles the changing of images on the form whenever a command
-     * has been implemented.
-     * 
-     * @param playerContr The object from the player controller class.
-     */
-    private void SetImageAfterPlayerActionCommand(PlayerController playerContr){
+
+    private void SetImageAfterPlayerActionCommand(){
         //Tries to load the image file. If its does not succeed then it load another image
         try{
             ImageIcon icon = null; 
-            if((!this.player.getLocation().GetAreaImage().isEmpty()) && (!this.ec.getBattleState()))
-                icon = new ImageIcon(getClass().getResource("/AreaImages/" + this.player.getLocation().GetAreaImage()));
-            else if((this.player.getLocation().GetAreaImage().isEmpty()) && (!this.ec.getBattleState()))
+            if((!this.player.getLocation().getAreaImage().isEmpty()) && (!this.enemiesController.getBattleState()))
+                icon = new ImageIcon(getClass().getResource("/AreaImages/" + this.player.getLocation().getAreaImage()));
+            else if((this.player.getLocation().getAreaImage().isEmpty()) && (!this.enemiesController.getBattleState()))
                 icon = new ImageIcon(getClass().getResource("/AreaImages/noImageAvailable.jpg"));
-            else if (this.ec.getBattleState())
-                icon = new ImageIcon(getClass().getResource("/EnemyImages/" + playerContr.getEnemyToBattle().getImage()));
+            else if (this.enemiesController.getBattleState())
+                icon = new ImageIcon(getClass().getResource("/EnemyImages/" + playerController.getEnemyToBattle().getImage()));
             
             jLabel1.setIcon(icon);
         }
         catch(Exception ex){
-            if(!this.ec.getBattleState()){
+            if(!enemiesController.getBattleState()){
                 ImageIcon icon = new ImageIcon(getClass().getResource("/AreaImages/noImageAvailable.jpg"));
                 jLabel1.setIcon(icon);
             }
@@ -209,7 +204,7 @@ public class MainGame extends javax.swing.JFrame {
     /**
      * Method that sets the basic data such as images on the form on form load.
      */
-    private void SetBasicComponentData(){       
+    private void SetBasicComponentData(){
         String itemsSelected = "";
 
         jProgressBar1.setStringPainted(true);
@@ -217,7 +212,7 @@ public class MainGame extends javax.swing.JFrame {
 
         jLabel2.setText(playerController.displayPlayerInventoryWeight(player));
         
-        for(Item eachItemInInventory : player.getItemsSelected())    
+        for(Item eachItemInInventory : player.getInventory())    
             itemsSelected += eachItemInInventory.GetItemName()+"\n";
         jTextArea2.setText(itemsSelected);
         
@@ -236,7 +231,7 @@ public class MainGame extends javax.swing.JFrame {
         icon = new ImageIcon(getClass().getResource("/ApplicationImages/shieldIcon.png"));
         jLabel8.setIcon(icon);
         
-        jLabel12.setText(this.player.getLocation().GetAreasName());
+        jLabel12.setText(this.player.getLocation().getAreaName());
         icon = new ImageIcon(getClass().getResource("/ApplicationImages/mapIcon.png"));
         jLabel11.setIcon(icon);
         
@@ -272,10 +267,10 @@ public class MainGame extends javax.swing.JFrame {
      */
     private void SetPlayerDataAfterActionCommandHadBeenExcecuted(){
         String itemsSelected = "";
-        for(Item eachItemInInventory : player.getItemsSelected())    
+        for(Item eachItemInInventory : player.getInventory())    
             itemsSelected += eachItemInInventory.GetItemName()+"\n";
 
-        for(Item eachItem : this.ic.GetListOfItems()){
+        for(Item eachItem : itemController.GetListOfItems()){
             if(eachItem.GetItemType() == 1 && eachItem.GetItemValue() == 0)
                 eachItem.SetItemValue(8);
         }
@@ -285,7 +280,7 @@ public class MainGame extends javax.swing.JFrame {
         jLabel5.setText(playerController.displayPlayerGold(player));
         jLabel9.setText(String.valueOf(player.getDamage()));
         jLabel10.setText(String.valueOf(player.getArmor()));
-        jLabel12.setText(player.getLocation().GetAreasName());
+        jLabel12.setText(player.getLocation().getAreaName());
         jLabel14.setText(playerController.displayPlayerLevel(player));
         jLabel16.setText(String.valueOf(player.getStrength()));
         jLabel18.setText(String.valueOf(player.getAgility()));
@@ -308,25 +303,16 @@ public class MainGame extends javax.swing.JFrame {
      */
     private void SettingDataForNewGame(String playerName, PlayerClassesEnum playerClass){
         player = playerController.initNewPlayer(playerClass, playerName,
-                this.mapController.GetAreasList().getFirst());
+                this.mapController.getAreasList().getFirst());
 
-        jTextArea1.setText(this.player.getLocation().GetAreaDescription());
+        jTextArea1.setText(this.player.getLocation().getAreaDescription());
         
         //Sets at the begining of the application the image of the first area.
-        ImageIcon icon = new ImageIcon(getClass().getResource("/AreaImages/")+ this.player.getLocation().GetAreaImage()); 
+        ImageIcon icon = new ImageIcon(getClass().getResource("/AreaImages/" + this.player.getLocation().getAreaImage()));
         jLabel1.setIcon(icon);
 
-        this.ic = new ItemController(mapController.GetAreasList());
-        this.ic.SetItemDataForGame();
- 
-        this.tc = new TransactionController(mapController.GetAreasList());
-        this.tc.setMerchantSectionDataControllingMethod();
-        
-        this.dyc = new DockYardController(mapController.GetAreasList(), ic.GetListOfItems());
-        this.dyc.dockYardMainControllingMethod();
-        
-        this.ec = new EnemiesController(mapController.GetAreasList(), ic.GetListOfItems(), new PlayerService(), new BattleService());
-        this.ec.setEnemiesForGame();
+        itemController = new ItemController(mapController.getAreasList());
+        itemController.SetItemDataForGame();
     }
     
     /**
@@ -337,26 +323,16 @@ public class MainGame extends javax.swing.JFrame {
         
         mapController = loadObj.GetMapController();
         this.player = loadObj.GetPlayerObject();
-        jTextArea1.setText(this.player.getLocation().GetAreaDescription());
+        jTextArea1.setText(this.player.getLocation().getAreaDescription());
         
         //Sets at the image of the area that the user last saved to.
-        ImageIcon icon = new ImageIcon(getClass().getResource("/AreaImages/")+ this.player.getLocation().GetAreaImage()); 
+        ImageIcon icon = new ImageIcon(getClass().getResource("/AreaImages/" + this.player.getLocation().getAreaImage()));
         jLabel1.setIcon(icon);
-        
-        this.ic = loadObj.GetItemController();
-        
-        this.tc = new TransactionController(mapController.GetAreasList());
-        this.tc.setMerchantSectionDataControllingMethod();
 
-        this.dyc = new DockYardController(mapController.GetAreasList(), ic.GetListOfItems());
-        this.dyc.dockYardMainControllingMethod();
-        
-        this.ec = new EnemiesController(mapController.GetAreasList(), ic.GetListOfItems(), new PlayerService(), new BattleService());
-        this.ec.setEnemiesForGame();
-        
+        itemController = loadObj.GetItemController();
+
         jProgressBar2.setValue(this.player.getExperience());
         jProgressBar1.setValue(this.player.getHealth());
-        
     }
     
     @SuppressWarnings("unchecked")
@@ -460,7 +436,7 @@ public class MainGame extends javax.swing.JFrame {
 
         jLabel20.setFont(new java.awt.Font("Tempus Sans ITC", 0, 14)); // NOI18N
 
-        jToggleButton1.setText("Map");
+        jToggleButton1.setText("map");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -746,26 +722,26 @@ public class MainGame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ImageIcon icon;
 
-        if(this.musicConfiguration.GetMusicStatus() && !ec.getBattleState()){
+        if(this.musicConfiguration.GetMusicStatus() && !enemiesController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/nosound.png"));
             jButton3.setIcon(icon);
             this.musicConfiguration.SetMusicStatus(false);
             musicConfiguration.StopMusic();
         }
-        else if(!this.musicConfiguration.GetMusicStatus() && !ec.getBattleState()){
+        else if(!this.musicConfiguration.GetMusicStatus() && !enemiesController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/sound.png"));
             jButton3.setIcon(icon);
             musicConfiguration.SetMusicStatus(true);
             musicConfiguration.SetSoundFilePath("outdoor1.wav");
             musicConfiguration.PlaySoundFile();
         }
-        else if(this.musicConfiguration.GetMusicStatus() && ec.getBattleState()){
+        else if(this.musicConfiguration.GetMusicStatus() && enemiesController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/nosound.png"));
             jButton3.setIcon(icon);
             this.musicConfiguration.SetMusicStatus(false);
             musicConfiguration.StopMusic();
         }
-        else if(!this.musicConfiguration.GetMusicStatus() && ec.getBattleState()){
+        else if(!this.musicConfiguration.GetMusicStatus() && enemiesController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/sound.png"));
             jButton3.setIcon(icon);
             musicConfiguration.SetSoundFilePath("combat.wav");
@@ -780,14 +756,16 @@ public class MainGame extends javax.swing.JFrame {
      * Loads the Vosk speech recognition model from ~/WarOfEternity/vosk-model/.
      * Recognition is silently disabled when the model directory is absent.
      */
-    private void ConfigureVoiceRecognitionData(){
+    private void configureVoiceRecognitionData(){
         String modelPath = System.getProperty("user.home")
                 + java.io.File.separator + "WarOfEternity"
                 + java.io.File.separator + "vosk-model";
+
         if (!new java.io.File(modelPath).exists()) {
             this.voskModel = null;
             return;
         }
+
         try {
             this.voskModel = new Model(modelPath);
         } catch (IOException ex) {
@@ -797,7 +775,7 @@ public class MainGame extends javax.swing.JFrame {
     
     private void SetEndingWindowWhenBossIsDead(){
         
-        if(player.getLocation().GetAreasName().equals("Jade Sea Depths") && !ec.getBattleState()){
+        if(player.getLocation().getAreaName().equals("Jade Sea Depths") && !enemiesController.getBattleState()){
             JOptionPane.showMessageDialog(this, 
                   "And that was the story of the guardian, sent by the order of \n"
                 + "edernium. The one that sacrificed his life for the people of \n"

@@ -62,7 +62,7 @@
                 <StringItem index="2" value="NPC&apos;s"/>
                 <StringItem index="3" value="Experience Mechanism "/>
                 <StringItem index="4" value="Attribute Mechanism"/>
-                <StringItem index="5" value="Game Map"/>
+                <StringItem index="5" value="Game map"/>
                 <StringItem index="6" value="Music"/>
               </StringArray>
             </Property>

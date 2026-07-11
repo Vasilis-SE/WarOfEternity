@@ -1,11 +1,12 @@
 package characters;
 
 import Items.Item;
-import Map.Area;
+import map.model.Area;
 import java.util.List;
 
 import characters.model.MerchantModel;
 import characters.model.PlayerModel;
+import characters.service.MerchantService;
 import org.json.simple.JSONObject;
 
 /**
@@ -19,14 +20,16 @@ public class MerchantActionModel {
     private final List<Item> listOfGameItems;
     private final List<Area> listOfGameAreas;
     private final List<MerchantModel> listOfGameMerchants;
-    
+    private final MerchantService merchantService;
+
     //Constructor
-    public MerchantActionModel(String verb, String noun, List<Item> items, List<Area> areas, List<MerchantModel> merchants){
+    public MerchantActionModel(String verb, String noun, List<Item> items, List<Area> areas, List<MerchantModel> merchants, MerchantService merchantService){
         this.verbPart = verb;
         this.nounPart = noun;
         this.listOfGameItems = items;
         this.listOfGameAreas = areas;
         this.listOfGameMerchants = merchants;
+        this.merchantService = merchantService;
     }
 
     /**
@@ -39,7 +42,7 @@ public class MerchantActionModel {
     public String SetMerchantItemListToBeDisplayed(PlayerModel player){
    
         String resultMessage;
-        JSONObject jObj = this.PlayersLocationCanStartATransaction(player.getLocation().GetAreasName());
+        JSONObject jObj = this.PlayersLocationCanStartATransaction(player.getLocation().getAreaName());
         
         if(!(boolean) jObj.get("status"))
             return (String) jObj.get("message");
@@ -72,7 +75,7 @@ public class MerchantActionModel {
         MerchantModel merchant = null;
         
         for(MerchantModel eachGameMerchant : this.listOfGameMerchants){
-            if(eachGameMerchant.getLocation().GetAreasName().equals(playersAreaName)){
+            if(eachGameMerchant.getLocation().getAreaName().equals(playersAreaName)){
                 message = "";
                 status = true;
                 merchant = eachGameMerchant;
@@ -99,12 +102,12 @@ public class MerchantActionModel {
                 case 3:
                 case 5:
                 case 6:
-                    if(eachGameItem.GetItemArea().GetAreasName().equals(merchant.getLocation().GetAreasName()))
-                        merchant.AddItemToMerchantGoods(eachGameItem);
+                    if(eachGameItem.GetItemArea().getAreaName().equals(merchant.getLocation().getAreaName()))
+                        merchantService.addItemToMerchantGoods(merchant, eachGameItem);
                 break;
-                    
+
                 case 1:
-                    merchant.AddItemToMerchantGoods(eachGameItem);
+                    merchantService.addItemToMerchantGoods(merchant, eachGameItem);
                 break;
             }
         }
