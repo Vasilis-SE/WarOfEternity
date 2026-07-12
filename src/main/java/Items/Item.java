@@ -1,7 +1,8 @@
 package Items;
 
 import Interfaces.IItem;
-import map.model.Area;
+import map.model.AreaModel;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class Item extends GateItem implements IItem, Serializable {
      * 7 --> Tablets
      */
     
-    private Area itemArea;
+    private AreaModel itemAreaModel;
     private String attributeType;
     private int attributeValue;
     
@@ -43,7 +44,7 @@ public class Item extends GateItem implements IItem, Serializable {
         this.itemHealingPower = healPower;
         
         itemConnectionsList = new ArrayList();
-        this.itemArea = null;
+        this.itemAreaModel = null;
         this.attributeType = "";
         this.attributeValue = 0;
     }
@@ -58,14 +59,14 @@ public class Item extends GateItem implements IItem, Serializable {
         this.itemCost = cost;
         
         itemConnectionsList = new ArrayList();
-        this.itemArea = null;
+        this.itemAreaModel = null;
         this.attributeType = "";
         this.attributeValue = 0;
         this.itemHealingPower = 0;
     }
     
     //Constructor that sets items type 3 (weapon)
-    public Item(String name, String descr, int type, double weight, int value, String atr, int atrVal, Area area, double cost){
+    public Item(String name, String descr, int type, double weight, int value, String atr, int atrVal, AreaModel areaModel, double cost){
         this.itemName = name;
         this.itemDescription = descr;
         this.itemType = type;
@@ -73,7 +74,7 @@ public class Item extends GateItem implements IItem, Serializable {
         this.itemValue = value;
         this.attributeType = atr;
         this.attributeValue = atrVal;
-        this.itemArea = area;
+        this.itemAreaModel = areaModel;
         this.itemCost = cost;
         
         itemConnectionsList = new ArrayList();
@@ -92,19 +93,19 @@ public class Item extends GateItem implements IItem, Serializable {
         
         itemConnectionsList = new ArrayList();
         this.itemHealingPower = 0;
-        this.itemArea = null;
+        this.itemAreaModel = null;
         this.attributeType = "";
         this.attributeValue = 0;
     }
     
     //Constructor that sets items type 5-6 (armor / shield)
-    public Item(String name, String descr, int type, double weight, int value, Area area, double cost){
+    public Item(String name, String descr, int type, double weight, int value, AreaModel areaModel, double cost){
         this.itemName = name;
         this.itemDescription = descr;
         this.itemType = type;
         this.itemWeight = weight;
         this.itemValue = value;
-        this.itemArea = area;
+        this.itemAreaModel = areaModel;
         this.itemCost = cost;
         
         itemConnectionsList = new ArrayList();
@@ -114,12 +115,12 @@ public class Item extends GateItem implements IItem, Serializable {
     }
     
     //Constructor that sets items type 7 (tablets)
-    public Item(String name, String descr, int type, double weight, Area area){
+    public Item(String name, String descr, int type, double weight, AreaModel areaModel){
         this.itemName = name;
         this.itemDescription = descr;
         this.itemType = type;
         this.itemWeight = weight;
-        this.itemArea = area;
+        this.itemAreaModel = areaModel;
         
         this.itemValue = 0;
         this.itemCost = 0.0;
@@ -138,12 +139,12 @@ public class Item extends GateItem implements IItem, Serializable {
         this.itemConnectionsList.add(icwa);
     }
 
-    public void SetItemArea(Area area){
-        this.itemArea = area;
+    public void SetItemArea(AreaModel areaModel){
+        this.itemAreaModel = areaModel;
     }
     
-    public Area GetItemArea(){
-        return this.itemArea;
+    public AreaModel GetItemArea(){
+        return this.itemAreaModel;
     }
     
     public void SetAttributeType(String atr){

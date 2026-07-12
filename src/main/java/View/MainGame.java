@@ -7,12 +7,14 @@ import map.controller.MapController;
 import Parsers.ParserController;
 import Serialization.LoadGameData;
 import map.controller.DockYardController;
-import characters.controller.EnemiesController;
+import characters.controller.BattleController;
+import characters.controller.EnemyController;
 import characters.controller.PlayerController;
 import characters.controller.TransactionController;
 import characters.enums.PlayerClassesEnum;
 import characters.model.PlayerModel;
 import characters.service.BattleService;
+import characters.service.EnemyService;
 import characters.service.PlayerService;
 import org.vosk.Model;
 import org.vosk.Recognizer;
@@ -45,7 +47,8 @@ public class MainGame extends javax.swing.JFrame {
     private final PlayerController playerController;
     private final DockYardController dockYardController;
     private final TransactionController transactionController;
-    private final EnemiesController enemiesController;
+    private final BattleController battleController;
+    private final EnemyController enemyController;
 
     private MapController mapController;
     private ItemController itemController;
@@ -69,8 +72,10 @@ public class MainGame extends javax.swing.JFrame {
         transactionController = new TransactionController(mapController.getAreasList());
         transactionController.setMerchantSectionDataControllingMethod();
 
-        enemiesController = new EnemiesController(mapController.getAreasList(), itemController.GetListOfItems(), new PlayerService(), new BattleService());
-        enemiesController.setEnemiesForGame();
+        enemyController = new EnemyController(mapController.getAreasList(), new EnemyService());
+        enemyController.loadEnemiesForGame();
+
+        battleController = new BattleController(itemController.GetListOfItems(), new PlayerService(), new BattleService(), enemyController);
 
         configureVoiceRecognitionData();
 
@@ -101,7 +106,7 @@ public class MainGame extends javax.swing.JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e){
-                StartGUI sgui = new StartGUI(true, player, enemiesController, transactionController, mapController, itemController);
+                StartGUI sgui = new StartGUI(true, player, battleController, transactionController, mapController, itemController);
                 sgui.setVisible(true);
             }
         });
@@ -122,10 +127,10 @@ public class MainGame extends javax.swing.JFrame {
         boolean basicCom = ConfigureMaintenanceCommands(jTextField1.getText().trim());
 
         if(!basicCom){
-            enemiesController.setEnemiesForGame();
+            enemyController.loadEnemiesForGame();
 
             String actionResult = playerController.playerMainControllingMethodForActionDecision(player,
-                    itemController.GetListOfItems(), enemiesController, mapController.getAreasList(), dockYardController.getListOfDockYards(),
+                    itemController.GetListOfItems(), battleController, mapController.getAreasList(), dockYardController.getListOfDockYards(),
                     transactionController.getListOfMerchants(), musicConfiguration, parsingDecision, pc.GetNounOnPlayerCommand(),
                     pc.GetVerbOnPlayerCommand());
 
@@ -148,12 +153,12 @@ public class MainGame extends javax.swing.JFrame {
     }
     
     private void SetMusicFileToBePlayedAfterCommand(){
-        if(musicConfiguration.GetChangeMusicStatus() && enemiesController.getBattleState()){
+        if(musicConfiguration.GetChangeMusicStatus() && battleController.getBattleState()){
             musicConfiguration.StopMusic();
             musicConfiguration.SetSoundFilePath("combat.wav");
             musicConfiguration.SetMusicStatus(true);
             musicConfiguration.PlaySoundFile();
-        } else if(musicConfiguration.GetChangeMusicStatus() && !enemiesController.getBattleState()) {
+        } else if(musicConfiguration.GetChangeMusicStatus() && !battleController.getBattleState()) {
             musicConfiguration.StopMusic();
             musicConfiguration.SetSoundFilePath("outdoor1.wav");
             musicConfiguration.SetMusicStatus(true);
@@ -184,17 +189,17 @@ public class MainGame extends javax.swing.JFrame {
         //Tries to load the image file. If its does not succeed then it load another image
         try{
             ImageIcon icon = null; 
-            if((!this.player.getLocation().getAreaImage().isEmpty()) && (!this.enemiesController.getBattleState()))
+            if((!this.player.getLocation().getAreaImage().isEmpty()) && (!this.battleController.getBattleState()))
                 icon = new ImageIcon(getClass().getResource("/AreaImages/" + this.player.getLocation().getAreaImage()));
-            else if((this.player.getLocation().getAreaImage().isEmpty()) && (!this.enemiesController.getBattleState()))
+            else if((this.player.getLocation().getAreaImage().isEmpty()) && (!this.battleController.getBattleState()))
                 icon = new ImageIcon(getClass().getResource("/AreaImages/noImageAvailable.jpg"));
-            else if (this.enemiesController.getBattleState())
+            else if (this.battleController.getBattleState())
                 icon = new ImageIcon(getClass().getResource("/EnemyImages/" + playerController.getEnemyToBattle().getImage()));
             
             jLabel1.setIcon(icon);
         }
         catch(Exception ex){
-            if(!enemiesController.getBattleState()){
+            if(!battleController.getBattleState()){
                 ImageIcon icon = new ImageIcon(getClass().getResource("/AreaImages/noImageAvailable.jpg"));
                 jLabel1.setIcon(icon);
             }
@@ -722,26 +727,26 @@ public class MainGame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ImageIcon icon;
 
-        if(this.musicConfiguration.GetMusicStatus() && !enemiesController.getBattleState()){
+        if(this.musicConfiguration.GetMusicStatus() && !battleController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/nosound.png"));
             jButton3.setIcon(icon);
             this.musicConfiguration.SetMusicStatus(false);
             musicConfiguration.StopMusic();
         }
-        else if(!this.musicConfiguration.GetMusicStatus() && !enemiesController.getBattleState()){
+        else if(!this.musicConfiguration.GetMusicStatus() && !battleController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/sound.png"));
             jButton3.setIcon(icon);
             musicConfiguration.SetMusicStatus(true);
             musicConfiguration.SetSoundFilePath("outdoor1.wav");
             musicConfiguration.PlaySoundFile();
         }
-        else if(this.musicConfiguration.GetMusicStatus() && enemiesController.getBattleState()){
+        else if(this.musicConfiguration.GetMusicStatus() && battleController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/nosound.png"));
             jButton3.setIcon(icon);
             this.musicConfiguration.SetMusicStatus(false);
             musicConfiguration.StopMusic();
         }
-        else if(!this.musicConfiguration.GetMusicStatus() && enemiesController.getBattleState()){
+        else if(!this.musicConfiguration.GetMusicStatus() && battleController.getBattleState()){
             icon = new ImageIcon(getClass().getResource("/ApplicationImages/sound.png"));
             jButton3.setIcon(icon);
             musicConfiguration.SetSoundFilePath("combat.wav");
@@ -775,7 +780,7 @@ public class MainGame extends javax.swing.JFrame {
     
     private void SetEndingWindowWhenBossIsDead(){
         
-        if(player.getLocation().getAreaName().equals("Jade Sea Depths") && !enemiesController.getBattleState()){
+        if(player.getLocation().getAreaName().equals("Jade Sea Depths") && !battleController.getBattleState()){
             JOptionPane.showMessageDialog(this, 
                   "And that was the story of the guardian, sent by the order of \n"
                 + "edernium. The one that sacrificed his life for the people of \n"

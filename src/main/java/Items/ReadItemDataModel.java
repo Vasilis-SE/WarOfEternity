@@ -1,7 +1,8 @@
 package Items;
 
 import GameFileConfiguration.TextFileProcessing;
-import map.model.Area;
+import map.model.AreaModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +14,15 @@ import java.util.List;
  */
 public class ReadItemDataModel {
     
-    private final List<Area> listOfAreas;
+    private final List<AreaModel> listOfAreaModels;
     private final List<Item> listOfGameItems;
 
     private StringBuffer itemBuffer;
     private StringBuffer itemConnectionsBuffer;
 
-    public ReadItemDataModel(List<Area> areas){
+    public ReadItemDataModel(List<AreaModel> areaModels){
         
-        this.listOfAreas = areas;
+        this.listOfAreaModels = areaModels;
         this.itemBuffer = null;
         this.itemConnectionsBuffer = null;
         this.listOfGameItems = new ArrayList();
@@ -160,16 +161,16 @@ public class ReadItemDataModel {
      * @param itemAreaName The name of the area in string form.
      * @return Returns an area object that is the eligible item area.
      */
-    private Area GetEligibleAreaForItem(String itemAreaName){
+    private AreaModel GetEligibleAreaForItem(String itemAreaName){
         
-        Area eligibleItemArea = null;
+        AreaModel eligibleItemAreaModel = null;
         
-        for(Area eachGameArea : this.listOfAreas){
-            if(eachGameArea.getAreaName().equals(itemAreaName))
-                eligibleItemArea = eachGameArea;
+        for(AreaModel eachGameAreaModel : this.listOfAreaModels){
+            if(eachGameAreaModel.getAreaName().equals(itemAreaName))
+                eligibleItemAreaModel = eachGameAreaModel;
         }
         
-        return eligibleItemArea;
+        return eligibleItemAreaModel;
     }
 
     //Adds a items object into the item list.
@@ -207,7 +208,7 @@ public class ReadItemDataModel {
     public void SetItemConnectionMainMethod(){
         
         List<Item> connectionItems = new ArrayList();
-        List<Area> connectionAreas = new ArrayList();
+        List<AreaModel> connectionAreaModels = new ArrayList();
         List<String> connectionItemPurpose = new ArrayList();
         
         String[] dataOnLines = this.SplitStringBufferDataToLines(this.itemConnectionsBuffer);
@@ -216,14 +217,14 @@ public class ReadItemDataModel {
             String[] dataIndex = dataOnLines[i].split("@");
             
             connectionItems.add(this.GetEligibleGameItem(dataIndex[0].trim()));
-            connectionAreas.add(this.GetEligibleAreaForItem(dataIndex[1].trim()));
+            connectionAreaModels.add(this.GetEligibleAreaForItem(dataIndex[1].trim()));
             connectionItemPurpose.add(dataIndex[2].trim());
         }
         
         //For each item on connection, item area and connection purpose a connection
         //is made and it is added on the eligible item.
         for(int i=0; i<connectionItems.size(); i++){
-            SetItemConnectionWithAreas(connectionItems.get(i), connectionAreas.get(i), connectionItemPurpose.get(i));
+            SetItemConnectionWithAreas(connectionItems.get(i), connectionAreaModels.get(i), connectionItemPurpose.get(i));
         }
 
     }
@@ -232,12 +233,12 @@ public class ReadItemDataModel {
      * Method that sets the connections of the items.
      *
      * @param itemRef   The specific item with which a connection is going to be made.
-     * @param areaConnection    The area that the item is going to be connected.
+     * @param areaModelConnection    The area that the item is going to be connected.
      * @param itemPuropose  The purpose of the connection (for example pick).
      */
-    private void SetItemConnectionWithAreas(Item itemRef, Area areaConnection, String itemPurpose){
+    private void SetItemConnectionWithAreas(Item itemRef, AreaModel areaModelConnection, String itemPurpose){
        
-        ItemConnectionWithArea icwa = new ItemConnectionWithArea(areaConnection, itemRef, itemPurpose);
+        ItemConnectionWithArea icwa = new ItemConnectionWithArea(areaModelConnection, itemRef, itemPurpose);
        
         for(Item eachItem : this.listOfGameItems){
             if(eachItem.GetItemName().equalsIgnoreCase(itemRef.GetItemName())){

@@ -3,7 +3,7 @@ package map.controller;
 import Items.Item;
 import characters.model.PlayerModel;
 import lombok.Getter;
-import map.model.Area;
+import map.model.AreaModel;
 import map.model.DockYardModel;
 import map.service.DockYardActionService;
 import map.service.DockYardConnectionService;
@@ -18,13 +18,13 @@ import java.util.List;
  */
 public class DockYardController {
 
-    private final List<Area> listOfAreas;
+    private final List<AreaModel> listOfAreaModels;
     @Getter
     private List<DockYardModel> listOfDockYards;
     private final List<Item> listOfItems;
 
-    public DockYardController(List<Area> areas, List<Item> items){
-        this.listOfAreas = areas;
+    public DockYardController(List<AreaModel> areaModels, List<Item> items){
+        this.listOfAreaModels = areaModels;
         this.listOfDockYards = new ArrayList<>();
         this.listOfItems = items;
     }
@@ -40,10 +40,10 @@ public class DockYardController {
         List<String> startStringDocks = dockYardConnectionService.getStartAreaStringList();
         List<String> destStringDocks = dockYardConnectionService.getDestinationStringList();
 
-        List<Area> startAreaDocks = dockYardConnectionService.getDockAreaList(startStringDocks, this.listOfAreas);
-        List<Area> destAreaDocks = dockYardConnectionService.getDockAreaList(destStringDocks, this.listOfAreas);
+        List<AreaModel> startAreaModelDocks = dockYardConnectionService.getDockAreaList(startStringDocks, this.listOfAreaModels);
+        List<AreaModel> destAreaModelDocks = dockYardConnectionService.getDockAreaList(destStringDocks, this.listOfAreaModels);
 
-        dockYardConnectionService.setDockYardConnectionsToList(startAreaDocks, destAreaDocks);
+        dockYardConnectionService.setDockYardConnectionsToList(startAreaModelDocks, destAreaModelDocks);
         this.listOfDockYards = dockYardConnectionService.getDockYardList();
     }
 

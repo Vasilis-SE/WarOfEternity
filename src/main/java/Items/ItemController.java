@@ -1,9 +1,9 @@
 package Items;
 
 import characters.model.EnemyModel;
-import characters.controller.EnemiesController;
+import characters.controller.BattleController;
 import characters.model.PlayerModel;
-import map.model.Area;
+import map.model.AreaModel;
 import characters.service.BattleService;
 import characters.service.PlayerService;
 
@@ -19,16 +19,16 @@ import java.util.List;
  */
 public class ItemController implements Serializable{
     
-    private final List<Area> listOfAreas;
+    private final List<AreaModel> listOfAreaModels;
     String verbPartOfCommand;
     String nounPartOfCommand;
 
     private List<Item> listOfItems;
     
     //Constructor of item controller class
-    public ItemController(List<Area> areaList){
+    public ItemController(List<AreaModel> areaModelList){
         
-        this.listOfAreas = areaList;
+        this.listOfAreaModels = areaModelList;
         
         this.listOfItems = new ArrayList();
         this.verbPartOfCommand = "";
@@ -42,7 +42,7 @@ public class ItemController implements Serializable{
         this.nounPartOfCommand = noun;
         this.listOfItems = items;
         
-        this.listOfAreas = new ArrayList();
+        this.listOfAreaModels = new ArrayList();
     }
     
     /**
@@ -51,14 +51,14 @@ public class ItemController implements Serializable{
      */
     public void SetItemDataForGame(){
 
-        ReadItemDataModel ridm = new ReadItemDataModel(this.listOfAreas);
+        ReadItemDataModel ridm = new ReadItemDataModel(this.listOfAreaModels);
         ridm.SetItemDataList();
         this.listOfItems = ridm.GetListOfGameItems();
    
         ridm.SetItemConnectionMainMethod();
     }
     
-    public String ItemActionCommandProcessController(PlayerModel player, EnemiesController enemyController, EnemyModel enemyToCombat){
+    public String ItemActionCommandProcessController(PlayerModel player, BattleController enemyController, EnemyModel enemyToCombat){
     
         String resultMessage = null;
         ItemActionModel iam = new ItemActionModel(this.listOfItems, this.verbPartOfCommand, this.nounPartOfCommand, new PlayerService(), new BattleService());

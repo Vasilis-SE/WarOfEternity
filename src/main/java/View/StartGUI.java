@@ -1,6 +1,6 @@
 package View;
 
-import characters.controller.EnemiesController;
+import characters.controller.BattleController;
 import characters.model.PlayerModel;
 import characters.controller.TransactionController;
 import GameFileConfiguration.MainFolderConfig;
@@ -27,9 +27,9 @@ public class StartGUI extends javax.swing.JFrame {
     public MapController mc;    
     public ItemController ic;
     public TransactionController tc;
-    public EnemiesController ec;
+    public BattleController ec;
 
-    public StartGUI(boolean inGame, PlayerModel playerObj, EnemiesController ecObj, TransactionController transCon, MapController mcObj, ItemController icObj) {
+    public StartGUI(boolean inGame, PlayerModel playerObj, BattleController ecObj, TransactionController transCon, MapController mcObj, ItemController icObj) {
         initComponents();
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/ApplicationImages/startbanner.png"));

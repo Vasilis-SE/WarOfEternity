@@ -1,124 +1,109 @@
 package map;
 
 import GameFileConfiguration.TextFileProcessing;
-import map.model.Area;
+import map.model.AreaModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that contain methods that read the AreaConnections text file.
- * 
+ * Class that contain methods that read the AreaConnections json file.
+ *
  * @author Vasilis Triantaris
  */
 public class ReadAreaConnectionFileModel {
-    
-    String filePath;
-    List<Area> areasList;
+
+    List<AreaModel> areasList;
     StringBuffer strBufData;
-    
-    public ReadAreaConnectionFileModel(List<Area> areas){
-        this.filePath = "";
-        this.areasList = areas;
-        this.strBufData = TextFileProcessing.ReadResource("/DataAccessObjects/GameAreaConnections.txt");
+
+    public ReadAreaConnectionFileModel(List<AreaModel> areaModels){
+        this.areasList = areaModels;
+        this.strBufData = TextFileProcessing.ReadResource("/DataAccessObjects/GameAreaConnections.json");
     }
- 
-    
+
     /**
-     * Splits the string buffer variable into lines.
-     * 
-     * @return Returns an array of strings in which every line is a line on the area connection file.
+     * Parses the area connections json file.
+     *
+     * @return Returns a JSON array in which every element is one area connection entry, or an empty array if the file could not be parsed.
      */
-    public String[] splitStringBufferToLines(){
-        
-        String[] dataOnLines = this.strBufData.toString().split("\n");
-        return dataOnLines;
-    }
-    
-    /**
-     * The first column of the text file is referred to the current areas 
-     * (the area that the player is at a specific time), so it gets all 
-     * of those and sets them into a list of areas.
-     * 
-     * @param dataOnLines   This is the array of string in which every line represent each line on the area connection file.
-     * @return Returns the list of current game areas which is the first column on the file.
-     */
-    public List<Area> getListOfCurrentAreas(String dataOnLines[]){
-       
-        List<Area> curAreasList = new ArrayList();
-        
-        for(int i=0; i<dataOnLines.length; i++){
-            String[] dataIndex = dataOnLines[i].split("@");
-            
-            //Because a specific area can be used more than once in the text file
-            //of connections then we need a loop that will read all the areas for
-            //each line of the text. So a integer variable n is used to get the 
-            //place of the area in the areasList.
-            int n=0;
-            for(Area eachArea : this.areasList){
-                
-                if(eachArea.getAreaName().equalsIgnoreCase(dataIndex[0].trim())){
-                
-                    curAreasList.add(this.areasList.get(n));
-                }
-                
-                n++;
-            }
-            
+    public JSONArray parseConnectionEntries(){
+        try{
+            return (JSONArray) new JSONParser().parse(this.strBufData.toString());
         }
-        
+        catch(ParseException ex){
+            return new JSONArray();
+        }
+    }
+
+    /**
+     * The "currentArea" field of each connection entry is referred to the current
+     * areas (the area that the player is at a specific time), so it gets all
+     * of those and resolves them against the list of areas.
+     *
+     * @param connectionEntries   The parsed area connection entries.
+     * @return Returns the list of current game areas.
+     */
+    public List<AreaModel> getListOfCurrentAreas(JSONArray connectionEntries){
+
+        List<AreaModel> curAreasList = new ArrayList<>();
+
+        for(Object entry : connectionEntries){
+            String currentAreaName = (String) ((JSONObject) entry).get("currentArea");
+
+            //Because a specific area can be used more than once in the connections
+            //file then we need to check every area on the areas list to resolve
+            //each entry to its matching AreaModel object.
+            for(AreaModel eachAreaModel : this.areasList)
+                if(eachAreaModel.getAreaName().equalsIgnoreCase(currentAreaName))
+                    curAreasList.add(eachAreaModel);
+        }
+
         return curAreasList;
     }
-    
-    
+
+
     /**
-     * The second column of the text file is consisted of the next areas (
+     * The "nextArea" field of each connection entry is consisted of the next areas (
      * the areas that the player can go to when he is a specific current area).
-     * 
-     * @param dataOnLines   This is the array of string in which every line represent each line on the area connection file.
-     * @return Returns the list of Next game areas which is the second column on the file.
+     *
+     * @param connectionEntries   The parsed area connection entries.
+     * @return Returns the list of next game areas.
      */
-    public List<Area> getListOfNextAreas(String dataOnLines[]){
-        
-        List<Area> nextAreaList = new ArrayList();
-        
-        for(int i=0; i<dataOnLines.length; i++){
-            String[] dataIndex = dataOnLines[i].split("@");
-            
-            int n=0;
-            for(Area eachArea : this.areasList){
-                
-                if(eachArea.getAreaName().equalsIgnoreCase(dataIndex[1].trim())){
-                
-                    nextAreaList.add(this.areasList.get(n));
-                }
-                
-                n++;
-            }
-            
+    public List<AreaModel> getListOfNextAreas(JSONArray connectionEntries){
+
+        List<AreaModel> nextAreaModelList = new ArrayList<>();
+
+        for(Object entry : connectionEntries){
+            String nextAreaName = (String) ((JSONObject) entry).get("nextArea");
+
+            for(AreaModel eachAreaModel : this.areasList)
+                if(eachAreaModel.getAreaName().equalsIgnoreCase(nextAreaName))
+                    nextAreaModelList.add(eachAreaModel);
         }
-        
-        return nextAreaList;
+
+        return nextAreaModelList;
     }
-    
-    
+
+
     /**
-     * The third column of the text file is consisted of the directions 
+     * The "direction" field of each connection entry is the direction
      * for the specific current area that the user is in.
-     * 
-     * @param dataOnLine   This is the array of string in which every line represent each line on the area connection file.
-     * @return Returns the list are directions which represents the third column in the file.
+     *
+     * @param connectionEntries   The parsed area connection entries.
+     * @return Returns the list of directions.
      */
-    public List<String> getAreasDirections(String[] dataOnLine){
-        List<String> directions = new ArrayList();
-        
-        for (String line : dataOnLine) {
-            String[] dataIndex = line.split("@");
-            directions.add(dataIndex[2].trim());
-        }
-        
+    public List<String> getAreasDirections(JSONArray connectionEntries){
+        List<String> directions = new ArrayList<>();
+
+        for(Object entry : connectionEntries)
+            directions.add((String) ((JSONObject) entry).get("direction"));
+
         return directions;
     }
-    
-    
+
+
 }

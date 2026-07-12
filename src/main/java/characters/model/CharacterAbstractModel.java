@@ -1,6 +1,6 @@
 package characters.model;
 
-import map.model.Area;
+import map.model.AreaModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 public abstract class CharacterAbstractModel {
     // General
     private String name;
-    private Area location;
+    private AreaModel location;
 
     // Stats
     private int damage;

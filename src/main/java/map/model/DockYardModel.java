@@ -13,8 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DockYardModel {
 
-    private Area startingDockLocation;
-    private Area destinationDockLocation;
+    private AreaModel startingDockLocation;
+    private AreaModel destinationDockLocation;
     private double sailingFee;
 
 }

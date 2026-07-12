@@ -18,10 +18,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AreaConnectionMaker implements Serializable{
+public class AreaConnectionModel implements Serializable{
 
     //Data memebr of the area connection maker class
-    private Area nextArea;
+    private AreaModel nextAreaModel;
     private String directionsOnCurrentArea;
 
 }

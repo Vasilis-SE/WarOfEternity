@@ -1,23 +1,16 @@
 package map.controller;
 
-import map.model.Area;
-import map.model.AreaConnectionMaker;
+import map.model.AreaModel;
+import map.model.AreaConnectionModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The Class MapController is the controlling class for setting the area  and 
- * area connection objects. It implements the Serializable interface so that
- * we can write objects of its type in a external file.
- * 
- * @author Vasilis Triantaris
- */
 public class MapController implements Serializable {
     
     //List data member that contains all the objects for each area
-    private List<Area> areasList;
+    private List<AreaModel> areasList;
     
     /**
      * Constructor of MapCotroller class when a object of this class is made
@@ -34,14 +27,14 @@ public class MapController implements Serializable {
         ReadConnectionFileController rcfcm = new ReadConnectionFileController(this.areasList);
         rcfcm.readConnectionFileControllingMethod();
 
-        List<Area> currentAreas = rcfcm.currentArea;
-        List<Area> nextArea = rcfcm.nextArea;
+        List<AreaModel> currentAreaModels = rcfcm.currentAreaModel;
+        List<AreaModel> nextAreaModel = rcfcm.nextAreaModel;
         List<String> directions = rcfcm.directions;
 
         //For every object in the above list call the setAreaConnection method to
         //create the connection of areas.
-        for(int i=0; i<currentAreas.size(); i++){
-            setAreaConnection(currentAreas.get(i), nextArea.get(i), directions.get(i));
+        for(int i = 0; i< currentAreaModels.size(); i++){
+            setAreaConnection(currentAreaModels.get(i), nextAreaModel.get(i), directions.get(i));
         }
 
     }
@@ -52,31 +45,31 @@ public class MapController implements Serializable {
      * ReadAreaConnectionFileModel class we get each list item from those lists 
      * and create the connection.
      * 
-     * @param currentArea   The starting area or just the area that the player might be located.
+     * @param currentAreaModel   The starting area or just the area that the player might be located.
      * @param connectionsWithOtherAreas     The next area that the previous is connected with.
      * @param directions     The direction that the player must follow in order to travel from the currentArea to the NextArea.
      */
-    private void setAreaConnection(Area currentArea, Area connectionsWithOtherAreas, String directions){
+    private void setAreaConnection(AreaModel currentAreaModel, AreaModel connectionsWithOtherAreas, String directions){
 
         //Set a area connection with data the next area and the direction to go there.
-        AreaConnectionMaker acm = new AreaConnectionMaker(connectionsWithOtherAreas, directions);
+        AreaConnectionModel acm = new AreaConnectionModel(connectionsWithOtherAreas, directions);
 
         //Check all the areas on the area list. If the area on the loop is equal
         //to the one current area given in the parametres then set this area as the
         //current - starting area of the connection.
-        for(Area currentAreaOnTheLoop : this.areasList){
+        for(AreaModel currentAreaModelOnTheLoop : this.areasList){
 
-            if(currentAreaOnTheLoop.getAreaName().equals(currentArea.getAreaName())){
-                currentAreaOnTheLoop.addAreaConnection(acm);
+            if(currentAreaModelOnTheLoop.getAreaName().equals(currentAreaModel.getAreaName())){
+                currentAreaModelOnTheLoop.addAreaConnection(acm);
             }
 
         }
     }
 
     //Method that return the list of areas.
-    public List<Area> getAreasList(){
+    public List<AreaModel> getAreasList(){
         return this.areasList;
     }
-    
+
     
 }

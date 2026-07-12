@@ -2,16 +2,12 @@ package characters.controller;
 
 import GameFileConfiguration.MusicConfiguration;
 import Items.Item;
-import map.model.Area;
 import characters.DirectionActionModel;
-import characters.ReadEnemyDataModel;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
 import characters.service.BattleService;
 import characters.service.PlayerService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.Serializable;
@@ -23,22 +19,14 @@ import java.util.List;
  * @author Triantaris Vasilis
  */
 @RequiredArgsConstructor
-public class EnemiesController implements Serializable {
+public class BattleController implements Serializable {
 
-    private final List<Area> areas;
     private final List<Item> items;
     private final PlayerService playerService;
     private final BattleService battleService;
+    private final EnemyController enemyController;
 
-    @Getter
-    private JSONArray jsonEnemiesArray;
     private boolean battleState;
-
-    public void setEnemiesForGame() {
-        ReadEnemyDataModel redm = new ReadEnemyDataModel(this.areas);
-        redm.SetEnemiesFromData();
-        this.jsonEnemiesArray = redm.GetJSONEnemiesArray();
-    }
 
     public JSONObject battleIntegrityActionCheck(String parsingDecision, String verb) {
         JSONObject jObj = new JSONObject();
@@ -66,7 +54,7 @@ public class EnemiesController implements Serializable {
     public JSONObject triggerBattleOnAreaChangeController(PlayerModel player, String noun, String parsingDecision) {
         int encounterPer = battleService.getRandomEncounterNumber();
         return battleService.triggerBattleOnAreaChange(player, encounterPer, this.items, noun, parsingDecision,
-                this.battleState, this.jsonEnemiesArray);
+                this.battleState, enemyController.getJsonEnemiesArray());
     }
 
     public String battleActionProcessController(PlayerModel player, EnemyModel eligibleEnemy,

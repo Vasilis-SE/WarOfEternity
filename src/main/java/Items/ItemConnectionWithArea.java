@@ -1,22 +1,23 @@
 package Items;
 
-import map.model.Area;
+import map.model.AreaModel;
+
 import java.io.Serializable;
 
 public class ItemConnectionWithArea implements Serializable {
     
-    Area itemArea;
+    AreaModel itemAreaModel;
     Item itemRef;
     String itemUsage;
     
     public ItemConnectionWithArea(){
         this.itemRef = null;
-        this.itemArea = null;
+        this.itemAreaModel = null;
         this.itemUsage = "";
     }
     
-    public ItemConnectionWithArea(Area area, Item item, String purpose){
-        this.itemArea = area;
+    public ItemConnectionWithArea(AreaModel areaModel, Item item, String purpose){
+        this.itemAreaModel = areaModel;
         this.itemRef = item;
         this.itemUsage = purpose;
     }
@@ -29,12 +30,12 @@ public class ItemConnectionWithArea implements Serializable {
         return this.itemRef;
     }
     
-    public void SetConnectionWithAreaReference(Area area){
-        this.itemArea = area;
+    public void SetConnectionWithAreaReference(AreaModel areaModel){
+        this.itemAreaModel = areaModel;
     }
     
-    public Area GetConnectionWithAreaReference(){
-        return this.itemArea;
+    public AreaModel GetConnectionWithAreaReference(){
+        return this.itemAreaModel;
     }
     
     public void SetItemUsage(String purpose){

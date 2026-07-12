@@ -1,7 +1,8 @@
 package characters.controller;
 
 import Items.Item;
-import map.model.Area;
+import characters.service.DoctorService;
+import map.model.AreaModel;
 import map.model.DockYardModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import org.json.simple.JSONObject;
  */
 public class TransactionController {
 
-    private final List<Area> listOfGameAreas;
+    private final List<AreaModel> listOfGameAreaModels;
     @Getter
     private List<MerchantModel> listOfMerchants;
 
@@ -28,8 +29,8 @@ public class TransactionController {
     private final String verbPart;
 
     //Constructor for reading merchant data.
-    public TransactionController(List<Area> areas){
-        this.listOfGameAreas = areas;
+    public TransactionController(List<AreaModel> areaModels){
+        this.listOfGameAreaModels = areaModels;
         
         this.listOfMerchants = new ArrayList(); 
         this.nounPart = "";
@@ -37,8 +38,8 @@ public class TransactionController {
     }
     
     //Constructor for transaction action command.
-    public TransactionController(List<Area> areas, List<MerchantModel> merchants, String noun, String verb){
-        this.listOfGameAreas = areas;
+    public TransactionController(List<AreaModel> areaModels, List<MerchantModel> merchants, String noun, String verb){
+        this.listOfGameAreaModels = areaModels;
         this.listOfMerchants = merchants;
         this.nounPart = noun;
         this.verbPart = verb;
@@ -49,12 +50,7 @@ public class TransactionController {
      * file. 
      */
     public void setMerchantSectionDataControllingMethod(){
-        
-        ReadMerchantConnections rmc = new ReadMerchantConnections();
-        
-        rmc.GetTextFileColumnsToList();
-        List<Area> listOfMerchantAreas = rmc.GetAreasAssociatedWithTheMerchants(this.listOfGameAreas);
-        this.listOfMerchants = rmc.SetMerchantList(listOfMerchantAreas);
+        this.listOfMerchants = new MerchantService(new PlayerService()).loadMerchants(this.listOfGameAreaModels);
     }
     
     public String transactionCommandProcessControll(PlayerModel player, List<DockYardModel> docksList, List<Item> listOfItems){
@@ -63,8 +59,8 @@ public class TransactionController {
         String personToContact = this.nounPart.toLowerCase();
         
         if(personToContact.contains("doctor") || personToContact.contains("healer")){
-            DoctorActionModel dam = new DoctorActionModel();
-            resultMessage = dam.TalkingToDoctorProcess(player);
+            DoctorService dam = new DoctorService();
+            resultMessage = dam.talkToDoctorProcess(player);
         }
         else if(personToContact.contains("captain") || personToContact.contains("fisher")){
             CaptainActionModel cam = new CaptainActionModel(docksList);
@@ -72,20 +68,16 @@ public class TransactionController {
             resultMessage = (String) jObj.get("message");
         }
         else if(((!this.verbPart.equals("sell")) || (!this.verbPart.equals("buy"))) && (personToContact.contains("merchant") || personToContact.contains("merchandise"))){
-            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants, new MerchantService(new PlayerService()));
-            resultMessage = mam.SetMerchantItemListToBeDisplayed(player);
+            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService()));
+            resultMessage = mc.talkToMerchantProcess(player);
         }
         else if(this.verbPart.equals("buy")){
-            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants, new MerchantService(new PlayerService()));
-            JSONObject jObj = mam.PlayersLocationCanStartATransaction(player.getLocation().getAreaName());
-            BuyActionModel bam = new BuyActionModel(this.nounPart, new PlayerService());
-            resultMessage = bam.BuyItemFromMerchantProcess(player, jObj);
+            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService()));
+            resultMessage = mc.buyItem(player, this.nounPart);
         }
         else if(this.verbPart.equals("sell")){
-            MerchantActionModel mam = new MerchantActionModel(this.verbPart, this.nounPart, listOfItems, this.listOfGameAreas, this.listOfMerchants, new MerchantService(new PlayerService()));
-            JSONObject jObj = mam.PlayersLocationCanStartATransaction(player.getLocation().getAreaName());
-            SellActionModel sam = new SellActionModel(this.nounPart, new PlayerService());
-            resultMessage = sam.SellItemToMerchantProcess(player, jObj);
+            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService()));
+            resultMessage = mc.sellItem(player, this.nounPart);
         }
         else{
             resultMessage = "There is no such transaction / person to contact!";

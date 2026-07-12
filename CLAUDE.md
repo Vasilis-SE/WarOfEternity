@@ -41,7 +41,7 @@ The entry point is `main.java.View.StartGUI.main()`.
 | `main.java.View.View` | Swing GUI forms: `StartGUI` (main menu / ESC menu), `NewGameForm` (character creation), `MainGame` (gameplay loop), `MapForm`, `LoadGameForm`, `HelpForm` |
 | `characters` | Entity classes (`Player`, `Enemies`, `Merchant`, `DockYard`) and their `*Controller` / `*ActionModel` pairs |
 | `map` | `Area` nodes + `AreaConnectionMaker` edges; `MapController` bootstraps the graph by reading text files |
-| `Items` | `Item` entities, area-item placement via `ItemConnectionWithArea`, `ItemController` |
+| `Items` | `Item` entities, areaModel-item placement via `ItemConnectionWithArea`, `ItemController` |
 | `Parsers` | `ParserController` + `ParserModel` — splits player input into verb/noun and maps the verb to an action category |
 | `Serialization` | `SaveGameData` / `LoadGameData` — Java object serialization of `Player`, `MapController`, `ItemController` |
 | `GameFileConfiguration` | Bootstraps the runtime folder tree under `user.home\WarOfEternity\` and copies `DataAccessObjects` there |
@@ -54,12 +54,12 @@ All world data lives in `.txt` files under `src/main/java/DataAccessObjects/`. O
 
 | File | Contents |
 |---|---|
-| `GameAreas.txt` | Area name, description, image filename (tab-delimited, `@`-separated) |
-| `GameAreaConnections.txt` | `currentArea \| direction \| nextArea` triples |
-| `GameEnemies.txt` | Enemy stats and area placement |
+| `GameAreas.json` | Area name, description, image filename |
+| `GameAreaConnections.json` | `currentArea` / `nextArea` / `direction` triples |
+| `GameEnemies.json` | Enemy stats and areaModel placement |
 | `GameItems.txt` | Item definitions |
-| `GameItemConnections.txt` | Item-to-area placement |
-| `MerchantConnections.txt` / `DockYardConnections.txt` | NPC area placement |
+| `GameItemConnections.txt` | Item-to-areaModel placement |
+| `MerchantConnections.txt` / `DockYardConnections.txt` | NPC areaModel placement |
 | `*Parser.txt` | One verb per line; used by `ParserController` to classify commands |
 
 ### Command Parsing Flow

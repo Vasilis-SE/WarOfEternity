@@ -1,7 +1,7 @@
 package map.service;
 
 import GameFileConfiguration.TextFileProcessing;
-import map.model.Area;
+import map.model.AreaModel;
 import map.model.DockYardModel;
 
 import java.util.ArrayList;
@@ -121,18 +121,18 @@ public class DockYardConnectionService {
      * @param areasList The list of game areas.
      * @return Returns a list of areas that are either the starting dock areas or the destination dock areas.
      */
-    public List<Area> getDockAreaList(List<String> stringAreaList, List<Area> areasList){
-        List<Area> dockAreas = new ArrayList<>();
+    public List<AreaModel> getDockAreaList(List<String> stringAreaList, List<AreaModel> areasList){
+        List<AreaModel> dockAreaModels = new ArrayList<>();
 
         for(String eachStringArea : stringAreaList){
-            for(Area eachArea : areasList){
+            for(AreaModel eachAreaModel : areasList){
 
-                if(eachArea.getAreaName().equals(eachStringArea.trim()))
-                    dockAreas.add(eachArea);
+                if(eachAreaModel.getAreaName().equals(eachStringArea.trim()))
+                    dockAreaModels.add(eachAreaModel);
             }
         }
 
-        return dockAreas;
+        return dockAreaModels;
     }
 
     /**
@@ -143,7 +143,7 @@ public class DockYardConnectionService {
      * @param start The starting dock yard locations.
      * @param dest The destination dock yard locations.
      */
-    public void setDockYardConnectionsToList(List<Area> start, List<Area> dest){
+    public void setDockYardConnectionsToList(List<AreaModel> start, List<AreaModel> dest){
 
         for(int i=0; i < this.shipFeeList.size(); i++){
             DockYardModel dockYard = DockYardModel.builder()

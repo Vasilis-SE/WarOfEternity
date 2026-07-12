@@ -2,7 +2,7 @@ package characters.service;
 
 import Items.Item;
 import Items.ItemConnectionWithArea;
-import map.model.AreaConnectionMaker;
+import map.model.AreaConnectionModel;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
 import org.json.simple.JSONArray;
@@ -46,7 +46,7 @@ public class BattleService {
                                                         JSONArray jsonEnemiesArray) {
         List<EnemyModel> enemiesOnArea = new ArrayList<>();
 
-        for (AreaConnectionMaker acm : player.getLocation().getAreaConnections()) {
+        for (AreaConnectionModel acm : player.getLocation().getAreaConnections()) {
             String blockedMessage = directionToNextAreaIsBlockedByItem(itemList, player, noun);
             if (acm.getDirectionsOnCurrentArea().equalsIgnoreCase(noun) && blockedMessage.isEmpty())
                 enemiesOnArea = getListOfEnemiesThatRoamTheNextArea(acm, jsonEnemiesArray);
@@ -136,12 +136,12 @@ public class BattleService {
         return null;
     }
 
-    private List<EnemyModel> getListOfEnemiesThatRoamTheNextArea(AreaConnectionMaker acm, JSONArray jsonEnemiesArray) {
+    private List<EnemyModel> getListOfEnemiesThatRoamTheNextArea(AreaConnectionModel acm, JSONArray jsonEnemiesArray) {
         List<EnemyModel> enemiesOnArea = new ArrayList<>();
 
         for (int i = 0; i < jsonEnemiesArray.size(); i++) {
             JSONObject arrayJSONObj = (JSONObject) jsonEnemiesArray.get(i);
-            if (((String) arrayJSONObj.get("areaname")).equals(acm.getNextArea().getAreaName()))
+            if (((String) arrayJSONObj.get("areaname")).equals(acm.getNextAreaModel().getAreaName()))
                 enemiesOnArea = (List<EnemyModel>) arrayJSONObj.get("enemiesonarea");
         }
 

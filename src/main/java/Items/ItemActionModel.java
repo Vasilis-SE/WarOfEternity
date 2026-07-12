@@ -1,7 +1,7 @@
 package Items;
 
 import characters.model.EnemyModel;
-import characters.controller.EnemiesController;
+import characters.controller.BattleController;
 import characters.model.PlayerModel;
 import characters.service.BattleService;
 import characters.service.PlayerService;
@@ -108,7 +108,7 @@ public class ItemActionModel {
      * @param player The object that holds all the player data.
      * @return Returns a message that describes the result of a use potion item action command. This message will be shown to the user.
      */
-    public String PlayerUseItemPotionCommand(PlayerModel player, EnemiesController enemyController, EnemyModel enemyToCombat){
+    public String PlayerUseItemPotionCommand(PlayerModel player, BattleController enemyController, EnemyModel enemyToCombat){
         String message = "";
         List<Item> newInventory = new ArrayList<>();
         

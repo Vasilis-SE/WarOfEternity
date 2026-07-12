@@ -2,16 +2,12 @@ package characters;
 
 import Items.Item;
 import Items.ItemConnectionWithArea;
-import map.model.AreaConnectionMaker;
+import map.model.AreaConnectionModel;
 import characters.model.PlayerModel;
 
 import java.util.List;
 
-/**
- * Class that handles the the re direction from one area to another.
- * 
- * @author Vasilhs Triantaris
- */
+
 public class DirectionActionModel {
     
     private final String nounPart;
@@ -36,14 +32,14 @@ public class DirectionActionModel {
         String directionIsBlockedMessage;
         String message = "";
 
-        for(AreaConnectionMaker acm : player.getLocation().getAreaConnections()){
+        for(AreaConnectionModel acm : player.getLocation().getAreaConnections()){
             
             if(acm.getDirectionsOnCurrentArea().equalsIgnoreCase(this.nounPart)){
                 
                 directionIsBlockedMessage = this.DirectionToNextAreaIsBlockedByItem(acm, player);
                 
                 if(directionIsBlockedMessage.isEmpty()){
-                    player.setLocation(acm.getNextArea());
+                    player.setLocation(acm.getNextAreaModel());
                     directionToAreaIsCorrect = true;
                     message = player.getLocation().getAreaDescription();
                 }
@@ -68,7 +64,7 @@ public class DirectionActionModel {
      * @param player The object that holds all the player data.
      * @return Returns a message if the next area that the user is trying to go is blocked by a door/gate. Else it returns an empty message.
      */
-    public String DirectionToNextAreaIsBlockedByItem(AreaConnectionMaker acm, PlayerModel player){
+    public String DirectionToNextAreaIsBlockedByItem(AreaConnectionModel acm, PlayerModel player){
         String checkMessage = "";
         
         for(Item eachItem : this.listOfGameItems){

@@ -5,7 +5,7 @@ import Items.Item;
 import Items.ItemController;
 import Items.TabletItemsController;
 import map.controller.DockYardController;
-import map.model.Area;
+import map.model.AreaModel;
 import map.model.DockYardModel;
 import characters.DirectionActionModel;
 import characters.enums.PlayerClassesEnum;
@@ -48,7 +48,7 @@ public class PlayerController {
 
 
     public String playerMainControllingMethodForActionDecision(PlayerModel player, List<Item> itemList,
-                                                               EnemiesController enemyController, List<Area> areasList, List<DockYardModel> docksList,
+                                                               BattleController enemyController, List<AreaModel> areasList, List<DockYardModel> docksList,
                                                                List<MerchantModel> listOfMerchants, MusicConfiguration mcf,
                                                                String parsingDecision, String nounPartOfCommand, String verbPartOfCommand){
         
@@ -111,8 +111,8 @@ public class PlayerController {
     }
 
 
-    public PlayerModel initNewPlayer(PlayerClassesEnum playerClass, String name, Area startingArea) {
-        return playerService.createNewPlayer(playerClass, name, startingArea);
+    public PlayerModel initNewPlayer(PlayerClassesEnum playerClass, String name, AreaModel startingAreaModel) {
+        return playerService.createNewPlayer(playerClass, name, startingAreaModel);
     }
 
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Getter
-public class Area implements Serializable{
+public class AreaModel implements Serializable{
 
     //Data members of the area object
     @Setter
@@ -18,16 +18,17 @@ public class Area implements Serializable{
     private String areaDescription;
     @Setter
     private String areaImage;
-    private List<AreaConnectionMaker> areaConnections;
 
-    public Area(String areaName, String areaDescription, String areaImage){
+    private List<AreaConnectionModel> areaConnections;
+
+    public AreaModel(String areaName, String areaDescription, String areaImage){
         this.areaName = areaName;
         this.areaDescription = areaDescription;
         this.areaImage = areaImage;
         this.areaConnections = new ArrayList<>();
     }
 
-    public void addAreaConnection(AreaConnectionMaker areaConnectionMaker){
-        areaConnections.add(areaConnectionMaker);
+    public void addAreaConnection(AreaConnectionModel areaConnectionModel){
+        areaConnections.add(areaConnectionModel);
     }
 }

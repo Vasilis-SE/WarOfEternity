@@ -18,7 +18,7 @@ public class TextFileProcessing {
     /**
      * Reads a classpath resource and returns its content as a StringBuffer.
      *
-     * @param resourcePath  Absolute classpath path, e.g. "/DataAccessObjects/GameAreas.txt"
+     * @param resourcePath  Absolute classpath path, e.g. "/DataAccessObjects/GameAreas.json"
      * @return StringBuffer with the file content, or null if the resource is not found.
      */
     public static StringBuffer ReadResource(String resourcePath){

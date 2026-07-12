@@ -1,7 +1,7 @@
 package characters.service;
 
 import Items.Item;
-import map.model.Area;
+import map.model.AreaModel;
 import characters.enums.PlayerClassesEnum;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
@@ -15,7 +15,7 @@ import java.util.List;
 public class PlayerService {
 
 
-    public PlayerModel createNewPlayer(PlayerClassesEnum playerClass, String name, Area startingArea) {
+    public PlayerModel createNewPlayer(PlayerClassesEnum playerClass, String name, AreaModel startingAreaModel) {
         PlayerModel player = switch (playerClass) {
             case PlayerClassesEnum.WARRIOR -> PlayerModel.builder()
                     .playerClass(playerClass)
@@ -23,7 +23,7 @@ public class PlayerService {
                     .intelligence(6)
                     .agility(8)
                     .name(name)
-                    .location(startingArea)
+                    .location(startingAreaModel)
                     .health(100)
                     .experience(0)
                     .inventory(new ArrayList<>())
@@ -31,7 +31,7 @@ public class PlayerService {
                     .build();
             case PlayerClassesEnum.ROGUE -> PlayerModel.builder()
                     .name(name)
-                    .location(startingArea)
+                    .location(startingAreaModel)
                     .health(100)
                     .experience(0)
                     .playerClass(playerClass)
@@ -45,7 +45,7 @@ public class PlayerService {
                     .build();
             case PlayerClassesEnum.MAGE -> PlayerModel.builder()
                     .name(name)
-                    .location(startingArea)
+                    .location(startingAreaModel)
                     .health(100)
                     .experience(0)
                     .playerClass(playerClass)
