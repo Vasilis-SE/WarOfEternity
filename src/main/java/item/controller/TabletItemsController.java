@@ -3,6 +3,7 @@ package item.controller;
 import characters.model.PlayerModel;
 import characters.service.BattleService;
 import characters.service.PlayerService;
+import item.enums.ItemMessagesEnum;
 import item.model.ItemModel;
 import item.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class TabletItemsController {
             return (String) integrityJSON.get("message");
 
         ItemModel stoneTablet = (ItemModel) integrityJSON.get("item");
-        message = "Tablet Description :\n"+stoneTablet.getItemDescription();
+        message = ItemMessagesEnum.TABLET_DESCRIPTION.format(stoneTablet.getItemDescription());
 
         return message;
     }

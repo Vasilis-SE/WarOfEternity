@@ -9,6 +9,7 @@ import map.controller.DockYardController;
 import map.model.AreaModel;
 import map.model.DockYardModel;
 import characters.enums.PlayerClassesEnum;
+import characters.enums.PlayerDisplayMessagesEnum;
 import characters.model.EnemyModel;
 import characters.model.MerchantModel;
 import characters.model.PlayerModel;
@@ -129,7 +130,7 @@ public class PlayerController {
     public String displayPlayerInventoryWeight(PlayerModel player) {
         NumberFormat formater = new DecimalFormat("#0.00");
         double weight = playerService.calculatingPlayerInventoryItemWeight(player);
-        return String.format("%s / 100", formater.format(weight));
+        return PlayerDisplayMessagesEnum.INVENTORY_WEIGHT.format(formater.format(weight));
     }
 
     public String displayPlayerGold(PlayerModel player) {
@@ -138,7 +139,7 @@ public class PlayerController {
     }
 
     public String displayPlayerLevel(PlayerModel player) {
-        return String.format("Level : %d", player.getLevel());
+        return PlayerDisplayMessagesEnum.PLAYER_LEVEL.format(player.getLevel());
     }
 
 

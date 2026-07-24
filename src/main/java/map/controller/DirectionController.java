@@ -4,6 +4,7 @@ import characters.model.PlayerModel;
 import item.model.ItemConnectionModel;
 import item.model.ItemModel;
 import lombok.RequiredArgsConstructor;
+import map.enums.DirectionMessagesEnum;
 import map.model.AreaConnectionModel;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class DirectionController {
         }
 
         if(!directionToAreaIsCorrect)
-            message = "There is no direction to : "+this.nounPart;
+            message = DirectionMessagesEnum.NO_DIRECTION_TO_DESTINATION.format(this.nounPart);
 
         return message;
     }
@@ -72,7 +73,7 @@ public class DirectionController {
                 //closed then...
                 if((eachItem.getItemType() == 4) && (icwa.getItemUsage().equals("open") && (eachItem.getItemValue() == 0) && (eachItem.getBlockingDirection().equalsIgnoreCase(this.nounPart)) &&
                         (player.getLocation().getAreaName().equals(icwa.getConnectionWithAreaReference().getAreaName())))){
-                    checkMessage = "You cannot proceed further. The gate is blocking your path!";
+                    checkMessage = DirectionMessagesEnum.GATE_BLOCKING_PATH.getMessage();
                 }
             }
         }

@@ -6,6 +6,7 @@ import characters.model.EnemyModel;
 import characters.model.PlayerModel;
 import characters.service.BattleService;
 import characters.service.PlayerService;
+import item.enums.ItemMessagesEnum;
 import item.model.ItemConnectionModel;
 import item.model.ItemModel;
 import lombok.RequiredArgsConstructor;
@@ -250,7 +251,7 @@ public class ItemService {
             switch(itemToBeEquiped.getItemType()){
                 case 1 :
                 case 2 :
-                    message = "This item cant be equiped!";
+                    message = ItemMessagesEnum.CANNOT_BE_EQUIPPED.getMessage();
                 break;
 
                 default :
@@ -259,12 +260,12 @@ public class ItemService {
                     playerService.calculatePlayersAttributePoints(player);
                     playerService.calculateGeneralPlayerDamage(player);
                     playerService.calculatePlayersArmor(player);
-                    message = itemToBeEquiped.getItemName()+" is equiped!";
+                    message = ItemMessagesEnum.EQUIP_SUCCESS.format(itemToBeEquiped.getItemName());
                 break;
             }
         }
         else{
-            message = "There no such item in your inventory!";
+            message = ItemMessagesEnum.ITEM_NOT_IN_INVENTORY_FOR_EQUIP.getMessage();
         }
 
         return message;
@@ -316,7 +317,7 @@ public class ItemService {
                     player.setInventory(newInventory);
                 }
 
-                message = eachItemOnInventory.getItemName()+" has been used!";
+                message = ItemMessagesEnum.POTION_USED.format(eachItemOnInventory.getItemName());
             }
             i++;
         }
@@ -360,12 +361,12 @@ public class ItemService {
 
                                 changeStateOfGate(doorItemNameOnArea, listOfItems);
                                 itemCanBeUsedOnSpecificArea = true;
-                                message = "Gate has been open!";
+                                message = ItemMessagesEnum.GATE_OPENED.getMessage();
                             break;
                        }
                     }
                     else{
-                        message = "Item : " + nounPartOfCommand + " has already been used!";
+                        message = ItemMessagesEnum.KEY_ALREADY_USED.format(nounPartOfCommand);
                     }
                 }
             }
@@ -373,7 +374,7 @@ public class ItemService {
         }
 
         if(!itemCanBeUsedOnSpecificArea)
-            return "This item can't be used here!";
+            return ItemMessagesEnum.ITEM_CANNOT_BE_USED_HERE.getMessage();
 
         return message;
     }
@@ -411,7 +412,7 @@ public class ItemService {
         }
 
         if(!keyLocation.equals(gateLocation))
-            message = "The item : " + nounPartOfCommand + " can't be used here!";
+            message = ItemMessagesEnum.KEY_WRONG_GATE.format(nounPartOfCommand);
 
         return message;
     }
@@ -439,21 +440,21 @@ public class ItemService {
         for(ItemModel eachItem : listOfItems){
             for(ItemConnectionModel icwa : eachItem.getItemConnectionsWithArea()){
                 if((icwa.getItemUsage().equals("pick")) && (icwa.getConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName())) && (eachItem.getItemValue() == 0))
-                    message += "--> "+eachItem.getItemDescription()+"\n";
+                    message += ItemMessagesEnum.SEARCH_RESULT_LINE.format(eachItem.getItemDescription());
 
                 if((icwa.getItemUsage().equals("open")) && (icwa.getConnectionWithAreaReference().getAreaName().equals(player.getLocation().getAreaName())) && (eachItem.getItemValue() == 0))
-                    message += "--> "+eachItem.getItemDescription()+"\n";
+                    message += ItemMessagesEnum.SEARCH_RESULT_LINE.format(eachItem.getItemDescription());
             }
         }
 
         ItemModel eligibleTablet = getEligibleItemFromArea(player, listOfItems);
         if(eligibleTablet != null)
-                message += "--> A "+eligibleTablet.getItemName();
+                message += ItemMessagesEnum.SEARCH_RESULT_TABLET_LINE.format(eligibleTablet.getItemName());
 
         if(message.isEmpty())
-            message = "Nothing found while searching!";
+            message = ItemMessagesEnum.SEARCH_NOTHING_FOUND.getMessage();
         else
-            message = "While searching you found : \n"+message;
+            message = ItemMessagesEnum.SEARCH_RESULTS_HEADER.format(message);
 
         return message;
     }
@@ -481,7 +482,7 @@ public class ItemService {
 
                     //if the summary of weight plus the items is more than the limit then..
                     if(playerService.calculatingPlayerInventoryItemWeight(player) + eachItem.getItemWeight() > 100.0)
-                        return "Exceeding weight limit, can't pick that up!";
+                        return ItemMessagesEnum.PICK_WEIGHT_LIMIT_EXCEEDED.getMessage();
 
                     switch(listOfItems.get(i).getItemType()){
 
@@ -489,26 +490,26 @@ public class ItemService {
                         case 2 :
                            if(listOfItems.get(i).getItemValue() == 0){
                                itemExistsOnTheAreaCheck = true;
-                               message = "Item " + nounPartOfCommand + " is picked.\n--> Description : " + eachItem.getItemDescription();
+                               message = ItemMessagesEnum.PICK_MISC_SUCCESS.format(nounPartOfCommand, eachItem.getItemDescription());
                                listOfItems.get(i).setItemValue(1);
                                playerService.addItemToSelectedItemsByPlayer(player, listOfItems.get(i));
                            }
                            else {
                                itemExistsOnTheAreaCheck = true;
-                               message = "You have already picked : " + nounPartOfCommand;
+                               message = ItemMessagesEnum.PICK_ALREADY_PICKED.format(nounPartOfCommand);
                            }
                         break;
 
                         case 1:
                             if(listOfItems.get(i).getItemValue() > 0){
                                 itemExistsOnTheAreaCheck = true;
-                                message = "Item " + nounPartOfCommand + " is picked\n--> Decription : " + eachItem.getItemDescription();
+                                message = ItemMessagesEnum.PICK_CONSUMABLE_SUCCESS.format(nounPartOfCommand, eachItem.getItemDescription());
                                 listOfItems.get(i).setItemValue(0);
                                 playerService.addItemToSelectedItemsByPlayer(player, listOfItems.get(i));
                             }
                             else{
                                 itemExistsOnTheAreaCheck = true;
-                                message = "You have already picked : " + nounPartOfCommand;
+                                message = ItemMessagesEnum.PICK_ALREADY_PICKED.format(nounPartOfCommand);
                             }
                         break;
                     }
@@ -518,7 +519,7 @@ public class ItemService {
         }
 
         if(!itemExistsOnTheAreaCheck)
-            message = "There is no item : " + nounPartOfCommand;
+            message = ItemMessagesEnum.PICK_ITEM_NOT_FOUND.format(nounPartOfCommand);
 
         return message;
     }
@@ -537,7 +538,7 @@ public class ItemService {
         JSONObject jObj = new JSONObject();
         boolean status = false;
         ItemModel stoneTablet = null;
-        String message = "There is no stone tablet here to inspect !";
+        String message = ItemMessagesEnum.TABLET_NONE_TO_INSPECT.getMessage();
 
         ItemModel eligibleTablet = getEligibleItemFromArea(player, listOfItems);
         if(eligibleTablet != null){

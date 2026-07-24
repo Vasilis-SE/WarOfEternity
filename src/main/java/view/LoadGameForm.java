@@ -2,6 +2,7 @@ package view;
 
 import serialization.controller.SaveLoadController;
 import serialization.model.LoadedGameData;
+import view.enums.LoadGameMessagesEnum;
 import java.awt.Window;
 import java.io.IOException;
 import java.util.List;
@@ -97,7 +98,7 @@ public class LoadGameForm extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String result = saveLoadController.deleteSavedGame(this.jList1.getSelectedValue().toString());
 
-        JOptionPane.showMessageDialog(this, result, "Delete Message Prompt",
+        JOptionPane.showMessageDialog(this, result, LoadGameMessagesEnum.DELETE_PROMPT_TITLE.getMessage(),
                 JOptionPane.OK_OPTION);
 
         this.setListModel();
@@ -106,8 +107,8 @@ public class LoadGameForm extends javax.swing.JFrame {
     //Method for button "Load Game File"
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(this.jList1.getSelectedValue() == null){
-            JOptionPane.showMessageDialog(this, "Error Occured!, You need to select a specific\n"
-                    + "file before loading...", "Errom Message Prompt", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, LoadGameMessagesEnum.NO_FILE_SELECTED.getMessage(),
+                    LoadGameMessagesEnum.NO_FILE_SELECTED_TITLE.getMessage(), JOptionPane.ERROR_MESSAGE);
         }
         else{
             try {
@@ -123,13 +124,12 @@ public class LoadGameForm extends javax.swing.JFrame {
                 mg.setVisible(true);
             }
             catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error occurred, while loading the save file.\n"
-                    + "Please try again later!", "Load Error Message Prompt" ,JOptionPane.OK_OPTION);
-            } 
+                JOptionPane.showMessageDialog(this, LoadGameMessagesEnum.LOAD_IO_ERROR.getMessage(),
+                    LoadGameMessagesEnum.LOAD_ERROR_TITLE.getMessage(), JOptionPane.OK_OPTION);
+            }
             catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "Error occurred, cant load the specific \n"
-                    + "file. Please try again later or reboot the game!", "Load Error Message Prompt",
-                    JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(this, LoadGameMessagesEnum.LOAD_CLASS_ERROR.getMessage(),
+                    LoadGameMessagesEnum.LOAD_ERROR_TITLE.getMessage(), JOptionPane.OK_OPTION);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -5,6 +5,7 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import javax.swing.JOptionPane;
+import utils.enums.FolderConfigMessagesEnum;
 
 /**
  * This class handles the creation of the main folder (wrapper folder) inside
@@ -36,9 +37,8 @@ public class MainFolderConfig {
             theDir.mkdir();
         }
         catch(SecurityException se){
-            JOptionPane.showMessageDialog(null, "Error Occurred!",
-                    "Save folder could not be created due to OS permitions,\n"
-                    +"Real message : "+se, JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, FolderConfigMessagesEnum.ERROR_OCCURRED.getMessage(),
+                    FolderConfigMessagesEnum.FOLDER_CREATION_FAILED.format(se), JOptionPane.OK_OPTION);
             System.exit(0);
         }
     }

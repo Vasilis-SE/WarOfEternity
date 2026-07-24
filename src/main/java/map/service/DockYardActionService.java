@@ -2,8 +2,10 @@ package map.service;
 
 import item.model.ItemModel;
 import item.model.ItemConnectionModel;
+import characters.enums.CaptainMessagesEnum;
 import characters.model.PlayerModel;
 import characters.service.CaptainService;
+import map.enums.DockYardMessagesEnum;
 import map.model.DockYardModel;
 import org.json.simple.JSONObject;
 
@@ -49,7 +51,7 @@ public class DockYardActionService {
             message = this.playerCanSailToHisDestination(player, docksOnArea);
         }
         else{
-            message = "There is no dockyard in this place!";
+            message = CaptainMessagesEnum.NO_DOCKYARD_IN_AREA.getMessage();
         }
 
         return message;
@@ -74,7 +76,7 @@ public class DockYardActionService {
             if(player.getGold() >= eligibleDockForArea.getSailingFee()){
 
                 if(this.sailDestinationIsBlocked(player, eligibleDockForArea)){
-                    message = "The way is unreachable!";
+                    message = DockYardMessagesEnum.THE_WAY_IS_UNREACHABLE.getMessage();
                 }
                 else{
                     player.setGold(player.getGold() - eligibleDockForArea.getSailingFee());
@@ -83,11 +85,11 @@ public class DockYardActionService {
                 }
             }
             else{
-                message = "You don't have enough gold coins to travel to "+eligibleDockForArea.getDestinationDockLocation().getAreaName();
+                message = DockYardMessagesEnum.INSUFFICIENT_GOLD_FOR_TRAVEL.format(eligibleDockForArea.getDestinationDockLocation().getAreaName());
             }
         }
         else{
-            message = "There is no such destination!";
+            message = DockYardMessagesEnum.NO_SUCH_DESTINATION.getMessage();
         }
 
         return message;
@@ -192,7 +194,7 @@ public class DockYardActionService {
 
         JSONObject jObj = new JSONObject();
         DockYardModel sinkArea = null;
-        String message = "You cannot sink the ship!";
+        String message = DockYardMessagesEnum.CANNOT_SINK_SHIP.getMessage();
         boolean status = false;
 
         for(DockYardModel eachDock : this.listOfDocks){
@@ -203,7 +205,7 @@ public class DockYardActionService {
                             && (eachItem.getItemValue() == 0) && (eachItem.getBlockingDirection().equalsIgnoreCase("sink")))
                             && player.getLocation().getAreaName().equals("The Great Jade Sea")){
 
-                        message = "You cannot procced further, the beam is blocking the ship!";
+                        message = DockYardMessagesEnum.BEAM_BLOCKING_SHIP.getMessage();
                         status = false;
                     }
                     else if((eachItem.getItemType() == 4) && (icwa.getItemUsage().equals("open")

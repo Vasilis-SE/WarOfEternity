@@ -1,6 +1,7 @@
 package characters.controller;
 
 import item.model.ItemModel;
+import characters.enums.TransactionMessagesEnum;
 import characters.service.DoctorService;
 import map.model.AreaModel;
 import map.model.DockYardModel;
@@ -80,7 +81,7 @@ public class TransactionController {
             resultMessage = mc.sellItem(player, this.nounPart);
         }
         else{
-            resultMessage = "There is no such transaction / person to contact!";
+            resultMessage = TransactionMessagesEnum.NO_SUCH_TRANSACTION_OR_PERSON.getMessage();
         }
         
         

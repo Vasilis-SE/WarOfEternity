@@ -1,5 +1,6 @@
 package characters.controller;
 
+import characters.enums.BattleMessagesEnum;
 import utils.MusicConfiguration;
 import item.model.ItemModel;
 import map.controller.DirectionController;
@@ -35,13 +36,13 @@ public class BattleController implements Serializable {
 
         if (this.battleState) {
             if (!parsingDecision.equals("battle") && !verb.equals("use")) {
-                message = "You can't do this action while in battle!";
+                message = BattleMessagesEnum.CANNOT_ACT_WHILE_IN_BATTLE.getMessage();
                 status = false;
             }
         }
 
         if (!this.battleState && parsingDecision.equals("battle")) {
-            message = "There is no enemy to attack!";
+            message = BattleMessagesEnum.NO_ENEMY_TO_ATTACK.getMessage();
             status = false;
         }
 
@@ -62,7 +63,7 @@ public class BattleController implements Serializable {
                                                 MusicConfiguration mcf) {
         String resultMessage = battleService.attackEnemyProcess(eligibleEnemy, player);
 
-        if (!resultMessage.equals("The enemy is dead!")) {
+        if (!resultMessage.equals(BattleMessagesEnum.ENEMY_DEFEATED.getMessage())) {
             resultMessage += "\n" + battleService.attackFromEnemyToPlayerProcess(eligibleEnemy, player);
             mcf.setChangeMusicStatus(false);
         } else {

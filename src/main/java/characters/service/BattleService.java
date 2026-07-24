@@ -1,7 +1,9 @@
 package characters.service;
 
+import characters.enums.BattleMessagesEnum;
 import item.model.ItemModel;
 import item.model.ItemConnectionModel;
+import map.enums.DirectionMessagesEnum;
 import map.model.AreaConnectionModel;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
@@ -64,7 +66,7 @@ public class BattleService {
                         && (eachItem.getItemValue() == 0)
                         && eachItem.getBlockingDirection().equalsIgnoreCase(noun)
                         && player.getLocation().getAreaName().equals(icwa.getConnectionWithAreaReference().getAreaName()))
-                    checkMessage = "You cannot proceed further. The gate is blocking your path!";
+                    checkMessage = DirectionMessagesEnum.GATE_BLOCKING_PATH.getMessage();
             }
         }
 
@@ -79,10 +81,10 @@ public class BattleService {
         int finalDamage = (int) (randomDamage - ((randomDamage * damageReduction) / 2));
 
         enemyToCombat.setHealth(enemyToCombat.getHealth() - finalDamage);
-        String message = "You damaged the enemy for " + finalDamage + " attack damage!";
+        String message = BattleMessagesEnum.ATTACK_DAMAGE_DEALT.format(finalDamage);
 
         if (enemyToCombat.getHealth() <= 0) {
-            message = "The enemy is dead!";
+            message = BattleMessagesEnum.ENEMY_DEFEATED.getMessage();
             double randomGold = enemyToCombat.getGold() * rand.nextDouble();
             player.setGold(player.getGold() + randomGold);
         }
@@ -98,10 +100,10 @@ public class BattleService {
         int finalDamage = (int) (randomDamage - ((randomDamage * damageReduction) / 2));
 
         player.setHealth(player.getHealth() - finalDamage);
-        String message = enemyToCombat.getName() + " damaged you for " + finalDamage + " damage!";
+        String message = BattleMessagesEnum.DAMAGE_TAKEN.format(enemyToCombat.getName(), finalDamage);
 
         if (player.getHealth() <= 0)
-            message = "You died!";
+            message = BattleMessagesEnum.PLAYER_DIED.getMessage();
 
         return message;
     }

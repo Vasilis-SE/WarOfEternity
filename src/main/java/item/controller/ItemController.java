@@ -5,6 +5,7 @@ import characters.model.EnemyModel;
 import characters.model.PlayerModel;
 import characters.service.BattleService;
 import characters.service.PlayerService;
+import item.enums.ItemMessagesEnum;
 import item.model.ItemModel;
 import item.service.ItemService;
 import lombok.Getter;
@@ -78,7 +79,7 @@ public class ItemController implements Serializable{
         else if(this.verbPartOfCommand.equals("use")){
             switch(itemService.getTypeOfItemForUsagePurpose(player, this.nounPartOfCommand)){
                 case 0 :
-                    resultMessage = "There is no such item in your inventory!";
+                    resultMessage = ItemMessagesEnum.ITEM_NOT_IN_INVENTORY_FOR_USE.getMessage();
                 break;
 
                 case 1 :

@@ -8,6 +8,7 @@ import utils.SaveFolderConfig;
 import item.controller.ItemController;
 import map.controller.MapController;
 import serialization.controller.SaveLoadController;
+import view.enums.StartGuiMessagesEnum;
 import java.awt.HeadlessException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -131,8 +132,8 @@ public class StartGUI extends javax.swing.JFrame {
 
     //Method for "Exit Game" button
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        int confirmed = JOptionPane.showConfirmDialog(null, 
-            "Are you sure you want to exit the game?", "Exit Game Message Box",
+        int confirmed = JOptionPane.showConfirmDialog(null,
+            StartGuiMessagesEnum.EXIT_CONFIRM_MESSAGE.getMessage(), StartGuiMessagesEnum.EXIT_CONFIRM_TITLE.getMessage(),
             JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
@@ -142,8 +143,8 @@ public class StartGUI extends javax.swing.JFrame {
 
     //Event that occurres whenever the form is about to close
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        int confirmed = JOptionPane.showConfirmDialog(null, 
-            "Are you sure you want to exit the game?", "Exit Game Message Box",
+        int confirmed = JOptionPane.showConfirmDialog(null,
+            StartGuiMessagesEnum.EXIT_CONFIRM_MESSAGE.getMessage(), StartGuiMessagesEnum.EXIT_CONFIRM_TITLE.getMessage(),
             JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
@@ -168,18 +169,16 @@ public class StartGUI extends javax.swing.JFrame {
         if(this.player != null){
             try{
                 saveLoadController.saveGame(this.player, this.mc, this.ic);
-                JOptionPane.showMessageDialog(this, "The game has been saved!", "Save Message Prompt",
+                JOptionPane.showMessageDialog(this, StartGuiMessagesEnum.SAVE_SUCCESS.getMessage(), StartGuiMessagesEnum.SAVE_PROMPT_TITLE.getMessage(),
                     JOptionPane.OK_OPTION);
             }
             catch(HeadlessException ex){
-                JOptionPane.showMessageDialog(this, "An error occurred while trying to save your data!\n"
-                    + "Please try again later, or try to reboot the game!", "Error Message Prompt",
+                JOptionPane.showMessageDialog(this, StartGuiMessagesEnum.SAVE_ERROR.getMessage(), StartGuiMessagesEnum.ERROR_PROMPT_TITLE.getMessage(),
                     JOptionPane.OK_OPTION);
             }
         }
         else{
-            JOptionPane.showMessageDialog(this, "An error occurred while trying to save your data!\n"
-                    + "Please try again later, or try to reboot the game!", "Error Message Prompt",
+            JOptionPane.showMessageDialog(this, StartGuiMessagesEnum.SAVE_ERROR.getMessage(), StartGuiMessagesEnum.ERROR_PROMPT_TITLE.getMessage(),
                     JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_jButton3ActionPerformed

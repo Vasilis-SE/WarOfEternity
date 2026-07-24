@@ -1,5 +1,6 @@
 package serialization.service;
 
+import serialization.enums.SaveLoadMessagesEnum;
 import serialization.model.LoadedGameData;
 import characters.model.PlayerModel;
 import item.controller.ItemController;
@@ -58,7 +59,7 @@ public class LoadGameService {
         File file = new File(SaveFilePathResolver.resolveSaveFilePath(selectedFile));
 
         return file.delete()
-                ? "File has been successfully deleted!"
-                : "Error occurred!, Could not delete file!";
+                ? SaveLoadMessagesEnum.DELETE_SUCCESS.getMessage()
+                : SaveLoadMessagesEnum.DELETE_FAILURE.getMessage();
     }
 }

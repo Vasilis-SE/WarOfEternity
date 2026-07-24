@@ -1,5 +1,6 @@
 package command.service;
 
+import command.enums.CommandMessagesEnum;
 import command.enums.CommandsEnum;
 import lombok.NoArgsConstructor;
 import org.json.simple.JSONObject;
@@ -39,12 +40,12 @@ public class CommandParseService {
 
     private String decideParsingDecision(String actionType, boolean isMultiWordCommand) {
         if (isMultiWordCommand)
-            return actionType.isEmpty() ? "The first word of a command must be a verb!" : actionType;
+            return actionType.isEmpty() ? CommandMessagesEnum.VERB_REQUIRED.getMessage() : actionType;
 
         if (actionType.isEmpty())
             return "direction";
 
-        return SINGLE_WORD_ACTION_TYPES.contains(actionType) ? actionType : "Unclear command given!";
+        return SINGLE_WORD_ACTION_TYPES.contains(actionType) ? actionType : CommandMessagesEnum.UNCLEAR_COMMAND.getMessage();
     }
 
     /**

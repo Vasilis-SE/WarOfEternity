@@ -1,5 +1,6 @@
 package characters.service;
 
+import characters.enums.CaptainMessagesEnum;
 import characters.model.PlayerModel;
 import lombok.RequiredArgsConstructor;
 import map.model.DockYardModel;
@@ -27,7 +28,7 @@ public class CaptainService {
      */
     public JSONObject talkToCaptainProcess(PlayerModel player, List<DockYardModel> docks) {
 
-        String message = "There is no dockyard in this place!";
+        String message = CaptainMessagesEnum.NO_DOCKYARD_IN_AREA.getMessage();
         boolean status = false;
 
         List<DockYardModel> docksConnectedToArea = new ArrayList<>();
@@ -35,8 +36,8 @@ public class CaptainService {
         for (DockYardModel eachDock : docks) {
             if (eachDock.getStartingDockLocation().getAreaName().equals(player.getLocation().getAreaName())) {
                 if (eachDock.getSailingFee() != 0.0)
-                    message = "I can get you to " + eachDock.getDestinationDockLocation().getAreaName() +
-                            " for " + eachDock.getSailingFee() + " gold coins.";
+                    message = CaptainMessagesEnum.SAIL_OFFER.format(
+                            eachDock.getDestinationDockLocation().getAreaName(), eachDock.getSailingFee());
 
                 status = true;
                 docksConnectedToArea.add(eachDock);

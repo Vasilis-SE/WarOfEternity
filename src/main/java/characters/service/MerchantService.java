@@ -88,7 +88,7 @@ public class MerchantService {
         if (merchant.getMerchantGoods() == null || merchant.getMerchantGoods().isEmpty())
             populateMerchantGoods(merchant, items);
 
-        String resultMessage = "How can i help you sir?, I have got the best stuff for defence and offence. So what will it be?\n\n";
+        String resultMessage = MerchantMessagesEnum.GREETING.getMessage();
         resultMessage += buildMerchantInventoryMessage(merchant);
 
         return resultMessage;
@@ -104,7 +104,7 @@ public class MerchantService {
      */
     public JSONObject canStartTransaction(List<MerchantModel> merchants, String playersAreaName) {
         JSONObject jObj = new JSONObject();
-        String message = "There is no merchant in this area!";
+        String message = MerchantMessagesEnum.NO_MERCHANT_IN_AREA.getMessage();
         boolean status = false;
         MerchantModel merchant = null;
 
@@ -162,10 +162,8 @@ public class MerchantService {
             //Depending on the type of item it processed the message
             switch (merchGood.getItemType()) {
                 case 1:
-                    inventory += "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
-                            "\nHealing Power : " + merchGood.getItemHealingPower() + "\nItem Quantity : 8" +
-                            "\nItem Weight : " + merchGood.getItemWeight() + " kg\nCost : " + merchGood.getItemValueInGold() +
-                            " gold\n---------------------------------------------\n";
+                    inventory += MerchantMessagesEnum.CONSUMABLE_LISTING.format(merchGood.getItemName(), merchGood.getItemDescription(),
+                            merchGood.getItemHealingPower(), merchGood.getItemWeight(), merchGood.getItemValueInGold());
                     break;
 
                 case 3:
@@ -174,9 +172,8 @@ public class MerchantService {
 
                 case 6:
                 case 5:
-                    inventory += "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
-                            "\nArmor : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
-                            " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
+                    inventory += MerchantMessagesEnum.ARMOR_LISTING.format(merchGood.getItemName(), merchGood.getItemDescription(),
+                            merchGood.getItemValue(), merchGood.getItemWeight(), merchGood.getItemValueInGold());
                     break;
             }
 
@@ -198,24 +195,18 @@ public class MerchantService {
         switch (merchGood.getAttributeType()) {
 
             case "str":
-                message = "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
-                        "\nStrength : " + merchGood.getAttributeValue() +
-                        "\nDamage : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
-                        " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
+                message = MerchantMessagesEnum.WEAPON_STRENGTH_LISTING.format(merchGood.getItemName(), merchGood.getItemDescription(),
+                        merchGood.getAttributeValue(), merchGood.getItemValue(), merchGood.getItemWeight(), merchGood.getItemValueInGold());
                 break;
 
             case "agi":
-                message = "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
-                        "\nAgility : " + merchGood.getAttributeValue() +
-                        "\nDamage : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
-                        " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
+                message = MerchantMessagesEnum.WEAPON_AGILITY_LISTING.format(merchGood.getItemName(), merchGood.getItemDescription(),
+                        merchGood.getAttributeValue(), merchGood.getItemValue(), merchGood.getItemWeight(), merchGood.getItemValueInGold());
                 break;
 
             case "int":
-                message = "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
-                        "\nIntelligence : " + merchGood.getAttributeValue() +
-                        "\nDamage : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
-                        " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
+                message = MerchantMessagesEnum.WEAPON_INTELLIGENCE_LISTING.format(merchGood.getItemName(), merchGood.getItemDescription(),
+                        merchGood.getAttributeValue(), merchGood.getItemValue(), merchGood.getItemWeight(), merchGood.getItemValueInGold());
                 break;
 
         }

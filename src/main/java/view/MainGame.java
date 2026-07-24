@@ -17,6 +17,7 @@ import characters.service.BattleService;
 import characters.service.EnemyService;
 import characters.service.PlayerService;
 import org.vosk.Model;
+import view.enums.MainGameMessagesEnum;
 import voice.controller.VoiceRecognitionController;
 
 import javax.swing.*;
@@ -277,7 +278,7 @@ public class MainGame extends javax.swing.JFrame {
         jProgressBar2.setValue(player.getExperience());
         
         if(playerController.isPlayerDead(player)){
-            JOptionPane.showConfirmDialog(this, "You Died!, Game Over!", "You Died!", JOptionPane.OK_OPTION);
+            JOptionPane.showConfirmDialog(this, MainGameMessagesEnum.PLAYER_DIED_MESSAGE.getMessage(), MainGameMessagesEnum.PLAYER_DIED_TITLE.getMessage(), JOptionPane.OK_OPTION);
             this.musicConfiguration.stopMusic();
             this.voskModel = null;
             StartGUI sgui = new StartGUI(false, null, null, null, null, null);
@@ -623,9 +624,8 @@ public class MainGame extends javax.swing.JFrame {
 
     //Event on form close.
     private void formWindowClosing(java.awt.event.WindowEvent evt) {
-        int confirmed = JOptionPane.showConfirmDialog(null, 
-            "Are you sure you want to exit the game?\nAll your progress will be"
-                    + "automatacally lost!", "Exit Game Message Box",
+        int confirmed = JOptionPane.showConfirmDialog(null,
+            MainGameMessagesEnum.EXIT_CONFIRM_MESSAGE.getMessage(), MainGameMessagesEnum.EXIT_CONFIRM_TITLE.getMessage(),
             JOptionPane.YES_NO_OPTION);
 
         if (confirmed == JOptionPane.YES_OPTION) {
@@ -653,10 +653,8 @@ public class MainGame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (this.voskModel == null) {
             JOptionPane.showMessageDialog(this,
-                    "Voice recognition model not found.\n"
-                    + "Download a Vosk English model from https://alphacephei.com/vosk/models\n"
-                    + "and extract it to ~/WarOfEternity/vosk-model/",
-                    "Recognition Unavailable", JOptionPane.ERROR_MESSAGE, null);
+                    MainGameMessagesEnum.VOICE_MODEL_NOT_FOUND.getMessage(),
+                    MainGameMessagesEnum.RECOGNITION_UNAVAILABLE_TITLE.getMessage(), JOptionPane.ERROR_MESSAGE, null);
             return;
         }
         jButton1.setEnabled(false);
@@ -670,7 +668,7 @@ public class MainGame extends javax.swing.JFrame {
             } catch (Exception ex) {
                 SwingUtilities.invokeLater(() -> {
                     JOptionPane.showMessageDialog(MainGame.this,
-                            "An error occurred with the microphone.", "Recognition Error!",
+                            MainGameMessagesEnum.MICROPHONE_ERROR.getMessage(), MainGameMessagesEnum.RECOGNITION_ERROR_TITLE.getMessage(),
                             JOptionPane.ERROR_MESSAGE);
                     jButton1.setEnabled(true);
                 });
@@ -696,12 +694,7 @@ public class MainGame extends javax.swing.JFrame {
 
         if(playerController.hasPlayerReachedFinalArea(player) && !battleController.getBattleState()){
             JOptionPane.showMessageDialog(this,
-                  "And that was the story of the guardian, sent by the order of \n"
-                + "edernium. The one that sacrificed his life for the people of \n"
-                + "Yeress and brought an end to the unending war that savaged \n"
-                + "the land.\n\n"
-                + "Not all stories have their happy ending, and that ones is not \n"
-                + "finished yet ...\n", "The End", JOptionPane.OK_OPTION);
+                  MainGameMessagesEnum.ENDING_STORY.getMessage(), MainGameMessagesEnum.ENDING_TITLE.getMessage(), JOptionPane.OK_OPTION);
             this.musicConfiguration.stopMusic();
             this.voskModel = null;
             StartGUI sgui = new StartGUI(false, null, null, null, null, null);

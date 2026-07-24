@@ -1,6 +1,7 @@
 package view;
 
 import utils.HelpFormInfoConfig;
+import utils.enums.HelpSectionEnum;
 
 /**
  *
@@ -37,9 +38,9 @@ public class HelpForm extends javax.swing.JFrame {
         jList1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jList1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 14)); // NOI18N
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Commands", "Recognition", "NPC's", "Experience Mechanism ", "Attribute Mechanism", "Game Map", "Music" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            HelpSectionEnum[] sections = HelpSectionEnum.values();
+            public int getSize() { return sections.length; }
+            public Object getElementAt(int i) { return sections[i].getTitle(); }
         });
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {

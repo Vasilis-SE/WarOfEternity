@@ -2,21 +2,13 @@ package utils;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.enums.HelpSectionEnum;
 
 /**
  *
  * @author Vasilis Triantaris
  */
 public class HelpFormInfoConfig {
-
-    private final String[] sectionTitles;
-
-    public HelpFormInfoConfig(){
-        this.sectionTitles = new String[]{
-            "Commands", "Recognition", "NPC's",
-            "Experience Mechanism", "Attribute Mechanism", "Game Map", "Music"
-        };
-    }
 
     private String[] splitDataInSections(String content){
         return content.split("<break>");
@@ -27,10 +19,11 @@ public class HelpFormInfoConfig {
         String fileContent = TextFileProcessing.readResource("/helpInfo.txt");
 
         String[] fileSplittedInSection = this.splitDataInSections(fileContent);
+        HelpSectionEnum[] sectionTitles = HelpSectionEnum.values();
 
         for(int i=0; i < fileSplittedInSection.length; i++){
             JSONObject jObj = new JSONObject();
-            jObj.put("title", this.sectionTitles[i].trim());
+            jObj.put("title", sectionTitles[i].getTitle());
             jObj.put("content", fileSplittedInSection[i].trim());
             jsonHelpInfoArray.add(jObj);
         }
