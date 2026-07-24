@@ -18,13 +18,13 @@ public class HelpFormInfoConfig {
         };
     }
 
-    private String[] splitDataInSections(StringBuffer strBuff){
-        return strBuff.toString().split("<break>");
+    private String[] splitDataInSections(String content){
+        return content.split("<break>");
     }
 
     public JSONArray getHelpInfoListContent(){
         JSONArray jsonHelpInfoArray = new JSONArray();
-        StringBuffer fileContent = TextFileProcessing.ReadResource("/helpInfo.txt");
+        String fileContent = TextFileProcessing.readResource("/helpInfo.txt");
 
         String[] fileSplittedInSection = this.splitDataInSections(fileContent);
 

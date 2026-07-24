@@ -1,39 +1,33 @@
 package utils;
 
-import java.io.BufferedReader;
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Class that contains methods for reading text resources from the classpath.
  *
  * @author Vasilis Triantaris
  */
+@UtilityClass
 public class TextFileProcessing {
 
-    private TextFileProcessing(){
-    }
-
     /**
-     * Reads a classpath resource and returns its content as a StringBuffer.
+     * Reads a classpath resource and returns its content as a string.
      *
      * @param resourcePath  Absolute classpath path, e.g. "/DataAccessObjects/GameAreas.json"
-     * @return StringBuffer with the file content, or null if the resource is not found.
+     * @return The file content, or an empty string if the resource is not found.
      */
-    public static StringBuffer ReadResource(String resourcePath){
-        InputStream is = TextFileProcessing.class.getResourceAsStream(resourcePath);
-        if (is == null)
-            return null;
+    public String readResource(String resourcePath){
+        try (InputStream is = TextFileProcessing.class.getResourceAsStream(resourcePath)) {
+            if (is == null)
+                return "";
 
-        StringBuffer sb = new StringBuffer();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-        } catch (IOException e) {
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            return "";
         }
-        return sb;
     }
 }

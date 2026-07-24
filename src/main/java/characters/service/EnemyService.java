@@ -36,10 +36,10 @@ public class EnemyService {
      * @return Returns a JSON array holding every enemy spawn entry defined in the data file.
      */
     private JSONArray readEnemyEntries() {
-        StringBuffer enemyBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/GameEnemies.json");
+        String enemyBuffer = TextFileProcessing.readResource("/DataAccessObjects/GameEnemies.json");
 
         try {
-            return (JSONArray) new JSONParser().parse(enemyBuffer.toString());
+            return (JSONArray) new JSONParser().parse(enemyBuffer);
         } catch (ParseException ex) {
             return new JSONArray();
         }

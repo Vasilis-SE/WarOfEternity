@@ -42,11 +42,11 @@ public class ItemService {
      * @return Returns the list of items read from the data file.
      */
     public List<ItemModel> setItemDataList(List<AreaModel> areaModels){
-        StringBuffer itemBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/GameItems.json");
+        String itemBuffer = TextFileProcessing.readResource("/DataAccessObjects/GameItems.json");
         List<ItemModel> listOfGameItems = new ArrayList<>();
 
         try{
-            JSONArray itemEntries = (JSONArray) new JSONParser().parse(itemBuffer.toString());
+            JSONArray itemEntries = (JSONArray) new JSONParser().parse(itemBuffer);
 
             for(Object entry : itemEntries)
                 listOfGameItems.add(buildItemFromEntry((JSONObject) entry, areaModels));
@@ -126,10 +126,10 @@ public class ItemService {
      */
     public void setItemConnectionMainMethod(List<ItemModel> listOfGameItems, List<AreaModel> areaModels){
 
-        StringBuffer itemConnectionsBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/GameItemConnections.json");
+        String itemConnectionsBuffer = TextFileProcessing.readResource("/DataAccessObjects/GameItemConnections.json");
 
         try{
-            JSONArray connectionEntries = (JSONArray) new JSONParser().parse(itemConnectionsBuffer.toString());
+            JSONArray connectionEntries = (JSONArray) new JSONParser().parse(itemConnectionsBuffer);
 
             for(Object entry : connectionEntries){
                 JSONObject connectionEntry = (JSONObject) entry;

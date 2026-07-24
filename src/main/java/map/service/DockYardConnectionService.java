@@ -27,11 +27,11 @@ public class DockYardConnectionService {
      * @return Returns the list of dock yard connections read from the data file.
      */
     public List<DockYardModel> loadDockYards(List<AreaModel> areaModels) {
-        StringBuffer dockYardFileBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/DockYardConnections.json");
+        String dockYardFileBuffer = TextFileProcessing.readResource("/DataAccessObjects/DockYardConnections.json");
         List<DockYardModel> listOfDockYards = new ArrayList<>();
 
         try {
-            JSONArray dockYardEntries = (JSONArray) new JSONParser().parse(dockYardFileBuffer.toString());
+            JSONArray dockYardEntries = (JSONArray) new JSONParser().parse(dockYardFileBuffer);
 
             for (Object entry : dockYardEntries) {
                 JSONObject dockYardEntry = (JSONObject) entry;

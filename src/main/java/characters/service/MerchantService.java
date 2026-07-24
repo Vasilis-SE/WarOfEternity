@@ -32,11 +32,11 @@ public class MerchantService {
      * @return Returns the list of merchants read from the data file.
      */
     public List<MerchantModel> loadMerchants(List<AreaModel> areaModels) {
-        StringBuffer merchantFileBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/MerchantConnections.json");
+        String merchantFileBuffer = TextFileProcessing.readResource("/DataAccessObjects/MerchantConnections.json");
         List<MerchantModel> listOfMerchants = new ArrayList<>();
 
         try {
-            JSONArray merchantEntries = (JSONArray) new JSONParser().parse(merchantFileBuffer.toString());
+            JSONArray merchantEntries = (JSONArray) new JSONParser().parse(merchantFileBuffer);
 
             for (Object entry : merchantEntries) {
                 JSONObject merchantEntry = (JSONObject) entry;

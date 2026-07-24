@@ -25,11 +25,11 @@ public class AreaService {
      * @return Returns the list of game areas read from the data file.
      */
     public List<AreaModel> loadAreas(){
-        StringBuffer areaBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/GameAreas.json");
+        String areaBuffer = TextFileProcessing.readResource("/DataAccessObjects/GameAreas.json");
         List<AreaModel> areaModelList = new ArrayList<>();
 
         try{
-            JSONArray areaEntries = (JSONArray) new JSONParser().parse(areaBuffer.toString());
+            JSONArray areaEntries = (JSONArray) new JSONParser().parse(areaBuffer);
 
             for(Object entry : areaEntries){
                 JSONObject areaEntry = (JSONObject) entry;
@@ -50,10 +50,10 @@ public class AreaService {
      * @param areaModelList The list of game areas already read from the data file.
      */
     public void setAreaConnections(List<AreaModel> areaModelList){
-        StringBuffer connectionsBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/GameAreaConnections.json");
+        String connectionsBuffer = TextFileProcessing.readResource("/DataAccessObjects/GameAreaConnections.json");
 
         try{
-            JSONArray connectionEntries = (JSONArray) new JSONParser().parse(connectionsBuffer.toString());
+            JSONArray connectionEntries = (JSONArray) new JSONParser().parse(connectionsBuffer);
 
             for(Object entry : connectionEntries){
                 JSONObject connectionEntry = (JSONObject) entry;

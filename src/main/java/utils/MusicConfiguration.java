@@ -45,9 +45,6 @@ public class MusicConfiguration {
     private static final String OUTDOOR_TRACK = "outdoor1.wav";
     private static final String COMBAT_TRACK = "combat.wav";
 
-    public MusicConfiguration(){
-    }
-
     public void setMusicStatus(boolean status){
         this.musicStatus = status;
     }
