@@ -1,7 +1,7 @@
 package characters.service;
 
-import Items.Item;
-import Items.ItemConnectionWithArea;
+import item.model.ItemModel;
+import item.model.ItemConnectionModel;
 import map.model.AreaConnectionModel;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
@@ -18,7 +18,7 @@ public class BattleService {
         return new Random().nextInt(100) + 1;
     }
 
-    public JSONObject triggerBattleOnAreaChange(PlayerModel player, int encPercentage, List<Item> items,
+    public JSONObject triggerBattleOnAreaChange(PlayerModel player, int encPercentage, List<ItemModel> items,
                                                 String noun, String parseDecision, boolean battleState,
                                                 JSONArray jsonEnemiesArray) {
         JSONObject jObj = new JSONObject();
@@ -42,7 +42,7 @@ public class BattleService {
         return jObj;
     }
 
-    public List<EnemyModel> enemyEncounterAreaIntegrity(PlayerModel player, String noun, List<Item> itemList,
+    public List<EnemyModel> enemyEncounterAreaIntegrity(PlayerModel player, String noun, List<ItemModel> itemList,
                                                         JSONArray jsonEnemiesArray) {
         List<EnemyModel> enemiesOnArea = new ArrayList<>();
 
@@ -55,15 +55,15 @@ public class BattleService {
         return enemiesOnArea;
     }
 
-    public String directionToNextAreaIsBlockedByItem(List<Item> itemList, PlayerModel player, String noun) {
+    public String directionToNextAreaIsBlockedByItem(List<ItemModel> itemList, PlayerModel player, String noun) {
         String checkMessage = "";
 
-        for (Item eachItem : itemList) {
-            for (ItemConnectionWithArea icwa : eachItem.GetItemConnectionsWithArea()) {
-                if ((eachItem.GetItemType() == 4) && icwa.GetItemUsage().equals("open")
-                        && (eachItem.GetItemValue() == 0)
-                        && eachItem.GetBlockingDirection().equalsIgnoreCase(noun)
-                        && player.getLocation().getAreaName().equals(icwa.GetConnectionWithAreaReference().getAreaName()))
+        for (ItemModel eachItem : itemList) {
+            for (ItemConnectionModel icwa : eachItem.getItemConnectionsWithArea()) {
+                if ((eachItem.getItemType() == 4) && icwa.getItemUsage().equals("open")
+                        && (eachItem.getItemValue() == 0)
+                        && eachItem.getBlockingDirection().equalsIgnoreCase(noun)
+                        && player.getLocation().getAreaName().equals(icwa.getConnectionWithAreaReference().getAreaName()))
                     checkMessage = "You cannot proceed further. The gate is blocking your path!";
             }
         }

@@ -1,6 +1,6 @@
 package map.controller;
 
-import Items.Item;
+import item.model.ItemModel;
 import characters.model.PlayerModel;
 import lombok.Getter;
 import map.model.AreaModel;
@@ -21,9 +21,9 @@ public class DockYardController {
     private final List<AreaModel> listOfAreaModels;
     @Getter
     private List<DockYardModel> listOfDockYards;
-    private final List<Item> listOfItems;
+    private final List<ItemModel> listOfItems;
 
-    public DockYardController(List<AreaModel> areaModels, List<Item> items){
+    public DockYardController(List<AreaModel> areaModels, List<ItemModel> items){
         this.listOfAreaModels = areaModels;
         this.listOfDockYards = new ArrayList<>();
         this.listOfItems = items;

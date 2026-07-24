@@ -1,6 +1,6 @@
 package characters.model;
 
-import Items.Item;
+import item.model.ItemModel;
 import characters.enums.PlayerClassesEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,6 @@ public class PlayerModel extends CharacterAbstractModel implements Serializable 
     private int level;
     private int experience;
 
-    private List<Item> inventory;
-    private List<Item> equippedItems;
+    private List<ItemModel> inventory;
+    private List<ItemModel> equippedItems;
 }

@@ -1,13 +1,16 @@
 package characters.service;
 
 import GameFileConfiguration.TextFileProcessing;
-import Items.Item;
+import item.model.ItemModel;
 import characters.enums.MerchantMessagesEnum;
 import characters.model.MerchantModel;
 import characters.model.PlayerModel;
 import lombok.RequiredArgsConstructor;
 import map.model.AreaModel;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,81 +20,53 @@ public class MerchantService {
 
     private final PlayerService playerService;
 
-    public void addItemToMerchantGoods(MerchantModel merchant, Item item) {
+    public void addItemToMerchantGoods(MerchantModel merchant, ItemModel item) {
         merchant.getMerchantGoods().add(item);
     }
 
     /**
-     * Method that reads the merchant connections data file and builds the
+     * Method that reads the merchant connections json file and builds the
      * list of merchants placed on the given game areas.
      *
      * @param areaModels The list of game areas.
      * @return Returns the list of merchants read from the data file.
      */
     public List<MerchantModel> loadMerchants(List<AreaModel> areaModels) {
-        StringBuffer merchantFileBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/MerchantConnections.txt");
+        StringBuffer merchantFileBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/MerchantConnections.json");
+        List<MerchantModel> listOfMerchants = new ArrayList<>();
 
-        List<String> merchantAreaNames = new ArrayList<>();
-        List<String> merchantNames = new ArrayList<>();
+        try {
+            JSONArray merchantEntries = (JSONArray) new JSONParser().parse(merchantFileBuffer.toString());
 
-        for (String eachLine : splitTextDataOnLines(merchantFileBuffer)) {
-            String[] splitLineOnFields = eachLine.split("@");
-            merchantAreaNames.add(splitLineOnFields[0].trim());
-            merchantNames.add(splitLineOnFields[1].trim());
+            for (Object entry : merchantEntries) {
+                JSONObject merchantEntry = (JSONObject) entry;
+
+                listOfMerchants.add(MerchantModel.builder()
+                        .location(getAreaAssociatedWithTheMerchant((String) merchantEntry.get("area"), areaModels))
+                        .name((String) merchantEntry.get("merchant"))
+                        .damage(0)
+                        .merchantGoods(new ArrayList<>())
+                        .build());
+            }
+        } catch (ParseException ex) {
         }
 
-        List<AreaModel> merchantAreaModels = getAreasAssociatedWithTheMerchants(merchantAreaNames, areaModels);
-
-        return buildMerchantList(merchantNames, merchantAreaModels);
-    }
-
-    /**
-     * Method that splits the string buffer into lines. Each line represents a
-     * row into the table.
-     *
-     * @param merchantFileBuffer The buffer holding the merchant connections file content.
-     * @return Returns a table of string in which every row is a line on the text file.
-     */
-    private String[] splitTextDataOnLines(StringBuffer merchantFileBuffer) {
-        return merchantFileBuffer.toString().split("\n");
-    }
-
-    /**
-     * Method that finds all the areas that merchants are connected to.
-     *
-     * @param merchantAreaNames The list of area names read from the data file.
-     * @param areaModels             The list of game areas.
-     * @return Returns the list of areas that merchants are located in.
-     */
-    private List<AreaModel> getAreasAssociatedWithTheMerchants(List<String> merchantAreaNames, List<AreaModel> areaModels) {
-        List<AreaModel> listOfMerchantAreaModels = new ArrayList<>();
-
-        for (String eachAreaString : merchantAreaNames)
-            for (AreaModel eachGameAreaModel : areaModels)
-                if (eachGameAreaModel.getAreaName().equals(eachAreaString))
-                    listOfMerchantAreaModels.add(eachGameAreaModel);
-
-        return listOfMerchantAreaModels;
-    }
-
-    /**
-     * Method that sets the merchant data into a merchant list.
-     *
-     * @param merchantNames  The list of merchant names read from the data file.
-     * @param merchantAreaModels  The list of areas that the merchants are located.
-     * @return Returns the list of merchants.
-     */
-    private List<MerchantModel> buildMerchantList(List<String> merchantNames, List<AreaModel> merchantAreaModels) {
-        List<MerchantModel> listOfMerchants = new ArrayList<>();
-        for (int i = 0; i < merchantNames.size(); i++)
-            listOfMerchants.add(MerchantModel.builder()
-                    .location(merchantAreaModels.get(i))
-                    .name(merchantNames.get(i))
-                    .damage(0)
-                    .merchantGoods(new ArrayList<>())
-                    .build());
-
         return listOfMerchants;
+    }
+
+    /**
+     * Method that finds the area that a merchant is connected to.
+     *
+     * @param merchantAreaName The area name read from the data file.
+     * @param areaModels       The list of game areas.
+     * @return Returns the area that the merchant is located in.
+     */
+    private AreaModel getAreaAssociatedWithTheMerchant(String merchantAreaName, List<AreaModel> areaModels) {
+        for (AreaModel eachGameAreaModel : areaModels)
+            if (eachGameAreaModel.getAreaName().equals(merchantAreaName))
+                return eachGameAreaModel;
+
+        return null;
     }
 
     /**
@@ -103,7 +78,7 @@ public class MerchantService {
      * @param items    The list of items available in the game.
      * @return Returns the inventory of the merchant analytically written object by object if everything goes wright or else a message that describes the result of the action command.
      */
-    public String talkToMerchantProcess(PlayerModel player, List<MerchantModel> merchants, List<Item> items) {
+    public String talkToMerchantProcess(PlayerModel player, List<MerchantModel> merchants, List<ItemModel> items) {
         JSONObject jObj = canStartTransaction(merchants, player.getLocation().getAreaName());
 
         if (!(boolean) jObj.get("status"))
@@ -154,14 +129,14 @@ public class MerchantService {
      * @param merchant The eligible merchant that is located in the same area as the player.
      * @param items    The list of items available in the game.
      */
-    private void populateMerchantGoods(MerchantModel merchant, List<Item> items) {
-        for (Item eachGameItem : items) {
-            switch (eachGameItem.GetItemType()) {
+    private void populateMerchantGoods(MerchantModel merchant, List<ItemModel> items) {
+        for (ItemModel eachGameItem : items) {
+            switch (eachGameItem.getItemType()) {
 
                 case 3:
                 case 5:
                 case 6:
-                    if (eachGameItem.GetItemArea().getAreaName().equals(merchant.getLocation().getAreaName()))
+                    if (eachGameItem.getItemArea().getAreaName().equals(merchant.getLocation().getAreaName()))
                         addItemToMerchantGoods(merchant, eachGameItem);
                     break;
 
@@ -182,14 +157,14 @@ public class MerchantService {
     private String buildMerchantInventoryMessage(MerchantModel merchant) {
         String inventory = "";
 
-        for (Item merchGood : merchant.getMerchantGoods()) {
+        for (ItemModel merchGood : merchant.getMerchantGoods()) {
 
             //Depending on the type of item it processed the message
-            switch (merchGood.GetItemType()) {
+            switch (merchGood.getItemType()) {
                 case 1:
-                    inventory += "Name : " + merchGood.GetItemName() + "\nDescription : " + merchGood.GetItemDescription() +
-                            "\nHealing Power : " + merchGood.GetItemHealingPower() + "\nItem Quantity : 8" +
-                            "\nItem Weight : " + merchGood.GetItemWeight() + " kg\nCost : " + merchGood.GetItemValueInGold() +
+                    inventory += "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
+                            "\nHealing Power : " + merchGood.getItemHealingPower() + "\nItem Quantity : 8" +
+                            "\nItem Weight : " + merchGood.getItemWeight() + " kg\nCost : " + merchGood.getItemValueInGold() +
                             " gold\n---------------------------------------------\n";
                     break;
 
@@ -199,9 +174,9 @@ public class MerchantService {
 
                 case 6:
                 case 5:
-                    inventory += "Name : " + merchGood.GetItemName() + "\nDescription : " + merchGood.GetItemDescription() +
-                            "\nArmor : " + merchGood.GetItemValue() + "\nItem Weight : " + merchGood.GetItemWeight() +
-                            " kg\nCost : " + merchGood.GetItemValueInGold() + " gold\n---------------------------------------------\n";
+                    inventory += "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
+                            "\nArmor : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
+                            " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
                     break;
             }
 
@@ -217,30 +192,30 @@ public class MerchantService {
      * @param merchGood The item that the merchant holds.
      * @return Returns the message of the weapon that will be displayed to the player.
      */
-    private String buildWeaponInventoryMessage(Item merchGood) {
+    private String buildWeaponInventoryMessage(ItemModel merchGood) {
         String message = "";
 
-        switch (merchGood.GetAttributeType()) {
+        switch (merchGood.getAttributeType()) {
 
             case "str":
-                message = "Name : " + merchGood.GetItemName() + "\nDescription : " + merchGood.GetItemDescription() +
-                        "\nStrength : " + merchGood.GetAttributeValue() +
-                        "\nDamage : " + merchGood.GetItemValue() + "\nItem Weight : " + merchGood.GetItemWeight() +
-                        " kg\nCost : " + merchGood.GetItemValueInGold() + " gold\n---------------------------------------------\n";
+                message = "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
+                        "\nStrength : " + merchGood.getAttributeValue() +
+                        "\nDamage : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
+                        " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
                 break;
 
             case "agi":
-                message = "Name : " + merchGood.GetItemName() + "\nDescription : " + merchGood.GetItemDescription() +
-                        "\nAgility : " + merchGood.GetAttributeValue() +
-                        "\nDamage : " + merchGood.GetItemValue() + "\nItem Weight : " + merchGood.GetItemWeight() +
-                        " kg\nCost : " + merchGood.GetItemValueInGold() + " gold\n---------------------------------------------\n";
+                message = "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
+                        "\nAgility : " + merchGood.getAttributeValue() +
+                        "\nDamage : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
+                        " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
                 break;
 
             case "int":
-                message = "Name : " + merchGood.GetItemName() + "\nDescription : " + merchGood.GetItemDescription() +
-                        "\nIntelligence : " + merchGood.GetAttributeValue() +
-                        "\nDamage : " + merchGood.GetItemValue() + "\nItem Weight : " + merchGood.GetItemWeight() +
-                        " kg\nCost : " + merchGood.GetItemValueInGold() + " gold\n---------------------------------------------\n";
+                message = "Name : " + merchGood.getItemName() + "\nDescription : " + merchGood.getItemDescription() +
+                        "\nIntelligence : " + merchGood.getAttributeValue() +
+                        "\nDamage : " + merchGood.getItemValue() + "\nItem Weight : " + merchGood.getItemWeight() +
+                        " kg\nCost : " + merchGood.getItemValueInGold() + " gold\n---------------------------------------------\n";
                 break;
 
         }
@@ -257,22 +232,22 @@ public class MerchantService {
      * @return Returns a string message that will be displayed to the user which describes the result of the action.
      */
     public String buyItem(MerchantModel merchant, PlayerModel player, String merchantGood) {
-        Item itemToBuy = findMerchantGood(merchant, merchantGood);
+        ItemModel itemToBuy = findMerchantGood(merchant, merchantGood);
 
         if (itemToBuy == null)
             return MerchantMessagesEnum.ITEM_NOT_FOUND.getMessage();
 
-        if (playerService.calculatingPlayerInventoryItemWeight(player) + itemToBuy.GetItemWeight() > 100.0)
+        if (playerService.calculatingPlayerInventoryItemWeight(player) + itemToBuy.getItemWeight() > 100.0)
             return MerchantMessagesEnum.WEIGHT_LIMIT_EXCEEDED.getMessage();
 
-        if (player.getGold() < itemToBuy.GetItemValueInGold())
+        if (player.getGold() < itemToBuy.getItemValueInGold())
             return MerchantMessagesEnum.CANNOT_AFFORD_ITEM.getMessage();
 
-        player.setGold(player.getGold() - itemToBuy.GetItemValueInGold());
+        player.setGold(player.getGold() - itemToBuy.getItemValueInGold());
 
-        for (Item eachItemOnInventory : player.getInventory()) {
-            if (eachItemOnInventory.GetItemName().equals(itemToBuy.GetItemName()) && itemToBuy.GetItemType() == 1) {
-                eachItemOnInventory.SetItemValue(eachItemOnInventory.GetItemValue() + 8);
+        for (ItemModel eachItemOnInventory : player.getInventory()) {
+            if (eachItemOnInventory.getItemName().equals(itemToBuy.getItemName()) && itemToBuy.getItemType() == 1) {
+                eachItemOnInventory.setItemValue(eachItemOnInventory.getItemValue() + 8);
                 return MerchantMessagesEnum.PURCHASE_THANK_YOU.getMessage();
             }
         }
@@ -293,18 +268,18 @@ public class MerchantService {
     public String sellItem(MerchantModel merchant, PlayerModel player, String playerGood) {
         String message = "";
 
-        for (Item eachSelectedItem : player.getInventory()) {
-            if (eachSelectedItem.GetItemName().equalsIgnoreCase(playerGood)) {
+        for (ItemModel eachSelectedItem : player.getInventory()) {
+            if (eachSelectedItem.getItemName().equalsIgnoreCase(playerGood)) {
                 //The sell transaction type depends on the type of items to be sold, if an
                 //item is a key it cannot be sold.
-                switch (eachSelectedItem.GetItemType()) {
+                switch (eachSelectedItem.getItemType()) {
                     case 2:
                         message = MerchantMessagesEnum.ITEM_NOT_SELLABLE.getMessage();
                         break;
 
                     default:
                         playerService.removeItemFromPlayerEquippedInventory(player, eachSelectedItem);
-                        playerService.addGoldToPlayer(player, eachSelectedItem.GetItemValueInGold());
+                        playerService.addGoldToPlayer(player, eachSelectedItem.getItemValueInGold());
                         playerService.removeItemFromSelectedItemsByPlayer(player, eachSelectedItem);
                         playerService.calculatePlayersArmor(player);
                         playerService.calculateGeneralPlayerDamage(player);
@@ -320,9 +295,9 @@ public class MerchantService {
         return message;
     }
 
-    private Item findMerchantGood(MerchantModel merchant, String merchantGood) {
-        for (Item merchGood : merchant.getMerchantGoods())
-            if (merchGood.GetItemName().equalsIgnoreCase(merchantGood.trim()))
+    private ItemModel findMerchantGood(MerchantModel merchant, String merchantGood) {
+        for (ItemModel merchGood : merchant.getMerchantGoods())
+            if (merchGood.getItemName().equalsIgnoreCase(merchantGood.trim()))
                 return merchGood;
 
         return null;

@@ -1,6 +1,7 @@
 package map.service;
 
 import GameFileConfiguration.TextFileProcessing;
+import lombok.Getter;
 import map.model.AreaModel;
 import map.model.DockYardModel;
 
@@ -15,18 +16,21 @@ import java.util.List;
  */
 public class DockYardConnectionService {
 
-    private List<DockYardModel> listOfDocks;
+    @Getter
+    private List<DockYardModel> dockYardList;
     private StringBuffer docksFileBuffer;
 
-    private List<String> startingDocksList;
-    private List<String> destinationDocksList;
+    @Getter
+    private List<String> startAreaStringList;
+    @Getter
+    private List<String> destinationStringList;
     private List<String> shipFeeList;
 
     public DockYardConnectionService(){
-        this.listOfDocks = new ArrayList<>();
+        this.dockYardList = new ArrayList<>();
 
-        this.startingDocksList = new ArrayList<>();
-        this.destinationDocksList = new ArrayList<>();
+        this.startAreaStringList = new ArrayList<>();
+        this.destinationStringList = new ArrayList<>();
         this.shipFeeList = new ArrayList<>();
 
         this.docksFileBuffer = TextFileProcessing.ReadResource("/DataAccessObjects/DockYardConnections.txt");
@@ -77,21 +81,21 @@ public class DockYardConnectionService {
     }
 
     /**
-     * Adds a string into the startingDocksList that represents the name of the starting area.
+     * Adds a string into the startAreaStringList that represents the name of the starting area.
      *
      * @param data The name of the starting area trimmed.
      */
     private void addStartingDockAreaIntoList(String data){
-        this.startingDocksList.add(data);
+        this.startAreaStringList.add(data);
     }
 
     /**
-     * Adds a string into the destinationDocksList that represents the name of the destination area.
+     * Adds a string into the destinationStringList that represents the name of the destination area.
      *
      * @param data The name of the destination area trimmed.
      */
     private void addDestinationDockAreaIntoList(String data){
-        this.destinationDocksList.add(data);
+        this.destinationStringList.add(data);
     }
 
     /**
@@ -102,14 +106,6 @@ public class DockYardConnectionService {
      */
     private void addShippingFeeIntoList(String data){
         this.shipFeeList.add(data);
-    }
-
-    public List<String> getStartAreaStringList(){
-        return this.startingDocksList;
-    }
-
-    public List<String> getDestinationStringList(){
-        return this.destinationDocksList;
     }
 
     /**
@@ -162,11 +158,7 @@ public class DockYardConnectionService {
      * @param obj The dock yard object.
      */
     private void addDockYardObjectToTheList(DockYardModel obj){
-        this.listOfDocks.add(obj);
-    }
-
-    public List<DockYardModel> getDockYardList(){
-        return this.listOfDocks;
+        this.dockYardList.add(obj);
     }
 
 }

@@ -1,6 +1,6 @@
 package characters.controller;
 
-import Items.Item;
+import item.model.ItemModel;
 import characters.model.MerchantModel;
 import characters.model.PlayerModel;
 import characters.service.MerchantService;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MerchantController {
 
-    private final List<Item> items;
+    private final List<ItemModel> items;
     private final List<MerchantModel> merchants;
     private final MerchantService merchantService;
 

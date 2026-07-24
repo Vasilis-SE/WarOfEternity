@@ -1,15 +1,15 @@
 package characters.controller;
 
-import Items.Item;
+import item.model.ItemModel;
 import characters.service.DoctorService;
 import map.model.AreaModel;
 import map.model.DockYardModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import characters.*;
 import characters.model.MerchantModel;
 import characters.model.PlayerModel;
+import characters.service.CaptainService;
 import characters.service.MerchantService;
 import characters.service.PlayerService;
 import lombok.Getter;
@@ -53,7 +53,7 @@ public class TransactionController {
         this.listOfMerchants = new MerchantService(new PlayerService()).loadMerchants(this.listOfGameAreaModels);
     }
     
-    public String transactionCommandProcessControll(PlayerModel player, List<DockYardModel> docksList, List<Item> listOfItems){
+    public String transactionCommandProcessControll(PlayerModel player, List<DockYardModel> docksList, List<ItemModel> listOfItems){
     
         String resultMessage;
         String personToContact = this.nounPart.toLowerCase();
@@ -63,8 +63,8 @@ public class TransactionController {
             resultMessage = dam.talkToDoctorProcess(player);
         }
         else if(personToContact.contains("captain") || personToContact.contains("fisher")){
-            CaptainActionModel cam = new CaptainActionModel(docksList);
-            JSONObject jObj = cam.TalkToCaptainProcess(player);
+            CaptainService captainService = new CaptainService();
+            JSONObject jObj = captainService.talkToCaptainProcess(player, docksList);
             resultMessage = (String) jObj.get("message");
         }
         else if(((!this.verbPart.equals("sell")) || (!this.verbPart.equals("buy"))) && (personToContact.contains("merchant") || personToContact.contains("merchandise"))){

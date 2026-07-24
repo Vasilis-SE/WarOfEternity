@@ -1,9 +1,9 @@
 package map.service;
 
-import Items.Item;
-import Items.ItemConnectionWithArea;
-import characters.CaptainActionModel;
+import item.model.ItemModel;
+import item.model.ItemConnectionModel;
 import characters.model.PlayerModel;
+import characters.service.CaptainService;
 import map.model.DockYardModel;
 import org.json.simple.JSONObject;
 
@@ -19,10 +19,10 @@ import java.util.List;
 public class DockYardActionService {
 
     private final List<DockYardModel> listOfDocks;
-    private final List<Item> listOfItems;
+    private final List<ItemModel> listOfItems;
     private final String nounPart;
 
-    public DockYardActionService(List<DockYardModel> docks, String noun, List<Item> items){
+    public DockYardActionService(List<DockYardModel> docks, String noun, List<ItemModel> items){
         this.listOfDocks = docks;
         this.listOfItems = items;
         this.nounPart = noun;
@@ -40,9 +40,9 @@ public class DockYardActionService {
      */
     public String changeAreaOnSailAction(PlayerModel player){
         String message;
-        CaptainActionModel cam = new CaptainActionModel(this.listOfDocks);
+        CaptainService captainService = new CaptainService();
 
-        JSONObject jObj = cam.TalkToCaptainProcess(player);
+        JSONObject jObj = captainService.talkToCaptainProcess(player, this.listOfDocks);
         List<DockYardModel> docksOnArea = (List<DockYardModel>) jObj.get("docklist");
 
         if((boolean) jObj.get("status")){
@@ -121,14 +121,14 @@ public class DockYardActionService {
     private boolean sailDestinationIsBlocked(PlayerModel player, DockYardModel eligibleDockForArea){
 
         boolean check = false;
-        List<Item> areaItems = this.getListOfItemsAssociatedWithTheArea(eligibleDockForArea);
+        List<ItemModel> areaItems = this.getListOfItemsAssociatedWithTheArea(eligibleDockForArea);
 
-        for(Item eachItem : areaItems){
-            for(ItemConnectionWithArea eachConnection : eachItem.GetItemConnectionsWithArea()){
+        for(ItemModel eachItem : areaItems){
+            for(ItemConnectionModel eachConnection : eachItem.getItemConnectionsWithArea()){
 
-                if(eligibleDockForArea.getStartingDockLocation().getAreaName().equals(eachConnection.GetConnectionWithAreaReference().getAreaName())
-                        && eachConnection.GetItemUsage().equals("open") && eachItem.GetItemValue() == 0
-                        && this.nounPart.contains(eachItem.GetBlockingDirection().toLowerCase())){
+                if(eligibleDockForArea.getStartingDockLocation().getAreaName().equals(eachConnection.getConnectionWithAreaReference().getAreaName())
+                        && eachConnection.getItemUsage().equals("open") && eachItem.getItemValue() == 0
+                        && this.nounPart.contains(eachItem.getBlockingDirection().toLowerCase())){
                     check = true;
                 }
             }
@@ -143,14 +143,14 @@ public class DockYardActionService {
      * @param dockYard The eligible dock for the specific current area.
      * @return Returns the list of items connected to the area.
      */
-    private List<Item> getListOfItemsAssociatedWithTheArea(DockYardModel dockYard){
+    private List<ItemModel> getListOfItemsAssociatedWithTheArea(DockYardModel dockYard){
 
-        List<Item> itemsConnectedToArea = new ArrayList<>();
+        List<ItemModel> itemsConnectedToArea = new ArrayList<>();
 
-        for(Item eachItem : this.listOfItems){
-            for(ItemConnectionWithArea eachConnection : eachItem.GetItemConnectionsWithArea()){
+        for(ItemModel eachItem : this.listOfItems){
+            for(ItemConnectionModel eachConnection : eachItem.getItemConnectionsWithArea()){
 
-                if(eachConnection.GetConnectionWithAreaReference().getAreaName().equals(dockYard.getStartingDockLocation().getAreaName()))
+                if(eachConnection.getConnectionWithAreaReference().getAreaName().equals(dockYard.getStartingDockLocation().getAreaName()))
                     itemsConnectedToArea.add(eachItem);
             }
         }
@@ -196,18 +196,18 @@ public class DockYardActionService {
         boolean status = false;
 
         for(DockYardModel eachDock : this.listOfDocks){
-            for(Item eachItem : this.listOfItems){
-                for(ItemConnectionWithArea icwa : eachItem.GetItemConnectionsWithArea()){
+            for(ItemModel eachItem : this.listOfItems){
+                for(ItemConnectionModel icwa : eachItem.getItemConnectionsWithArea()){
 
-                    if((eachItem.GetItemType() == 4) && (icwa.GetItemUsage().equals("open")
-                            && (eachItem.GetItemValue() == 0) && (eachItem.GetBlockingDirection().equalsIgnoreCase("sink")))
+                    if((eachItem.getItemType() == 4) && (icwa.getItemUsage().equals("open")
+                            && (eachItem.getItemValue() == 0) && (eachItem.getBlockingDirection().equalsIgnoreCase("sink")))
                             && player.getLocation().getAreaName().equals("The Great Jade Sea")){
 
                         message = "You cannot procced further, the beam is blocking the ship!";
                         status = false;
                     }
-                    else if((eachItem.GetItemType() == 4) && (icwa.GetItemUsage().equals("open")
-                            && (eachItem.GetItemValue() == 1) && (eachItem.GetBlockingDirection().equalsIgnoreCase("sink")))
+                    else if((eachItem.getItemType() == 4) && (icwa.getItemUsage().equals("open")
+                            && (eachItem.getItemValue() == 1) && (eachItem.getBlockingDirection().equalsIgnoreCase("sink")))
                             && player.getLocation().getAreaName().equals("The Great Jade Sea")
                             && eachDock.getDestinationDockLocation().getAreaName().equals("Jade Sea Depths")){
 

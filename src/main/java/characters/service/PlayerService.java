@@ -1,6 +1,6 @@
 package characters.service;
 
-import Items.Item;
+import item.model.ItemModel;
 import map.model.AreaModel;
 import characters.enums.PlayerClassesEnum;
 import characters.model.EnemyModel;
@@ -72,7 +72,7 @@ public class PlayerService {
      * @param player The player object that we want to add the item to.
      * @param item The item
      */
-    public void addItemToSelectedItemsByPlayer(PlayerModel player, Item item){
+    public void addItemToSelectedItemsByPlayer(PlayerModel player, ItemModel item){
         player.getInventory().add(item);
     }
 
@@ -83,7 +83,7 @@ public class PlayerService {
      * @param player The player object that we want to add the item to.
      * @param item The item
      */
-    public void addItemToEquippedItemListOfPlayer(PlayerModel player, Item item){
+    public void addItemToEquippedItemListOfPlayer(PlayerModel player, ItemModel item){
         player.getEquippedItems().add(item);
     }
 
@@ -97,8 +97,8 @@ public class PlayerService {
         double weightSum = 0.0;
         if(player.getInventory() == null) return weightSum;
 
-        for(Item eachItemInInventory : player.getInventory())
-            weightSum += eachItemInInventory.GetItemWeight();
+        for(ItemModel eachItemInInventory : player.getInventory())
+            weightSum += eachItemInInventory.getItemWeight();
 
         return weightSum;
     }
@@ -110,12 +110,12 @@ public class PlayerService {
      *
      * @param item  The item to be removed from the inventory.
      */
-    public void removeItemFromSelectedItemsByPlayer(PlayerModel player, Item item){
-        List<Item> listOfNewSelectedItems = new ArrayList<>();
+    public void removeItemFromSelectedItemsByPlayer(PlayerModel player, ItemModel item){
+        List<ItemModel> listOfNewSelectedItems = new ArrayList<>();
 
         if(player.getInventory() != null)
-            for(Item eachItem : player.getInventory())
-                if(!eachItem.GetItemName().equals(item.GetItemName()))
+            for(ItemModel eachItem : player.getInventory())
+                if(!eachItem.getItemName().equals(item.getItemName()))
                     listOfNewSelectedItems.add(eachItem);
 
         player.setInventory(listOfNewSelectedItems);
@@ -128,12 +128,12 @@ public class PlayerService {
      *
      * @param itemToBeSold  The item to be sold to the merchant
      */
-    public void removeItemFromPlayerEquippedInventory(PlayerModel player, Item itemToBeSold){
-        List<Item> newListOfEquippedItems = new ArrayList<>();
+    public void removeItemFromPlayerEquippedInventory(PlayerModel player, ItemModel itemToBeSold){
+        List<ItemModel> newListOfEquippedItems = new ArrayList<>();
 
         if(player.getEquippedItems() != null)
-            for(Item eachEquipedItem : player.getEquippedItems())
-                if(!eachEquipedItem.GetItemName().equals(itemToBeSold.GetItemName()))
+            for(ItemModel eachEquipedItem : player.getEquippedItems())
+                if(!eachEquipedItem.getItemName().equals(itemToBeSold.getItemName()))
                     newListOfEquippedItems.add(eachEquipedItem);
 
         player.setEquippedItems(newListOfEquippedItems);
@@ -148,9 +148,9 @@ public class PlayerService {
     public void calculatePlayersArmor(PlayerModel player){
         int sum=0;
 
-        for(Item eachEquipedItem : player.getEquippedItems())
-            if(eachEquipedItem.GetItemType() == 5 || eachEquipedItem.GetItemType() == 6)
-                sum += eachEquipedItem.GetItemValue();
+        for(ItemModel eachEquipedItem : player.getEquippedItems())
+            if(eachEquipedItem.getItemType() == 5 || eachEquipedItem.getItemType() == 6)
+                sum += eachEquipedItem.getItemValue();
 
         sum += 10;
 
@@ -206,16 +206,16 @@ public class PlayerService {
 
         JSONObject jObj = getPlayerClassStartingStats(player);
 
-        for(Item eachEquippedItem : player.getEquippedItems()){
+        for(ItemModel eachEquippedItem : player.getEquippedItems()){
 
-            if(eachEquippedItem.GetItemType() == 3 && eachEquippedItem.GetAttributeType().equals("str"))
-                strengthAttribute += eachEquippedItem.GetAttributeValue();
+            if(eachEquippedItem.getItemType() == 3 && eachEquippedItem.getAttributeType().equals("str"))
+                strengthAttribute += eachEquippedItem.getAttributeValue();
 
-            if(eachEquippedItem.GetItemType() == 3 && eachEquippedItem.GetAttributeType().equals("agi"))
-                agilityAttribute += eachEquippedItem.GetAttributeValue();
+            if(eachEquippedItem.getItemType() == 3 && eachEquippedItem.getAttributeType().equals("agi"))
+                agilityAttribute += eachEquippedItem.getAttributeValue();
 
-            if(eachEquippedItem.GetItemType() == 3 && eachEquippedItem.GetAttributeType().equals("int"))
-                intelligenceAttribute += eachEquippedItem.GetAttributeValue();
+            if(eachEquippedItem.getItemType() == 3 && eachEquippedItem.getAttributeType().equals("int"))
+                intelligenceAttribute += eachEquippedItem.getAttributeValue();
 
         }
 
@@ -256,20 +256,20 @@ public class PlayerService {
         int agiFromItems = 0;
         int intelFromItems = 0;
 
-        for(Item eachEquippedItem : player.getEquippedItems()){
-            if(eachEquippedItem.GetItemType() == 3){
-                switch(eachEquippedItem.GetAttributeType()){
+        for(ItemModel eachEquippedItem : player.getEquippedItems()){
+            if(eachEquippedItem.getItemType() == 3){
+                switch(eachEquippedItem.getAttributeType()){
 
                     case "str":
-                        strFromItems += eachEquippedItem.GetAttributeValue();
+                        strFromItems += eachEquippedItem.getAttributeValue();
                         break;
 
                     case "agi":
-                        agiFromItems += eachEquippedItem.GetAttributeValue();
+                        agiFromItems += eachEquippedItem.getAttributeValue();
                         break;
 
                     case "int":
-                        intelFromItems += eachEquippedItem.GetAttributeValue();
+                        intelFromItems += eachEquippedItem.getAttributeValue();
                         break;
 
                 }
@@ -331,9 +331,9 @@ public class PlayerService {
     private int calculatePlayersDamageFromEquippedItems(PlayerModel player){
         int sum=10;
 
-        for(Item eachEquipedItem : player.getEquippedItems())
-            if(eachEquipedItem.GetItemType() == 3)
-                sum += eachEquipedItem.GetItemValue();
+        for(ItemModel eachEquipedItem : player.getEquippedItems())
+            if(eachEquipedItem.getItemType() == 3)
+                sum += eachEquipedItem.getItemValue();
 
         return sum;
     }

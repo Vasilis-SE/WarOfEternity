@@ -5,7 +5,7 @@ import characters.model.PlayerModel;
 import characters.controller.TransactionController;
 import GameFileConfiguration.MainFolderConfig;
 import GameFileConfiguration.SaveFolderConfig;
-import Items.ItemController;
+import item.controller.ItemController;
 import map.controller.MapController;
 import Serialization.SaveGameData;
 import java.awt.HeadlessException;

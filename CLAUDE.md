@@ -41,7 +41,7 @@ The entry point is `main.java.View.StartGUI.main()`.
 | `main.java.View.View` | Swing GUI forms: `StartGUI` (main menu / ESC menu), `NewGameForm` (character creation), `MainGame` (gameplay loop), `MapForm`, `LoadGameForm`, `HelpForm` |
 | `characters` | Entity classes (`Player`, `Enemies`, `Merchant`, `DockYard`) and their `*Controller` / `*ActionModel` pairs |
 | `map` | `Area` nodes + `AreaConnectionMaker` edges; `MapController` bootstraps the graph by reading text files |
-| `Items` | `Item` entities, areaModel-item placement via `ItemConnectionWithArea`, `ItemController` |
+| `item` | `Item` entities, areaModel-item placement via `ItemConnectionWithArea`, `ItemController` |
 | `Parsers` | `ParserController` + `ParserModel` — splits player input into verb/noun and maps the verb to an action category |
 | `Serialization` | `SaveGameData` / `LoadGameData` — Java object serialization of `Player`, `MapController`, `ItemController` |
 | `GameFileConfiguration` | Bootstraps the runtime folder tree under `user.home\WarOfEternity\` and copies `DataAccessObjects` there |

@@ -2,7 +2,7 @@ package Serialization;
 
 import characters.model.PlayerModel;
 import GameFileConfiguration.SaveFolderConfig;
-import Items.ItemController;
+import item.controller.ItemController;
 import map.controller.MapController;
 import java.io.File;
 import java.io.FileInputStream;

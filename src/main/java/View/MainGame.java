@@ -1,10 +1,10 @@
 package View;
 
 import GameFileConfiguration.MusicConfiguration;
-import Items.Item;
-import Items.ItemController;
+import item.model.ItemModel;
+import item.controller.ItemController;
 import map.controller.MapController;
-import Parsers.ParserController;
+import command.controller.CommandParserController;
 import Serialization.LoadGameData;
 import map.controller.DockYardController;
 import characters.controller.BattleController;
@@ -66,7 +66,7 @@ public class MainGame extends javax.swing.JFrame {
         else
             this.SettingDataForExistingGame(loadObj);
 
-        dockYardController = new DockYardController(mapController.getAreasList(), itemController.GetListOfItems());
+        dockYardController = new DockYardController(mapController.getAreasList(), itemController.getListOfItems());
         dockYardController.dockYardMainControllingMethod();
 
         transactionController = new TransactionController(mapController.getAreasList());
@@ -75,7 +75,7 @@ public class MainGame extends javax.swing.JFrame {
         enemyController = new EnemyController(mapController.getAreasList(), new EnemyService());
         enemyController.loadEnemiesForGame();
 
-        battleController = new BattleController(itemController.GetListOfItems(), new PlayerService(), new BattleService(), enemyController);
+        battleController = new BattleController(itemController.getListOfItems(), new PlayerService(), new BattleService(), enemyController);
 
         configureVoiceRecognitionData();
 
@@ -114,7 +114,7 @@ public class MainGame extends javax.swing.JFrame {
     }
 
     private void enterKeyIsPressed() {
-        final ParserController  pc = new ParserController();
+        final CommandParserController pc = new CommandParserController();
 
         player.setHealth(jProgressBar1.getValue());
         String textAreaContent = jTextArea1.getText();
@@ -123,16 +123,16 @@ public class MainGame extends javax.swing.JFrame {
         commandTyped = jTextField1.getText();
 
         //Decide the parsing action from the verb of action command that the user typed
-        String parsingDecision = pc.ParserControllingMethodForActionDecision(jTextField1.getText());
+        String parsingDecision = pc.parserControllingMethodForActionDecision(jTextField1.getText());
         boolean basicCom = ConfigureMaintenanceCommands(jTextField1.getText().trim());
 
         if(!basicCom){
             enemyController.loadEnemiesForGame();
 
             String actionResult = playerController.playerMainControllingMethodForActionDecision(player,
-                    itemController.GetListOfItems(), battleController, mapController.getAreasList(), dockYardController.getListOfDockYards(),
-                    transactionController.getListOfMerchants(), musicConfiguration, parsingDecision, pc.GetNounOnPlayerCommand(),
-                    pc.GetVerbOnPlayerCommand());
+                    itemController.getListOfItems(), battleController, mapController.getAreasList(), dockYardController.getListOfDockYards(),
+                    transactionController.getListOfMerchants(), musicConfiguration, parsingDecision, pc.getNounCommand(),
+                    pc.getVerbCommand());
 
             //if the command that the user gave is invalid then ...
             if(actionResult.isEmpty()){
@@ -217,8 +217,8 @@ public class MainGame extends javax.swing.JFrame {
 
         jLabel2.setText(playerController.displayPlayerInventoryWeight(player));
         
-        for(Item eachItemInInventory : player.getInventory())    
-            itemsSelected += eachItemInInventory.GetItemName()+"\n";
+        for(ItemModel eachItemInInventory : player.getInventory())
+            itemsSelected += eachItemInInventory.getItemName()+"\n";
         jTextArea2.setText(itemsSelected);
         
         ImageIcon icon = new ImageIcon(getClass().getResource("/ApplicationImages/weight.png")); 
@@ -272,12 +272,12 @@ public class MainGame extends javax.swing.JFrame {
      */
     private void SetPlayerDataAfterActionCommandHadBeenExcecuted(){
         String itemsSelected = "";
-        for(Item eachItemInInventory : player.getInventory())    
-            itemsSelected += eachItemInInventory.GetItemName()+"\n";
+        for(ItemModel eachItemInInventory : player.getInventory())
+            itemsSelected += eachItemInInventory.getItemName()+"\n";
 
-        for(Item eachItem : itemController.GetListOfItems()){
-            if(eachItem.GetItemType() == 1 && eachItem.GetItemValue() == 0)
-                eachItem.SetItemValue(8);
+        for(ItemModel eachItem : itemController.getListOfItems()){
+            if(eachItem.getItemType() == 1 && eachItem.getItemValue() == 0)
+                eachItem.setItemValue(8);
         }
         
         jTextArea2.setText(itemsSelected);
@@ -317,7 +317,7 @@ public class MainGame extends javax.swing.JFrame {
         jLabel1.setIcon(icon);
 
         itemController = new ItemController(mapController.getAreasList());
-        itemController.SetItemDataForGame();
+        itemController.setItemDataForGame();
     }
     
     /**

@@ -1,8 +1,8 @@
 package characters.controller;
 
 import GameFileConfiguration.MusicConfiguration;
-import Items.Item;
-import characters.DirectionActionModel;
+import item.model.ItemModel;
+import map.controller.DirectionController;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
 import characters.service.BattleService;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BattleController implements Serializable {
 
-    private final List<Item> items;
+    private final List<ItemModel> items;
     private final PlayerService playerService;
     private final BattleService battleService;
     private final EnemyController enemyController;
@@ -58,7 +58,7 @@ public class BattleController implements Serializable {
     }
 
     public String battleActionProcessController(PlayerModel player, EnemyModel eligibleEnemy,
-                                                String actionBeforeBattle, List<Item> listOfItems,
+                                                String actionBeforeBattle, List<ItemModel> listOfItems,
                                                 MusicConfiguration mcf) {
         String resultMessage = battleService.attackEnemyProcess(eligibleEnemy, player);
 
@@ -74,8 +74,8 @@ public class BattleController implements Serializable {
                 player.setLocation(eligibleEnemy.getLocation());
                 resultMessage += "\n" + eligibleEnemy.getLocation().getAreaDescription();
             } else {
-                DirectionActionModel dam = new DirectionActionModel(actionBeforeBattle, listOfItems);
-                resultMessage += "\n" + dam.PlayerActionCommand(player);
+                DirectionController dc = new DirectionController(actionBeforeBattle, listOfItems);
+                resultMessage += "\n" + dc.playerActionCommand(player);
             }
         }
 

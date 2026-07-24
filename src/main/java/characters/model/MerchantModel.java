@@ -1,6 +1,6 @@
 package characters.model;
 
-import Items.Item;
+import item.model.ItemModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -13,6 +13,6 @@ import java.util.List;
 @SuperBuilder
 public class MerchantModel extends CharacterAbstractModel implements Serializable {
 
-    private List<Item> merchantGoods;
+    private List<ItemModel> merchantGoods;
 
 }

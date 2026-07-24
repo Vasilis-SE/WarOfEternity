@@ -1,0 +1,167 @@
+[
+  {
+    "item": "Tomb Door",
+    "area": "Angabur Cemetery",
+    "usage": "open"
+  },
+  {
+    "item": "Branch Gate",
+    "area": "Masson Tunnels",
+    "usage": "open"
+  },
+  {
+    "item": "Witch Barrier",
+    "area": "Elysium Mine's Entrance",
+    "usage": "open"
+  },
+  {
+    "item": "Frozen Skull Gate",
+    "area": "Aldor Summit",
+    "usage": "open"
+  },
+  {
+    "item": "Red Stone Gate",
+    "area": "Akrabor Domain",
+    "usage": "open"
+  },
+  {
+    "item": "Water Ward Barrier",
+    "area": "Elderm Courtyard",
+    "usage": "open"
+  },
+  {
+    "item": "Dark Fissure",
+    "area": "Entrance Of Lost Souls",
+    "usage": "open"
+  },
+  {
+    "item": "Scholomance Wall",
+    "area": "Hopes End Wall",
+    "usage": "open"
+  },
+  {
+    "item": "Ship Wreck",
+    "area": "Journeys End Island",
+    "usage": "open"
+  },
+  {
+    "item": "Jade Beam",
+    "area": "The Great Jade Sea",
+    "usage": "open"
+  },
+  {
+    "item": "Scholomance Gate",
+    "area": "Scholomance Citadel",
+    "usage": "open"
+  },
+  {
+    "item": "Wooden Key",
+    "area": "Daramish",
+    "usage": "pick"
+  },
+  {
+    "item": "Wooden Key",
+    "area": "Angabur Cemetery",
+    "usage": "use"
+  },
+  {
+    "item": "Mossy Key",
+    "area": "Lilen Coast",
+    "usage": "pick"
+  },
+  {
+    "item": "Mossy Key",
+    "area": "Masson Tunnels",
+    "usage": "use"
+  },
+  {
+    "item": "Wooden Talisman",
+    "area": "Dead Mire Swamp",
+    "usage": "pick"
+  },
+  {
+    "item": "Wooden Talisman",
+    "area": "Elysium Mine's Entrance",
+    "usage": "use"
+  },
+  {
+    "item": "Glacier Teeth",
+    "area": "Baramish Ruins",
+    "usage": "pick"
+  },
+  {
+    "item": "Glacier Teeth",
+    "area": "Aldor Summit",
+    "usage": "use"
+  },
+  {
+    "item": "Golden Beetle",
+    "area": "Quekalsul Har Ruins",
+    "usage": "pick"
+  },
+  {
+    "item": "Golden Beetle",
+    "area": "Akrabor Domain",
+    "usage": "use"
+  },
+  {
+    "item": "Dispel Scroll",
+    "area": "Riorm Water Caves",
+    "usage": "pick"
+  },
+  {
+    "item": "Dispel Scroll",
+    "area": "Elderm Courtyard",
+    "usage": "use"
+  },
+  {
+    "item": "Banish Evil",
+    "area": "Shamans Reatreat",
+    "usage": "pick"
+  },
+  {
+    "item": "Banish Evil",
+    "area": "Entrance Of Lost Souls",
+    "usage": "use"
+  },
+  {
+    "item": "Black Iron Lever",
+    "area": "Scorpions Den",
+    "usage": "pick"
+  },
+  {
+    "item": "Black Iron Lever",
+    "area": "Hopes End Wall",
+    "usage": "use"
+  },
+  {
+    "item": "Summon Ship",
+    "area": "Elderm Arcane University",
+    "usage": "pick"
+  },
+  {
+    "item": "Summon Ship",
+    "area": "Journeys End Island",
+    "usage": "use"
+  },
+  {
+    "item": "Jade Orb",
+    "area": "Scholomance Depths",
+    "usage": "pick"
+  },
+  {
+    "item": "Jade Orb",
+    "area": "The Great Jade Sea",
+    "usage": "use"
+  },
+  {
+    "item": "Iron Skull",
+    "area": "Library Of Dark Arts",
+    "usage": "pick"
+  },
+  {
+    "item": "Iron Skull",
+    "area": "Scholomance Citadel",
+    "usage": "use"
+  }
+]

@@ -1,13 +1,13 @@
 package characters.controller;
 
 import GameFileConfiguration.MusicConfiguration;
-import Items.Item;
-import Items.ItemController;
-import Items.TabletItemsController;
+import item.model.ItemModel;
+import item.controller.ItemController;
+import item.controller.TabletItemsController;
+import map.controller.DirectionController;
 import map.controller.DockYardController;
 import map.model.AreaModel;
 import map.model.DockYardModel;
-import characters.DirectionActionModel;
 import characters.enums.PlayerClassesEnum;
 import characters.model.EnemyModel;
 import characters.model.MerchantModel;
@@ -47,7 +47,7 @@ public class PlayerController {
     }
 
 
-    public String playerMainControllingMethodForActionDecision(PlayerModel player, List<Item> itemList,
+    public String playerMainControllingMethodForActionDecision(PlayerModel player, List<ItemModel> itemList,
                                                                BattleController enemyController, List<AreaModel> areasList, List<DockYardModel> docksList,
                                                                List<MerchantModel> listOfMerchants, MusicConfiguration mcf,
                                                                String parsingDecision, String nounPartOfCommand, String verbPartOfCommand){
@@ -77,13 +77,13 @@ public class PlayerController {
         switch(parsingDecision){
             
             case "direction" :
-                DirectionActionModel dam = new DirectionActionModel(nounPartOfCommand, itemList);
-                resultMessage = dam.PlayerActionCommand(player);
+                DirectionController dc = new DirectionController(nounPartOfCommand, itemList);
+                resultMessage = dc.playerActionCommand(player);
             break;
         
             case "item" :
                 ItemController ic = new ItemController(verbPartOfCommand, nounPartOfCommand, itemList);
-                resultMessage = ic.ItemActionCommandProcessController(player, enemyController, this.enemyToBattle);
+                resultMessage = ic.itemActionCommandProcessController(player, enemyController, this.enemyToBattle);
             break;
                 
             case "transaction" :
@@ -102,7 +102,7 @@ public class PlayerController {
                 
             case "inspect" :
                 TabletItemsController tbc = new TabletItemsController(verbPartOfCommand, nounPartOfCommand, itemList);
-                resultMessage = tbc.TabletInspectActionCommand(player);
+                resultMessage = tbc.tabletInspectActionCommand(player);
             break;
 
         }
