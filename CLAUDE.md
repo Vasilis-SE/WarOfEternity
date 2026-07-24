@@ -50,16 +50,17 @@ The entry point is `main.java.View.StartGUI.main()`.
 
 ### Data-Driven Design
 
-All world data lives in `.txt` files under `src/main/java/DataAccessObjects/`. On first launch, `ResourceFolderConfig` copies this directory to `%USERPROFILE%\WarOfEternity\DataAccessObjects\` and subsequent reads happen from there.
+Most world data lives in `.json` files under `src/main/java/DataAccessObjects/`, with parser verb lists still as `.txt`. On first launch, `ResourceFolderConfig` copies this directory to `%USERPROFILE%\WarOfEternity\DataAccessObjects\` and subsequent reads happen from there.
 
 | File | Contents |
 |---|---|
 | `GameAreas.json` | Area name, description, image filename |
 | `GameAreaConnections.json` | `currentArea` / `nextArea` / `direction` triples |
 | `GameEnemies.json` | Enemy stats and areaModel placement |
-| `GameItems.txt` | Item definitions |
-| `GameItemConnections.txt` | Item-to-areaModel placement |
-| `MerchantConnections.txt` / `DockYardConnections.txt` | NPC areaModel placement |
+| `GameItems.json` | Item definitions |
+| `GameItemConnections.json` | Item-to-areaModel placement |
+| `MerchantConnections.json` | `area` / `merchant` pairs for NPC areaModel placement |
+| `DockYardConnections.json` | `startingArea` / `destinationArea` / `sailingFee` triples for sail routes |
 | `*Parser.txt` | One verb per line; used by `ParserController` to classify commands |
 
 ### Command Parsing Flow

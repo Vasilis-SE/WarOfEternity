@@ -33,18 +33,8 @@ public class DockYardController {
      * Controls the reading of the dockyard connections.
      */
     public void dockYardMainControllingMethod(){
-
         DockYardConnectionService dockYardConnectionService = new DockYardConnectionService();
-
-        dockYardConnectionService.getTextFileColumnsToList();
-        List<String> startStringDocks = dockYardConnectionService.getStartAreaStringList();
-        List<String> destStringDocks = dockYardConnectionService.getDestinationStringList();
-
-        List<AreaModel> startAreaModelDocks = dockYardConnectionService.getDockAreaList(startStringDocks, this.listOfAreaModels);
-        List<AreaModel> destAreaModelDocks = dockYardConnectionService.getDockAreaList(destStringDocks, this.listOfAreaModels);
-
-        dockYardConnectionService.setDockYardConnectionsToList(startAreaModelDocks, destAreaModelDocks);
-        this.listOfDockYards = dockYardConnectionService.getDockYardList();
+        this.listOfDockYards = dockYardConnectionService.loadDockYards(this.listOfAreaModels);
     }
 
     /**

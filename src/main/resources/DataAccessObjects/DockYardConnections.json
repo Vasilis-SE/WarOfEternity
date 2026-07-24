@@ -1,0 +1,37 @@
+[
+  {
+    "startingArea": "Belkat Docks",
+    "destinationArea": "Oravor West Coast",
+    "sailingFee": 2000.0
+  },
+  {
+    "startingArea": "Oravor West Coast",
+    "destinationArea": "Belkat Docks",
+    "sailingFee": 2000.0
+  },
+  {
+    "startingArea": "Oravor East Coast",
+    "destinationArea": "Journeys End Island",
+    "sailingFee": 400.0
+  },
+  {
+    "startingArea": "Journeys End Island",
+    "destinationArea": "Oravor East Coast",
+    "sailingFee": 400.0
+  },
+  {
+    "startingArea": "Journeys End Island",
+    "destinationArea": "The Great Jade Sea",
+    "sailingFee": 0.0
+  },
+  {
+    "startingArea": "The Great Jade Sea",
+    "destinationArea": "Journeys End Island",
+    "sailingFee": 0.0
+  },
+  {
+    "startingArea": "The Great Jade Sea",
+    "destinationArea": "Jade Sea Depths",
+    "sailingFee": 0.0
+  }
+]
