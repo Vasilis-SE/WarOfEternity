@@ -1,0 +1,822 @@
+[
+  {
+    "currentArea": "Plains Of Hope",
+    "nextArea": "Daramish",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Plains Of Hope",
+    "nextArea": "Belverus Lake",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Plains Of Hope",
+    "nextArea": "Dead Wing Passage",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Daramish",
+    "nextArea": "Plains Of Hope",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Daramish",
+    "nextArea": "Belverus Lake",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Belverus Lake",
+    "nextArea": "Daramish",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Belverus Lake",
+    "nextArea": "Plains Of Hope",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Belverus Lake",
+    "nextArea": "Baramish Ruins",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Baramish Ruins",
+    "nextArea": "Belverus Lake",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Baramish Ruins",
+    "nextArea": "Nimrod Beach",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Baramish Ruins",
+    "nextArea": "Anglor Bay",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Nimrod Beach",
+    "nextArea": "Baramish Ruins",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Nimrod Beach",
+    "nextArea": "Anglor Bay",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Nimrod Beach",
+    "nextArea": "Angabur Village",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Anglor Bay",
+    "nextArea": "Baramish Ruins",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Anglor Bay",
+    "nextArea": "Nimrod Beach",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Dead Wing Passage",
+    "nextArea": "Elysium Mine's Entrance",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Dead Wing Passage",
+    "nextArea": "Quag Mire Swamp",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Dead Wing Passage",
+    "nextArea": "Delta Rivers",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Dead Wing Passage",
+    "nextArea": "Plains Of Hope",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Angabur Village",
+    "nextArea": "Nimrod Beach",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Angabur Village",
+    "nextArea": "Angabur Cemetery",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Angabur Cemetery",
+    "nextArea": "Angabur Village",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Angabur Cemetery",
+    "nextArea": "Angabur Tombs",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Angabur Tombs",
+    "nextArea": "Oldash Maze",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Angabur Tombs",
+    "nextArea": "Forest of Sorrows",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Angabur Tombs",
+    "nextArea": "Angabur Cemetery",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Forest of Sorrows",
+    "nextArea": "Angabur Tombs",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Oldash Maze",
+    "nextArea": "Angabur Tombs",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Oldash Maze",
+    "nextArea": "Shamans Reatreat",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Oldash Maze",
+    "nextArea": "Azol' Eldar Jungle",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Oldash Maze",
+    "nextArea": "Belkat Docks",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Shamans Reatreat",
+    "nextArea": "Oldash Maze",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Shamans Reatreat",
+    "nextArea": "Azol' Eldar Jungle",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Shamans Reatreat",
+    "nextArea": "Azol' Angar Jungle",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Shamans Reatreat",
+    "nextArea": "Masson Tunnels",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Azol' Eldar Jungle",
+    "nextArea": "Oldash Maze",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Azol' Eldar Jungle",
+    "nextArea": "Shamans Reatreat",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Azol' Eldar Jungle",
+    "nextArea": "Azol' Angar Jungle",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Azol' Eldar Jungle",
+    "nextArea": "Lake Of Enala",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Azol' Angar Jungle",
+    "nextArea": "Masson Tunnels",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Azol' Angar Jungle",
+    "nextArea": "Shamans Reatreat",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Azol' Angar Jungle",
+    "nextArea": "Azol' Eldar Jungle",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Azol' Angar Jungle",
+    "nextArea": "Lake Of Enala",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Masson Tunnels",
+    "nextArea": "Azol' Angar Jungle",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Masson Tunnels",
+    "nextArea": "Shamans Reatreat",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Masson Tunnels",
+    "nextArea": "Smelter of Al' Hateck",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Smelter of Al' Hateck",
+    "nextArea": "Masson Tunnels",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Lilen Coast",
+    "nextArea": "Belkat Docks",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Lilen Coast",
+    "nextArea": "Lake Of Enala",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Lake Of Enala",
+    "nextArea": "Azol' Angar Jungle",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Lake Of Enala",
+    "nextArea": "Azol' Eldar Jungle",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Lake Of Enala",
+    "nextArea": "Lilen Coast",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Lake Of Enala",
+    "nextArea": "Passage To Ash'vor",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Passage To Ash'vor",
+    "nextArea": "Lake Of Enala",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Passage To Ash'vor",
+    "nextArea": "Ash'vor",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Ash'vor",
+    "nextArea": "Passage To Ash'vor",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Oravor Coast Road",
+    "nextArea": "Oravor West Coast",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Oravor Coast Road",
+    "nextArea": "Oravor East Coast",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Delta Rivers",
+    "nextArea": "Dead Wing Passage",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Delta Rivers",
+    "nextArea": "Aldor Ascend",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Aldor Ascend",
+    "nextArea": "Delta Rivers",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Aldor Ascend",
+    "nextArea": "Aldor Summit",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Aldor Summit",
+    "nextArea": "Aldor Ascend",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Aldor Summit",
+    "nextArea": "Fortress Of The Mists",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Fortress Of The Mists",
+    "nextArea": "Aldor Summit",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Fortress Of The Mists",
+    "nextArea": "Aldor Reign Castle",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Aldor Reign Castle",
+    "nextArea": "Fortress Of The Mists",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Aldor Reign Castle",
+    "nextArea": "Dead Mire Swamp",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Dead Mire Swamp",
+    "nextArea": "Aldor Reign Castle",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Dead Mire Swamp",
+    "nextArea": "Suloild'sh Road's",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Dead Mire Swamp",
+    "nextArea": "Drash Mire Swamp",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Dead Mire Swamp",
+    "nextArea": "Quag Mire Swamp",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Suloild'sh Road's",
+    "nextArea": "Worach Watch Tower",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Suloild'sh Road's",
+    "nextArea": "Drash Mire Swamp",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Suloild'sh Road's",
+    "nextArea": "Dead Mire Swamp",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Drash Mire Swamp",
+    "nextArea": "Plain's Of Estild",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Drash Mire Swamp",
+    "nextArea": "Suloild'sh Road's",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Drash Mire Swamp",
+    "nextArea": "Dead Mire Swamp",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Drash Mire Swamp",
+    "nextArea": "Quag Mire Swamp",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Quag Mire Swamp",
+    "nextArea": "Drash Mire Swamp",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Quag Mire Swamp",
+    "nextArea": "Dead Mire Swamp",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Quag Mire Swamp",
+    "nextArea": "Elysium Mine's Entrance",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Quag Mire Swamp",
+    "nextArea": "Dead Wing Passage",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Elysium Mine's Entrance",
+    "nextArea": "Quag Mire Swamp",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Elysium Mine's Entrance",
+    "nextArea": "Dead Wing Passage",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Elysium Mine's Entrance",
+    "nextArea": "Elysium Mine",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Elysium Mine",
+    "nextArea": "Elysium Mine's Entrance",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Plain's Of Estild",
+    "nextArea": "Drash Mire Swamp",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Plain's Of Estild",
+    "nextArea": "Tan'leri City",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Tan'leri City",
+    "nextArea": "Plain's Of Estild",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Tan'leri City",
+    "nextArea": "Del'raku Oasis",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Tan'leri City",
+    "nextArea": "Orm'ray Roads",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Worach Watch Tower",
+    "nextArea": "Suloild'sh Road's",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Worach Watch Tower",
+    "nextArea": "Quekalsul Har Ruins",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Worach Watch Tower",
+    "nextArea": "Del'raku Oasis",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Quekalsul Har Ruins",
+    "nextArea": "Worach Watch Tower",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Quekalsul Har Ruins",
+    "nextArea": "Del'raku Oasis",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Del'raku Oasis",
+    "nextArea": "Worach Watch Tower",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Del'raku Oasis",
+    "nextArea": "Quekalsul Har Ruins",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Del'raku Oasis",
+    "nextArea": "Akrabor Ruins",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Del'raku Oasis",
+    "nextArea": "Tan'leri City",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Akrabor Ruins",
+    "nextArea": "Del'raku Oasis",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Akrabor Ruins",
+    "nextArea": "Akrabor Domain",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Akrabor Ruins",
+    "nextArea": "Aleeim Desert",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Akrabor Ruins",
+    "nextArea": "Orm'ray Roads",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Akrabor Domain",
+    "nextArea": "Akrabor Ruins",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Akrabor Domain",
+    "nextArea": "Akrabor Catacombs",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Akrabor Catacombs",
+    "nextArea": "Akrabor Domain",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Akrabor Catacombs",
+    "nextArea": "Riorm Water Caves",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Akrabor Catacombs",
+    "nextArea": "Elderm Courtyard",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Riorm Water Caves",
+    "nextArea": "Akrabor Catacombs",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Riorm Water Caves",
+    "nextArea": "Elderm Courtyard",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Elderm Courtyard",
+    "nextArea": "Akrabor Catacombs",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Elderm Courtyard",
+    "nextArea": "Riorm Water Caves",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Elderm Courtyard",
+    "nextArea": "Elderm Arcane University",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Elderm Arcane University",
+    "nextArea": "Elderm Courtyard",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Orm'ray Roads",
+    "nextArea": "Akrabor Ruins",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Orm'ray Roads",
+    "nextArea": "Aleeim Desert",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Orm'ray Roads",
+    "nextArea": "Tan'leri City",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Orm'ray Roads",
+    "nextArea": "Nomads Outpost",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Aleeim Desert",
+    "nextArea": "Akrabor Ruins",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Aleeim Desert",
+    "nextArea": "Orm'ray Roads",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Aleeim Desert",
+    "nextArea": "Omrr Oasis",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Aleeim Desert",
+    "nextArea": "Ageolda Desert",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Omrr Oasis",
+    "nextArea": "Aleeim Desert",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Omrr Oasis",
+    "nextArea": "Ageolda Desert",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Omrr Oasis",
+    "nextArea": "Caves Of The Scortching Sun",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Omrr Oasis",
+    "nextArea": "Nomads Outpost",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Nomads Outpost",
+    "nextArea": "Orm'ray Roads",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Nomads Outpost",
+    "nextArea": "Omrr Oasis",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Nomads Outpost",
+    "nextArea": "Caves Of The Scortching Sun",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Caves Of The Scortching Sun",
+    "nextArea": "Nomads Outpost",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Caves Of The Scortching Sun",
+    "nextArea": "Omrr Oasis",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Caves Of The Scortching Sun",
+    "nextArea": "Eld'ny Peak",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Eld'ny Peak",
+    "nextArea": "Caves Of The Scortching Sun",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Eld'ny Peak",
+    "nextArea": "Hopes End Wall",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Ageolda Desert",
+    "nextArea": "Aleeim Desert",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Ageolda Desert",
+    "nextArea": "Omrr Oasis",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Ageolda Desert",
+    "nextArea": "Scorpions Den",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Scorpions Den",
+    "nextArea": "Ageolda Desert",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Scorpions Den",
+    "nextArea": "E'sayiss Roads",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "E'sayiss Roads",
+    "nextArea": "Scorpions Den",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "E'sayiss Roads",
+    "nextArea": "Entrance Of Lost Souls",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Entrance Of Lost Souls",
+    "nextArea": "E'sayiss Roads",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Entrance Of Lost Souls",
+    "nextArea": "Tunnels Of Scream",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Tunnels Of Scream",
+    "nextArea": "Entrance Of Lost Souls",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Tunnels Of Scream",
+    "nextArea": "Torturing Chamber",
+    "direction": "east"
+  },
+  {
+    "currentArea": "Torturing Chamber",
+    "nextArea": "Tunnels Of Scream",
+    "direction": "west"
+  },
+  {
+    "currentArea": "Torturing Chamber",
+    "nextArea": "Scholomance Citadel",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Scholomance Citadel",
+    "nextArea": "Torturing Chamber",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Scholomance Citadel",
+    "nextArea": "Scholomance Depths",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Scholomance Citadel",
+    "nextArea": "Village Of Scholomance",
+    "direction": "south-east"
+  },
+  {
+    "currentArea": "Scholomance Depths",
+    "nextArea": "Scholomance Citadel",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Village Of Scholomance",
+    "nextArea": "Scholomance Citadel",
+    "direction": "north-west"
+  },
+  {
+    "currentArea": "Village Of Scholomance",
+    "nextArea": "Library Of Dark Arts",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Village Of Scholomance",
+    "nextArea": "Hopes End Wall",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Library Of Dark Arts",
+    "nextArea": "Village Of Scholomance",
+    "direction": "south"
+  },
+  {
+    "currentArea": "Hopes End Wall",
+    "nextArea": "Village Of Scholomance",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Hopes End Wall",
+    "nextArea": "Eld'ny Peak",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Belkat Docks",
+    "nextArea": "Oldash Maze",
+    "direction": "south-west"
+  },
+  {
+    "currentArea": "Belkat Docks",
+    "nextArea": "Lilen Coast",
+    "direction": "north-east"
+  },
+  {
+    "currentArea": "Oravor West Coast",
+    "nextArea": "Oravor Coast Road",
+    "direction": "north"
+  },
+  {
+    "currentArea": "Oravor East Coast",
+    "nextArea": "Oravor Coast Road",
+    "direction": "north"
+  }
+]

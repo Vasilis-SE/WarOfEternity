@@ -1,5 +1,0 @@
-buy
-sell
-talk
-purchase
-bargain

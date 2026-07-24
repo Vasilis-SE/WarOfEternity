@@ -1,0 +1,680 @@
+[
+  {
+    "name": "Tomb Door",
+    "description": "A wooden door leading into the catacombs.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "north"
+  },
+  {
+    "name": "Branch Gate",
+    "description": "Big gate with branches and logs covering it with a small hole in the midde.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "south"
+  },
+  {
+    "name": "Witch Barrier",
+    "description": "A magical brown barrier, when trying touching it pushes you back.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "north"
+  },
+  {
+    "name": "Frozen Skull Gate",
+    "description": "A huge frozen gate with a skull carved on it. The gate cannot be opend with bare hands.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "south-west"
+  },
+  {
+    "name": "Red Stone Gate",
+    "description": "Heavy gate made with red sand stone. There is a carved symbol on its center.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "north-east"
+  },
+  {
+    "name": "Water Ward Barrier",
+    "description": "Magical water barrier. There are lots of corpses at close to it, so you decide not to touch it.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "north-west"
+  },
+  {
+    "name": "Dark Fissure",
+    "description": "A dark energy is emiting from this barrier. You can also hear screams coming from it and see bones floating.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "south"
+  },
+  {
+    "name": "Scholomance Wall",
+    "description": "The great wall that guards the domain of scholomance. There is a hole to insert levers.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "north"
+  },
+  {
+    "name": "Ship Wreck",
+    "description": "Many ships laying destroyed on the bottom of the ocean.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "The Great Jade Sea"
+  },
+  {
+    "name": "Jade Beam",
+    "description": "A weird jade beam at the middle of the ocean. It seems that it originates from the depths. Inside the beam there is disturbance in the waters.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "sink"
+  },
+  {
+    "name": "Scholomance Gate",
+    "description": "A huge black iron gate, preventing any intruders into the scholomance citadel.",
+    "type": 4,
+    "weight": 10000.0,
+    "value": 0,
+    "cost": 0.0,
+    "blockingDirection": "north"
+  },
+  {
+    "name": "Wooden Key",
+    "description": "A small wooden key. It seems old and withered.",
+    "type": 2,
+    "weight": 0.1,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Mossy Key",
+    "description": "A meddium sized mossy key with branches and leafs at its top.",
+    "type": 2,
+    "weight": 0.1,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Wooden Talisman",
+    "description": "A simple wooden carved talisman a jem in its middle, that produces brown energy.",
+    "type": 2,
+    "weight": 0.2,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Glacier Teeth",
+    "description": "A glacier object shaped as a teeth.",
+    "type": 2,
+    "weight": 0.4,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Golden Beetle",
+    "description": "A small golden beetle statue.",
+    "type": 2,
+    "weight": 0.3,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Dispel Scroll",
+    "description": "Dispeling scroll, it can dispel magic attacks, wards and fields.",
+    "type": 2,
+    "weight": 0.1,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Banish Evil",
+    "description": "A small rune stone. It can banish any evil entity of harmfull spell.",
+    "type": 2,
+    "weight": 0.2,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Black Iron Lever",
+    "description": "A heavy lever made out of iron and coated in black color.",
+    "type": 2,
+    "weight": 0.5,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Summon Ship",
+    "description": "A very old spell scroll that summons a single ship from the ocean.",
+    "type": 2,
+    "weight": 0.1,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Jade Orb",
+    "description": "Orb that emittes jade colored light. It looks fragile.",
+    "type": 2,
+    "weight": 0.3,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Iron Skull",
+    "description": "A heavy iron skull coated in black dye. It has a bell ring in its mouth.",
+    "type": 2,
+    "weight": 0.5,
+    "value": 0,
+    "cost": 0.0
+  },
+  {
+    "name": "Copper Sword",
+    "description": "Medium sized sword made out of copper.",
+    "type": 3,
+    "weight": 4.0,
+    "value": 7,
+    "attributeType": "str",
+    "attributeValue": 1,
+    "area": "Plains Of Hope",
+    "cost": 175.8
+  },
+  {
+    "name": "Falling Star",
+    "description": "A one-handed mace with spines on its top.",
+    "type": 3,
+    "weight": 6.0,
+    "value": 8,
+    "attributeType": "str",
+    "attributeValue": 2,
+    "area": "Plains Of Hope",
+    "cost": 205.4
+  },
+  {
+    "name": "Double Katana",
+    "description": "A heavy double bladed katana sword.",
+    "type": 3,
+    "weight": 11.0,
+    "value": 11,
+    "attributeType": "str",
+    "attributeValue": 3,
+    "area": "Plains Of Hope",
+    "cost": 469.7
+  },
+  {
+    "name": "Bowie Knifes",
+    "description": "Small sharpened thrawable knifes.",
+    "type": 3,
+    "weight": 2.0,
+    "value": 3,
+    "attributeType": "agi",
+    "attributeValue": 2,
+    "area": "Plains Of Hope",
+    "cost": 47.4
+  },
+  {
+    "name": "Wooden Bow",
+    "description": "Simple wooden bow.",
+    "type": 3,
+    "weight": 3.0,
+    "value": 5,
+    "attributeType": "agi",
+    "attributeValue": 3,
+    "area": "Plains Of Hope",
+    "cost": 107.4
+  },
+  {
+    "name": "Main-Gauche",
+    "description": "A very sharpened small dagger.",
+    "type": 3,
+    "weight": 2.0,
+    "value": 5,
+    "attributeType": "agi",
+    "attributeValue": 4,
+    "area": "Plains Of Hope",
+    "cost": 237.4
+  },
+  {
+    "name": "Light Staff",
+    "description": "Simple staff carved out off oak wood.",
+    "type": 3,
+    "weight": 4.0,
+    "value": 5,
+    "attributeType": "int",
+    "attributeValue": 4,
+    "area": "Plains Of Hope",
+    "cost": 257.4
+  },
+  {
+    "name": "Quarter Staff",
+    "description": "Long staff with iron made pole so that it can be more durable.",
+    "type": 3,
+    "weight": 6.0,
+    "value": 7,
+    "attributeType": "int",
+    "attributeValue": 4,
+    "area": "Angabur Village",
+    "cost": 278.4
+  },
+  {
+    "name": "Acacia Wand",
+    "description": "Light acacia wand.",
+    "type": 3,
+    "weight": 2.0,
+    "value": 7,
+    "attributeType": "int",
+    "attributeValue": 5,
+    "area": "Angabur Village",
+    "cost": 284.9
+  },
+  {
+    "name": "Poisoned Tark Cudgel",
+    "description": "A stout stick that serves as a club.",
+    "type": 3,
+    "weight": 7.0,
+    "value": 8,
+    "attributeType": "str",
+    "attributeValue": 3,
+    "area": "Angabur Village",
+    "cost": 221.2
+  },
+  {
+    "name": "Iron Crossbow",
+    "description": "Heavy crossbow has the potential to fire multiple arrows at the same time.",
+    "type": 3,
+    "weight": 6.0,
+    "value": 7,
+    "attributeType": "agi",
+    "attributeValue": 3,
+    "area": "Angabur Village",
+    "cost": 198.6
+  },
+  {
+    "name": "Double Bladed Long Bow",
+    "description": "Sturdy long bow with sharpened blades on its sides.",
+    "type": 3,
+    "weight": 6.0,
+    "value": 8,
+    "attributeType": "agi",
+    "attributeValue": 4,
+    "area": "Aldor Reign Castle",
+    "cost": 210.6
+  },
+  {
+    "name": "Poisoned Poingmar",
+    "description": "Dagger filled with venomus poison.",
+    "type": 3,
+    "weight": 4.0,
+    "value": 7,
+    "attributeType": "agi",
+    "attributeValue": 5,
+    "area": "Aldor Reign Castle",
+    "cost": 233.2
+  },
+  {
+    "name": "Helberd",
+    "description": "Long pole axe with double blades on the end of the pole.",
+    "type": 3,
+    "weight": 9.0,
+    "value": 9,
+    "attributeType": "str",
+    "attributeValue": 4,
+    "area": "Aldor Reign Castle",
+    "cost": 273.2
+  },
+  {
+    "name": "Death Stick",
+    "description": "Iron Staff coated in black color. On its top a magical fire burns endlessly.",
+    "type": 3,
+    "weight": 8.0,
+    "value": 9,
+    "attributeType": "int",
+    "attributeValue": 6,
+    "area": "Aldor Reign Castle",
+    "cost": 283.2
+  },
+  {
+    "name": "Orcish War Hammer",
+    "description": "A two handed heavy hammer that deals a great amount of damage",
+    "type": 3,
+    "weight": 19.0,
+    "value": 15,
+    "attributeType": "str",
+    "attributeValue": 5,
+    "area": "Tan'leri City",
+    "cost": 675.8
+  },
+  {
+    "name": "Ancient Nomad Bow",
+    "description": "A weapon used by the nomads ancestors. It is covered with bones.",
+    "type": 3,
+    "weight": 5.0,
+    "value": 10,
+    "attributeType": "agi",
+    "attributeValue": 6,
+    "area": "Tan'leri City",
+    "cost": 535.9
+  },
+  {
+    "name": "Skyforge Steel Great Sword",
+    "description": "Two handed steel great sword smithed in skyforge of Tan'leri city.",
+    "type": 3,
+    "weight": 15.0,
+    "value": 12,
+    "attributeType": "str",
+    "attributeValue": 5,
+    "area": "Tan'leri City",
+    "cost": 492.0
+  },
+  {
+    "name": "Dawnguard Stave",
+    "description": "Magical stave with embeded red crystals from the desert.",
+    "type": 3,
+    "weight": 10.0,
+    "value": 11,
+    "attributeType": "int",
+    "attributeValue": 7,
+    "area": "Tan'leri City",
+    "cost": 480.0
+  },
+  {
+    "name": "Staff Of The Dread",
+    "description": "Iron staff coated in black color there is a iron skull on it's top that emittes green fire. This weapon was used by the necromancers as their primary weapon choice.",
+    "type": 3,
+    "weight": 14.0,
+    "value": 25,
+    "attributeType": "int",
+    "attributeValue": 11,
+    "area": "Ash'vor",
+    "cost": 874.7
+  },
+  {
+    "name": "Nightgale Bow",
+    "description": "Unique bow from the time of the great war.",
+    "type": 3,
+    "weight": 11.0,
+    "value": 21,
+    "attributeType": "agi",
+    "attributeValue": 9,
+    "area": "Ash'vor",
+    "cost": 704.0
+  },
+  {
+    "name": "Wuuthrad",
+    "description": "Two handed battle axe. Legend says that it was wielded by Yngol a great general in the great war.",
+    "type": 3,
+    "weight": 22.0,
+    "value": 22,
+    "attributeType": "str",
+    "attributeValue": 9,
+    "area": "Ash'vor",
+    "cost": 780.0
+  },
+  {
+    "name": "Leather Vest",
+    "description": "Hand made leather vest.",
+    "type": 5,
+    "weight": 4.0,
+    "value": 9,
+    "area": "Plains Of Hope",
+    "cost": 115.5
+  },
+  {
+    "name": "Silk Robes",
+    "description": "Robes made with white silk.",
+    "type": 5,
+    "weight": 2.0,
+    "value": 7,
+    "area": "Plains Of Hope",
+    "cost": 68.0
+  },
+  {
+    "name": "Tarted Mail",
+    "description": "Mail vest, not the best craftmanship.",
+    "type": 5,
+    "weight": 9.0,
+    "value": 12,
+    "area": "Plains Of Hope",
+    "cost": 132.8
+  },
+  {
+    "name": "Elven Heavy Armor",
+    "description": "Heavy iron chect armor coated in gold color.",
+    "type": 5,
+    "weight": 14.0,
+    "value": 15,
+    "area": "Angabur Village",
+    "cost": 192.8
+  },
+  {
+    "name": "Shrouded Vest",
+    "description": "Black leather vest. Perfect for sneaking.",
+    "type": 5,
+    "weight": 5.0,
+    "value": 11,
+    "area": "Angabur Village",
+    "cost": 152.0
+  },
+  {
+    "name": "Linen Robes",
+    "description": "Simple robes made of linen material.",
+    "type": 5,
+    "weight": 3.0,
+    "value": 9,
+    "area": "Angabur Village",
+    "cost": 130.0
+  },
+  {
+    "name": "Mail Cuirass",
+    "description": "A mail chest piece, provides good protection against weapons and missiles",
+    "type": 5,
+    "weight": 12.0,
+    "value": 19,
+    "area": "Aldor Reign Castle",
+    "cost": 195.5
+  },
+  {
+    "name": "Imperials Vest",
+    "description": "Vest with the aldor riegn's banners tailored on its back.",
+    "type": 5,
+    "weight": 8.0,
+    "value": 14,
+    "area": "Aldor Reign Castle",
+    "cost": 153.2
+  },
+  {
+    "name": "Robes Of The Sage",
+    "description": "Robes that grand its wearer magical abilities.",
+    "type": 5,
+    "weight": 4.0,
+    "value": 12,
+    "area": "Aldor Reign Castle",
+    "cost": 143.0
+  },
+  {
+    "name": "Ebony Armor",
+    "description": "Heavy black chest armor piece made out of ebony steel.",
+    "type": 5,
+    "weight": 22.0,
+    "value": 25,
+    "area": "Tan'leri City",
+    "cost": 378.9
+  },
+  {
+    "name": "Falmer Leather Armor",
+    "description": "Chest piece from the order of the falmers.",
+    "type": 5,
+    "weight": 14.0,
+    "value": 17,
+    "area": "Tan'leri City",
+    "cost": 295.5
+  },
+  {
+    "name": "Robes Of The Night",
+    "description": "Black robes with a hood covering your face.",
+    "type": 5,
+    "weight": 6.0,
+    "value": 15,
+    "area": "Tan'leri City",
+    "cost": 225.3
+  },
+  {
+    "name": "Daedra Plate Armor",
+    "description": "Heavy plate armor with thorns on the shoulder top and emittes a weird red aura.",
+    "type": 5,
+    "weight": 32.0,
+    "value": 32,
+    "area": "Ash'vor",
+    "cost": 589.3
+  },
+  {
+    "name": "Vest Of The Pale Emperor",
+    "description": "Black leathered vest. This type of armor piece wa used by the rangers of ashvor during the great war.",
+    "type": 5,
+    "weight": 19.0,
+    "value": 24,
+    "area": "Ash'vor",
+    "cost": 425.3
+  },
+  {
+    "name": "Robes Of The Necromancers",
+    "description": "Black robes with magical green fire surrounding it. Skulls and chains are embeded into the armor piece.",
+    "type": 5,
+    "weight": 10.0,
+    "value": 23,
+    "area": "Ash'vor",
+    "cost": 398.0
+  },
+  {
+    "name": "Wooden Shield",
+    "description": "Wooden shield made with oak wood.",
+    "type": 6,
+    "weight": 5.0,
+    "value": 4,
+    "area": "Plains Of Hope",
+    "cost": 80.0
+  },
+  {
+    "name": "Iron Tower Shield",
+    "description": "A heavy tower shield.",
+    "type": 6,
+    "weight": 7.0,
+    "value": 7,
+    "area": "Angabur Village",
+    "cost": 110.0
+  },
+  {
+    "name": "Nilthuanir",
+    "description": "Iron tower shield, made by the elves of rivendell",
+    "type": 6,
+    "weight": 9.0,
+    "value": 10,
+    "area": "Aldor Reign Castle",
+    "cost": 150.0
+  },
+  {
+    "name": "Ebony Tower Shield",
+    "description": "Ebony tower shield its sturdy and durable.",
+    "type": 6,
+    "weight": 13.0,
+    "value": 15,
+    "area": "Tan'leri City",
+    "cost": 290.0
+  },
+  {
+    "name": "Skull Shield",
+    "description": "Steel sheild with a skull carved on its center.",
+    "type": 6,
+    "weight": 15.0,
+    "value": 19,
+    "area": "Ash'vor",
+    "cost": 340.0
+  },
+  {
+    "name": "Medium Healing Potion",
+    "description": "A bundle of medium healing potions.",
+    "type": 1,
+    "weight": 0.3,
+    "value": 8,
+    "cost": 69.5,
+    "healingPower": 40
+  },
+  {
+    "name": "Minor Healing Potion",
+    "description": "A bundle of minor healing potions. Each one heals a small portion of wounds",
+    "type": 1,
+    "weight": 0.2,
+    "value": 8,
+    "cost": 50.5,
+    "healingPower": 25
+  },
+  {
+    "name": "Heavy Healing Potion",
+    "description": "A bundle of heavy healing potions.",
+    "type": 1,
+    "weight": 0.4,
+    "value": 8,
+    "cost": 170.0,
+    "healingPower": 80
+  },
+  {
+    "name": "Mossy Stone Tablet",
+    "description": "The order's purpose is the preservation of peace and balance and to bring light where darkness exists ...",
+    "type": 7,
+    "weight": 35.0,
+    "area": "Shamans Reatreat"
+  },
+  {
+    "name": "Red Stone Tablet",
+    "description": "Servant's of the order of edernium are the water mages. Through their prayers they contact with the other side ...",
+    "type": 7,
+    "weight": 35.0,
+    "area": "Quekalsul Har Ruins"
+  },
+  {
+    "name": "Stone Tablet",
+    "description": "Whenever it was necessary the order send their emissaries to bring balance into the realm of men. Those emissaries where called guardians ...",
+    "type": 7,
+    "weight": 35.0,
+    "area": "Elderm Courtyard"
+  },
+  {
+    "name": "Magical Tablet",
+    "description": "And then the gurdian came and drove the beast back into the depths ...",
+    "type": 7,
+    "weight": 35.0,
+    "area": "Elderm Arcane University"
+  },
+  {
+    "name": "Withered Tablet",
+    "description": "Where the path of the guardian end's so the last battle of light and darkness begins ...",
+    "type": 7,
+    "weight": 35.0,
+    "area": "Scholomance Depths"
+  },
+  {
+    "name": "Broken Tablet",
+    "description": "From here starts the path only a guardian can follow ...",
+    "type": 7,
+    "weight": 35.0,
+    "area": "Journeys End Island"
+  }
+]
