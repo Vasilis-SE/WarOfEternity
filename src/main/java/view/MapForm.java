@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import map.controller.MapController;
 import javax.swing.ImageIcon;

@@ -1,11 +1,11 @@
-package View;
+package view;
 
-import GameFileConfiguration.MusicConfiguration;
+import utils.MusicConfiguration;
 import item.model.ItemModel;
 import item.controller.ItemController;
 import map.controller.MapController;
 import command.controller.CommandParserController;
-import Serialization.LoadGameData;
+import serialization.model.LoadedGameData;
 import map.controller.DockYardController;
 import characters.controller.BattleController;
 import characters.controller.EnemyController;
@@ -17,14 +17,13 @@ import characters.service.BattleService;
 import characters.service.EnemyService;
 import characters.service.PlayerService;
 import org.vosk.Model;
-import org.vosk.Recognizer;
+import voice.controller.VoiceRecognitionController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
 /**
  * GUI form for the main game. This form is the main game form (the form which
@@ -49,22 +48,24 @@ public class MainGame extends javax.swing.JFrame {
     private final TransactionController transactionController;
     private final BattleController battleController;
     private final EnemyController enemyController;
+    private final VoiceRecognitionController voiceRecognitionController;
 
     private MapController mapController;
     private ItemController itemController;
 
 
-    public MainGame(String playerName, boolean newGameProcess, LoadGameData loadObj, PlayerClassesEnum playerClass) {
+    public MainGame(String playerName, boolean newGameProcess, LoadedGameData loadedGameData, PlayerClassesEnum playerClass) {
         initComponents();
 
         playerController = new PlayerController(null, null, new PlayerService());
         mapController = new MapController();
         musicConfiguration = new MusicConfiguration();
+        voiceRecognitionController = new VoiceRecognitionController();
 
         if(newGameProcess)
-            this.SettingDataForNewGame(playerName, playerClass);
+            this.settingDataForNewGame(playerName, playerClass);
         else
-            this.SettingDataForExistingGame(loadObj);
+            this.settingDataForExistingGame(loadedGameData);
 
         dockYardController = new DockYardController(mapController.getAreasList(), itemController.getListOfItems());
         dockYardController.dockYardMainControllingMethod();
@@ -77,15 +78,15 @@ public class MainGame extends javax.swing.JFrame {
 
         battleController = new BattleController(itemController.getListOfItems(), new PlayerService(), new BattleService(), enemyController);
 
-        configureVoiceRecognitionData();
+        this.voskModel = voiceRecognitionController.loadVoiceRecognitionModel();
 
         //-------------- Setting Form Data ----------------
-        this.SetBasicComponentData();
+        this.setBasicComponentData();
 
 
-        musicConfiguration.SetSoundFilePath("outdoor1.wav");
-        musicConfiguration.SetMusicStatus(true);
-        musicConfiguration.PlaySoundFile();
+        musicConfiguration.setSoundFilePath("outdoor1.wav");
+        musicConfiguration.setMusicStatus(true);
+        musicConfiguration.playSoundFile();
         
         //Event listener for the text field.
         jTextField1.addKeyListener(new KeyAdapter() {
@@ -124,7 +125,7 @@ public class MainGame extends javax.swing.JFrame {
 
         //Decide the parsing action from the verb of action command that the user typed
         String parsingDecision = pc.parserControllingMethodForActionDecision(jTextField1.getText());
-        boolean basicCom = ConfigureMaintenanceCommands(jTextField1.getText().trim());
+        boolean basicCom = configureMaintenanceCommands(jTextField1.getText().trim());
 
         if(!basicCom){
             enemyController.loadEnemiesForGame();
@@ -144,34 +145,19 @@ public class MainGame extends javax.swing.JFrame {
             }
         }
 
-        SetImageAfterPlayerActionCommand();
-        SetPlayerDataAfterActionCommandHadBeenExcecuted();
-        SetMusicFileToBePlayedAfterCommand();
-        SetEndingWindowWhenBossIsDead();
+        setImageAfterPlayerActionCommand();
+        setPlayerDataAfterActionCommandExecuted();
+        musicConfiguration.applyPostActionMusicChange(battleController.getBattleState());
+        setEndingWindowWhenBossIsDead();
         //Clearing the text field after command submission
         jTextField1.setText("");
     }
-    
-    private void SetMusicFileToBePlayedAfterCommand(){
-        if(musicConfiguration.GetChangeMusicStatus() && battleController.getBattleState()){
-            musicConfiguration.StopMusic();
-            musicConfiguration.SetSoundFilePath("combat.wav");
-            musicConfiguration.SetMusicStatus(true);
-            musicConfiguration.PlaySoundFile();
-        } else if(musicConfiguration.GetChangeMusicStatus() && !battleController.getBattleState()) {
-            musicConfiguration.StopMusic();
-            musicConfiguration.SetSoundFilePath("outdoor1.wav");
-            musicConfiguration.SetMusicStatus(true);
-            musicConfiguration.SetChangeMusicStatus(false);
-            musicConfiguration.PlaySoundFile();
-        }
-    }
-    
+
     /**
-     * Method that configures the basic maintenace commands that cannot be 
+     * Method that configures the basic maintenace commands that cannot be
      * initilized via text files.
      */
-    private boolean ConfigureMaintenanceCommands(String command){
+    private boolean configureMaintenanceCommands(String command){
         boolean status = false;
 
         switch(command){
@@ -185,7 +171,7 @@ public class MainGame extends javax.swing.JFrame {
         return status;
     }
 
-    private void SetImageAfterPlayerActionCommand(){
+    private void setImageAfterPlayerActionCommand(){
         //Tries to load the image file. If its does not succeed then it load another image
         try{
             ImageIcon icon = null; 
@@ -209,7 +195,7 @@ public class MainGame extends javax.swing.JFrame {
     /**
      * Method that sets the basic data such as images on the form on form load.
      */
-    private void SetBasicComponentData(){
+    private void setBasicComponentData(){
         String itemsSelected = "";
 
         jProgressBar1.setStringPainted(true);
@@ -270,16 +256,13 @@ public class MainGame extends javax.swing.JFrame {
     /**
      * Method that sets the data of the inventory.
      */
-    private void SetPlayerDataAfterActionCommandHadBeenExcecuted(){
+    private void setPlayerDataAfterActionCommandExecuted(){
         String itemsSelected = "";
         for(ItemModel eachItemInInventory : player.getInventory())
             itemsSelected += eachItemInInventory.getItemName()+"\n";
 
-        for(ItemModel eachItem : itemController.getListOfItems()){
-            if(eachItem.getItemType() == 1 && eachItem.getItemValue() == 0)
-                eachItem.setItemValue(8);
-        }
-        
+        itemController.restockDepletedConsumables();
+
         jTextArea2.setText(itemsSelected);
         jLabel2.setText(playerController.displayPlayerInventoryWeight(player));
         jLabel5.setText(playerController.displayPlayerGold(player));
@@ -293,20 +276,20 @@ public class MainGame extends javax.swing.JFrame {
         jProgressBar1.setValue(player.getHealth());
         jProgressBar2.setValue(player.getExperience());
         
-        if(player.getHealth() <= 0){
+        if(playerController.isPlayerDead(player)){
             JOptionPane.showConfirmDialog(this, "You Died!, Game Over!", "You Died!", JOptionPane.OK_OPTION);
-            this.musicConfiguration.StopMusic();
+            this.musicConfiguration.stopMusic();
             this.voskModel = null;
             StartGUI sgui = new StartGUI(false, null, null, null, null, null);
             sgui.setVisible(true);
             this.setVisible(false);
         }
     }
-    
+
     /**
      * Method that sets the data after new game has been made.
      */
-    private void SettingDataForNewGame(String playerName, PlayerClassesEnum playerClass){
+    private void settingDataForNewGame(String playerName, PlayerClassesEnum playerClass){
         player = playerController.initNewPlayer(playerClass, playerName,
                 this.mapController.getAreasList().getFirst());
 
@@ -323,18 +306,18 @@ public class MainGame extends javax.swing.JFrame {
     /**
      * Method that loads the data for an existing game.
      */
-    private void SettingDataForExistingGame(LoadGameData loadObj){
+    private void settingDataForExistingGame(LoadedGameData loadedGameData){
         jTextArea1.setText("");
-        
-        mapController = loadObj.GetMapController();
-        this.player = loadObj.GetPlayerObject();
+
+        mapController = loadedGameData.getMapController();
+        this.player = loadedGameData.getPlayer();
         jTextArea1.setText(this.player.getLocation().getAreaDescription());
-        
+
         //Sets at the image of the area that the user last saved to.
         ImageIcon icon = new ImageIcon(getClass().getResource("/AreaImages/" + this.player.getLocation().getAreaImage()));
         jLabel1.setIcon(icon);
 
-        itemController = loadObj.GetItemController();
+        itemController = loadedGameData.getItemController();
 
         jProgressBar2.setValue(this.player.getExperience());
         jProgressBar1.setValue(this.player.getHealth());
@@ -678,36 +661,14 @@ public class MainGame extends javax.swing.JFrame {
         }
         jButton1.setEnabled(false);
         new Thread(() -> {
-            try (Recognizer rec = new Recognizer(voskModel, 16000.0f)) {
-                javax.sound.sampled.AudioFormat format =
-                        new javax.sound.sampled.AudioFormat(16000, 16, 1, true, false);
-                javax.sound.sampled.DataLine.Info info =
-                        new javax.sound.sampled.DataLine.Info(
-                                javax.sound.sampled.TargetDataLine.class, format);
-                javax.sound.sampled.TargetDataLine mic =
-                        (javax.sound.sampled.TargetDataLine) javax.sound.sampled.AudioSystem.getLine(info);
-                mic.open(format);
-                mic.start();
-                byte[] buf = new byte[4096];
-                String text = "";
-                while (true) {
-                    int n = mic.read(buf, 0, buf.length);
-                    if (rec.acceptWaveForm(buf, n)) {
-                        // result JSON: {"text": "go north"}
-                        String json = rec.getResult();
-                        text = json.replaceAll(".*\"text\"\\s*:\\s*\"([^\"]*)\".*", "$1").trim();
-                        break;
-                    }
-                }
-                mic.stop();
-                mic.close();
-                final String recognized = text;
-                javax.swing.SwingUtilities.invokeLater(() -> {
+            try {
+                String recognized = voiceRecognitionController.recognizeSpeechFromMicrophone(voskModel);
+                SwingUtilities.invokeLater(() -> {
                     jTextField1.setText(recognized);
                     jButton1.setEnabled(true);
                 });
             } catch (Exception ex) {
-                javax.swing.SwingUtilities.invokeLater(() -> {
+                SwingUtilities.invokeLater(() -> {
                     JOptionPane.showMessageDialog(MainGame.this,
                             "An error occurred with the microphone.", "Recognition Error!",
                             JOptionPane.ERROR_MESSAGE);
@@ -725,70 +686,23 @@ public class MainGame extends javax.swing.JFrame {
 
     //Music button event.
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ImageIcon icon;
+        musicConfiguration.toggleMusicForCurrentState(battleController.getBattleState());
 
-        if(this.musicConfiguration.GetMusicStatus() && !battleController.getBattleState()){
-            icon = new ImageIcon(getClass().getResource("/ApplicationImages/nosound.png"));
-            jButton3.setIcon(icon);
-            this.musicConfiguration.SetMusicStatus(false);
-            musicConfiguration.StopMusic();
-        }
-        else if(!this.musicConfiguration.GetMusicStatus() && !battleController.getBattleState()){
-            icon = new ImageIcon(getClass().getResource("/ApplicationImages/sound.png"));
-            jButton3.setIcon(icon);
-            musicConfiguration.SetMusicStatus(true);
-            musicConfiguration.SetSoundFilePath("outdoor1.wav");
-            musicConfiguration.PlaySoundFile();
-        }
-        else if(this.musicConfiguration.GetMusicStatus() && battleController.getBattleState()){
-            icon = new ImageIcon(getClass().getResource("/ApplicationImages/nosound.png"));
-            jButton3.setIcon(icon);
-            this.musicConfiguration.SetMusicStatus(false);
-            musicConfiguration.StopMusic();
-        }
-        else if(!this.musicConfiguration.GetMusicStatus() && battleController.getBattleState()){
-            icon = new ImageIcon(getClass().getResource("/ApplicationImages/sound.png"));
-            jButton3.setIcon(icon);
-            musicConfiguration.SetSoundFilePath("combat.wav");
-            musicConfiguration.SetMusicStatus(true);
-            musicConfiguration.PlaySoundFile();
-        }
-      
+        String iconFile = musicConfiguration.getMusicStatus() ? "sound.png" : "nosound.png";
+        jButton3.setIcon(new ImageIcon(getClass().getResource("/ApplicationImages/" + iconFile)));
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    
-    /**
-     * Loads the Vosk speech recognition model from ~/WarOfEternity/vosk-model/.
-     * Recognition is silently disabled when the model directory is absent.
-     */
-    private void configureVoiceRecognitionData(){
-        String modelPath = System.getProperty("user.home")
-                + java.io.File.separator + "WarOfEternity"
-                + java.io.File.separator + "vosk-model";
+    private void setEndingWindowWhenBossIsDead(){
 
-        if (!new java.io.File(modelPath).exists()) {
-            this.voskModel = null;
-            return;
-        }
-
-        try {
-            this.voskModel = new Model(modelPath);
-        } catch (IOException ex) {
-            this.voskModel = null;
-        }
-    }
-    
-    private void SetEndingWindowWhenBossIsDead(){
-        
-        if(player.getLocation().getAreaName().equals("Jade Sea Depths") && !battleController.getBattleState()){
-            JOptionPane.showMessageDialog(this, 
+        if(playerController.hasPlayerReachedFinalArea(player) && !battleController.getBattleState()){
+            JOptionPane.showMessageDialog(this,
                   "And that was the story of the guardian, sent by the order of \n"
                 + "edernium. The one that sacrificed his life for the people of \n"
                 + "Yeress and brought an end to the unending war that savaged \n"
                 + "the land.\n\n"
                 + "Not all stories have their happy ending, and that ones is not \n"
                 + "finished yet ...\n", "The End", JOptionPane.OK_OPTION);
-            this.musicConfiguration.StopMusic();
+            this.musicConfiguration.stopMusic();
             this.voskModel = null;
             StartGUI sgui = new StartGUI(false, null, null, null, null, null);
             sgui.setVisible(true);

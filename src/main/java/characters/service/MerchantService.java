@@ -1,6 +1,6 @@
 package characters.service;
 
-import GameFileConfiguration.TextFileProcessing;
+import utils.TextFileProcessing;
 import item.model.ItemModel;
 import characters.enums.MerchantMessagesEnum;
 import characters.model.MerchantModel;

@@ -1,27 +1,17 @@
-package View;
+package view;
 
-import GameFileConfiguration.HelpFormInfoConfig;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import utils.HelpFormInfoConfig;
 
 /**
  *
  * @author Triantaris Vasilis
  */
 public class HelpForm extends javax.swing.JFrame {
-    
-    private JSONArray helpInfoArray;
-    
+
+    private final HelpFormInfoConfig helpFormInfoConfig = new HelpFormInfoConfig();
+
     public HelpForm() {
         initComponents();
-        this.SetListContent();
-    }
-    
-    private void SetListContent(){
-        
-        HelpFormInfoConfig hfic = new HelpFormInfoConfig();
-        this.helpInfoArray = new JSONArray();
-        this.helpInfoArray = hfic.GetHelpInfoListContent();
     }
 
     @SuppressWarnings("unchecked")
@@ -79,17 +69,8 @@ public class HelpForm extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        
-        for(int i=0; i<this.helpInfoArray.size(); i++){
-            JSONObject jObj = (JSONObject) this.helpInfoArray.get(i);
-            String listItemName = jList1.getSelectedValue().toString();
-            String sectionTitleName = (String) jObj.get("title");
-
-            if(sectionTitleName.equals(listItemName)){
-                jTextArea1.setText((String) jObj.get("content"));
-            }
-        }
-     
+        String selectedSectionTitle = jList1.getSelectedValue().toString();
+        jTextArea1.setText(helpFormInfoConfig.getContentForSection(selectedSectionTitle));
     }//GEN-LAST:event_jList1ValueChanged
 
     /**

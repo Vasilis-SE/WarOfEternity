@@ -1,6 +1,7 @@
-package View;
+package view;
 
-import Serialization.LoadGameData;
+import serialization.controller.SaveLoadController;
+import serialization.model.LoadedGameData;
 import java.awt.Window;
 import java.io.IOException;
 import java.util.List;
@@ -18,13 +19,15 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class LoadGameForm extends javax.swing.JFrame {
 
+    private final SaveLoadController saveLoadController = new SaveLoadController();
+
     public LoadGameForm() {
         initComponents();
-        
+
         ImageIcon icon = new ImageIcon(getClass().getResource("/ApplicationImages/swordShield.png"));
         jLabel1.setIcon(icon);
-        
-        this.SetListModel();
+
+        this.setListModel();
     }
 
     @SuppressWarnings("unchecked")
@@ -92,36 +95,33 @@ public class LoadGameForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        LoadGameData lgd = new LoadGameData();
-        String result = lgd.DeleteSavedGame(this.jList1.getSelectedValue().toString());
+        String result = saveLoadController.deleteSavedGame(this.jList1.getSelectedValue().toString());
 
-        JOptionPane.showMessageDialog(this, result, "Delete Message Prompt", 
+        JOptionPane.showMessageDialog(this, result, "Delete Message Prompt",
                 JOptionPane.OK_OPTION);
-        
-        this.SetListModel();
+
+        this.setListModel();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     //Method for button "Load Game File"
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        LoadGameData lgd = new LoadGameData();
-     
         if(this.jList1.getSelectedValue() == null){
             JOptionPane.showMessageDialog(this, "Error Occured!, You need to select a specific\n"
                     + "file before loading...", "Errom Message Prompt", JOptionPane.ERROR_MESSAGE);
         }
         else{
             try {
-                lgd.LoadGameFileData(this.jList1.getSelectedValue().toString());
-                MainGame mg = new MainGame(lgd.GetPlayerObject().getName(), false, lgd, null);
+                LoadedGameData loadedGameData = saveLoadController.loadGame(this.jList1.getSelectedValue().toString());
+                MainGame mg = new MainGame(loadedGameData.getPlayer().getName(), false, loadedGameData, null);
 
                 //Closes all window forms
                 System.gc();
                 for (Window window : Window.getWindows()) {
                     window.dispose();
                 }
-            
-                mg.setVisible(true);           
-            } 
+
+                mg.setVisible(true);
+            }
             catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error occurred, while loading the save file.\n"
                     + "Please try again later!", "Load Error Message Prompt" ,JOptionPane.OK_OPTION);
@@ -141,11 +141,8 @@ public class LoadGameForm extends javax.swing.JFrame {
 
     //Method that reads all the names of saved files inside the /Serializable/Saves
     //folder and then sets the model for jList1
-    private void SetListModel(){
-        List<String> savedGameFiles;
-        LoadGameData lgd = new LoadGameData();
-        
-        savedGameFiles = lgd.GetSavedFileNames();
+    private void setListModel(){
+        List<String> savedGameFiles = saveLoadController.getSavedFileNames();
 
         DefaultListModel model = new DefaultListModel();
         for(String eachFileName : savedGameFiles)

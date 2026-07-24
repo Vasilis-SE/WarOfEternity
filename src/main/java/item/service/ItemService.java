@@ -1,6 +1,6 @@
 package item.service;
 
-import GameFileConfiguration.TextFileProcessing;
+import utils.TextFileProcessing;
 import characters.controller.BattleController;
 import characters.model.EnemyModel;
 import characters.model.PlayerModel;
@@ -192,6 +192,19 @@ public class ItemService {
             if(eachItem.getItemName().equalsIgnoreCase(itemRef.getItemName())){
                 eachItem.addItemConnectionWithAreaToList(icwa);
             }
+        }
+    }
+
+    /**
+     * Method that restocks consumable items (potions) that have run out, so
+     * they can be found again on their area.
+     *
+     * @param listOfItems The list of game items.
+     */
+    public void restockDepletedConsumables(List<ItemModel> listOfItems){
+        for(ItemModel eachItem : listOfItems){
+            if(eachItem.getItemType() == 1 && eachItem.getItemValue() == 0)
+                eachItem.setItemValue(8);
         }
     }
 

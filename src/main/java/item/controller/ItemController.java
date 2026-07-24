@@ -60,6 +60,13 @@ public class ItemController implements Serializable{
         itemService.setItemConnectionMainMethod(this.listOfItems, this.listOfAreaModels);
     }
 
+    /**
+     * Method that restocks consumable items (potions) that have run out.
+     */
+    public void restockDepletedConsumables(){
+        new ItemService(new PlayerService(), new BattleService()).restockDepletedConsumables(this.listOfItems);
+    }
+
     public String itemActionCommandProcessController(PlayerModel player, BattleController enemyController, EnemyModel enemyToCombat){
 
         String resultMessage = null;

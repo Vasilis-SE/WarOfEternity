@@ -1,13 +1,13 @@
-package View;
+package view;
 
 import characters.controller.BattleController;
 import characters.model.PlayerModel;
 import characters.controller.TransactionController;
-import GameFileConfiguration.MainFolderConfig;
-import GameFileConfiguration.SaveFolderConfig;
+import utils.MainFolderConfig;
+import utils.SaveFolderConfig;
 import item.controller.ItemController;
 import map.controller.MapController;
-import Serialization.SaveGameData;
+import serialization.controller.SaveLoadController;
 import java.awt.HeadlessException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -24,10 +24,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class StartGUI extends javax.swing.JFrame {
     
     public PlayerModel player;
-    public MapController mc;    
+    public MapController mc;
     public ItemController ic;
     public TransactionController tc;
     public BattleController ec;
+
+    private final SaveLoadController saveLoadController = new SaveLoadController();
 
     public StartGUI(boolean inGame, PlayerModel playerObj, BattleController ecObj, TransactionController transCon, MapController mcObj, ItemController icObj) {
         initComponents();
@@ -165,9 +167,7 @@ public class StartGUI extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if(this.player != null){
             try{
-                //SaveGameData sgd = new SaveGameData(this.player, this.ec, this.breeMerchant, this.mc, this.ic);
-                SaveGameData sgd = new SaveGameData(this.player, this.mc, this.ic);
-                sgd.SavePlayerData();
+                saveLoadController.saveGame(this.player, this.mc, this.ic);
                 JOptionPane.showMessageDialog(this, "The game has been saved!", "Save Message Prompt",
                     JOptionPane.OK_OPTION);
             }

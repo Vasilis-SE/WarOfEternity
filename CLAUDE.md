@@ -30,7 +30,7 @@ mvn assembly:single
 java -jar target/WarOfEternity-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-The entry point is `main.java.View.StartGUI.main()`.
+The entry point is `main.java.view.StartGUI.main()`.
 
 ## Architecture
 
@@ -38,13 +38,13 @@ The entry point is `main.java.View.StartGUI.main()`.
 
 | Package | Responsibility |
 |---|---|
-| `main.java.View.View` | Swing GUI forms: `StartGUI` (main menu / ESC menu), `NewGameForm` (character creation), `MainGame` (gameplay loop), `MapForm`, `LoadGameForm`, `HelpForm` |
+| `main.java.view.view` | Swing GUI forms: `StartGUI` (main menu / ESC menu), `NewGameForm` (character creation), `MainGame` (gameplay loop), `MapForm`, `LoadGameForm`, `HelpForm` |
 | `characters` | Entity classes (`Player`, `Enemies`, `Merchant`, `DockYard`) and their `*Controller` / `*ActionModel` pairs |
 | `map` | `Area` nodes + `AreaConnectionMaker` edges; `MapController` bootstraps the graph by reading text files |
 | `item` | `Item` entities, areaModel-item placement via `ItemConnectionWithArea`, `ItemController` |
 | `Parsers` | `ParserController` + `ParserModel` — splits player input into verb/noun and maps the verb to an action category |
-| `Serialization` | `SaveGameData` / `LoadGameData` — Java object serialization of `Player`, `MapController`, `ItemController` |
-| `GameFileConfiguration` | Bootstraps the runtime folder tree under `user.home\WarOfEternity\` and copies `DataAccessObjects` there |
+| `serialization` | `SaveGameData` / `LoadGameData` — Java object serialization of `Player`, `MapController`, `ItemController` |
+| `utils` | Bootstraps the runtime folder tree under `user.home\WarOfEternity\` and copies `DataAccessObjects` there |
 | `Interfaces` | `ICharacter`, `IItem` |
 | `DataAccessObjects/` | Plain text files that define all game data (see below) |
 
@@ -76,7 +76,7 @@ Saves are Java-serialized `.sav` files written to `%USERPROFILE%\WarOfEternity\S
 
 ### Windows Path Assumption
 
-The game was written for Windows; file paths are hardcoded with `\\` separators and use `System.getProperty("user.home")` and `System.getProperty("user.dir")`. Running on Linux/macOS requires path separator fixes in `GameFileConfiguration/*.java` and `Serialization/*.java`.
+The game was written for Windows; file paths are hardcoded with `\\` separators and use `System.getProperty("user.home")` and `System.getProperty("user.dir")`. Running on Linux/macOS requires path separator fixes in `utils/*.java` and `serialization/*.java`.
 
 ### Voice Recognition
 

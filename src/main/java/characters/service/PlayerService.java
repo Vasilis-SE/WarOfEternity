@@ -250,6 +250,28 @@ public class PlayerService {
     }
 
 
+    /**
+     * Method that checks whether the player's health has dropped to zero or
+     * below, meaning the player has died.
+     *
+     * @param player The object that holds all the player data.
+     * @return Returns true if the player is dead.
+     */
+    public boolean isPlayerDead(PlayerModel player){
+        return player.getHealth() <= 0;
+    }
+
+    /**
+     * Method that checks whether the player has reached the area that
+     * concludes the game.
+     *
+     * @param player The object that holds all the player data.
+     * @return Returns true if the player is standing on the final area.
+     */
+    public boolean hasPlayerReachedFinalArea(PlayerModel player){
+        return player.getLocation().getAreaName().equals("Jade Sea Depths");
+    }
+
     private JSONObject getAttributePointsFromEquippedItems(PlayerModel player){
         JSONObject jObj = new JSONObject();
         int strFromItems = 0;

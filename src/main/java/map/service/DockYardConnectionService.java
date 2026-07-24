@@ -1,6 +1,6 @@
 package map.service;
 
-import GameFileConfiguration.TextFileProcessing;
+import utils.TextFileProcessing;
 import map.model.AreaModel;
 import map.model.DockYardModel;
 import org.json.simple.JSONArray;

@@ -1,4 +1,4 @@
-package GameFileConfiguration;
+package utils;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,15 +18,15 @@ public class HelpFormInfoConfig {
         };
     }
 
-    private String[] SplitDataInSections(StringBuffer strBuff){
+    private String[] splitDataInSections(StringBuffer strBuff){
         return strBuff.toString().split("<break>");
     }
 
-    public JSONArray GetHelpInfoListContent(){
+    public JSONArray getHelpInfoListContent(){
         JSONArray jsonHelpInfoArray = new JSONArray();
         StringBuffer fileContent = TextFileProcessing.ReadResource("/helpInfo.txt");
 
-        String[] fileSplittedInSection = this.SplitDataInSections(fileContent);
+        String[] fileSplittedInSection = this.splitDataInSections(fileContent);
 
         for(int i=0; i < fileSplittedInSection.length; i++){
             JSONObject jObj = new JSONObject();
@@ -36,5 +36,21 @@ public class HelpFormInfoConfig {
         }
 
         return jsonHelpInfoArray;
+    }
+
+    /**
+     * Method that finds the content of a help section by its title.
+     *
+     * @param sectionTitle The title of the section that the user selected.
+     * @return Returns the content of the matching section, or an empty string if none matched.
+     */
+    public String getContentForSection(String sectionTitle){
+        for(Object entry : getHelpInfoListContent()){
+            JSONObject jObj = (JSONObject) entry;
+            if(jObj.get("title").equals(sectionTitle))
+                return (String) jObj.get("content");
+        }
+
+        return "";
     }
 }

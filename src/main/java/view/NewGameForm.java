@@ -1,6 +1,6 @@
-package View;
+package view;
 
-import Serialization.LoadGameData;
+import serialization.controller.SaveLoadController;
 import characters.enums.PlayerClassesEnum;
 
 import java.awt.Window;
@@ -13,7 +13,9 @@ public class NewGameForm extends javax.swing.JFrame {
 
     private final ButtonGroup group;
     private PlayerClassesEnum playerClass;
-    
+
+    private final SaveLoadController saveLoadController = new SaveLoadController();
+
     public NewGameForm() {
         initComponents();
 
@@ -22,8 +24,8 @@ public class NewGameForm extends javax.swing.JFrame {
         this.group.add(jRadioButton1);
         this.group.add(jRadioButton2);
         this.group.add(jRadioButton3);
-        
-        this.SetFormDataIcons();
+
+        this.setFormDataIcons();
     }
 
     @SuppressWarnings("unchecked")
@@ -187,8 +189,7 @@ public class NewGameForm extends javax.swing.JFrame {
             return;
         }
 
-        LoadGameData lgd = new LoadGameData();
-        if(lgd.PlayerNameExistsAsASaveFile(playerName)){
+        if(saveLoadController.playerNameExistsAsASaveFile(playerName)){
             JOptionPane.showMessageDialog(this, "The entered player name is already been used by\n"
                     + "another player!", "Message Prompt", JOptionPane.OK_OPTION);
             return;
@@ -261,7 +262,7 @@ public class NewGameForm extends javax.swing.JFrame {
         this.playerClass = PlayerClassesEnum.MAGE;
     }//GEN-LAST:event_jRadioButton3MouseClicked
 
-    private void SetFormDataIcons(){
+    private void setFormDataIcons(){
     
         ImageIcon icon = new ImageIcon(getClass().getResource("/ApplicationImages/warrioricon.png"));
         jRadioButton1.setIcon(icon);

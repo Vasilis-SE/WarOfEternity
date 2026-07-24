@@ -1,6 +1,6 @@
 package characters.controller;
 
-import GameFileConfiguration.MusicConfiguration;
+import utils.MusicConfiguration;
 import item.model.ItemModel;
 import item.controller.ItemController;
 import item.controller.TabletItemsController;
@@ -65,7 +65,7 @@ public class PlayerController {
         if(battleTrigJSON != null && (boolean) battleTrigJSON.get("status")){
 
             enemyController.setBattleState(true);
-            mcf.SetChangeMusicStatus(true);
+            mcf.setChangeMusicStatus(true);
             this.playerCommandBeforeBattle = (String) battleTrigJSON.get("actionbeforebattle");
             EnemyModel eligibleEnemy = (EnemyModel) battleTrigJSON.get("enemy");
             this.setEnemyToBattle(eligibleEnemy);
@@ -113,6 +113,14 @@ public class PlayerController {
 
     public PlayerModel initNewPlayer(PlayerClassesEnum playerClass, String name, AreaModel startingAreaModel) {
         return playerService.createNewPlayer(playerClass, name, startingAreaModel);
+    }
+
+    public boolean isPlayerDead(PlayerModel player) {
+        return playerService.isPlayerDead(player);
+    }
+
+    public boolean hasPlayerReachedFinalArea(PlayerModel player) {
+        return playerService.hasPlayerReachedFinalArea(player);
     }
 
 

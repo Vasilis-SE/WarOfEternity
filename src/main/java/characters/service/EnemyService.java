@@ -1,6 +1,6 @@
 package characters.service;
 
-import GameFileConfiguration.TextFileProcessing;
+import utils.TextFileProcessing;
 import characters.model.EnemyModel;
 import map.model.AreaModel;
 import org.json.simple.JSONArray;

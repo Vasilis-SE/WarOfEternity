@@ -1,4 +1,4 @@
-package GameFileConfiguration;
+package utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,40 +42,43 @@ public class MusicConfiguration {
     private boolean musicStatus;
     private boolean changeMusic;
 
+    private static final String OUTDOOR_TRACK = "outdoor1.wav";
+    private static final String COMBAT_TRACK = "combat.wav";
+
     public MusicConfiguration(){
     }
 
-    public void SetMusicStatus(boolean status){
+    public void setMusicStatus(boolean status){
         this.musicStatus = status;
     }
 
-    public boolean GetMusicStatus(){
+    public boolean getMusicStatus(){
         return this.musicStatus;
     }
 
-    public void SetChangeMusicStatus(boolean status){
+    public void setChangeMusicStatus(boolean status){
         this.changeMusic = status;
     }
 
-    public boolean GetChangeMusicStatus(){
+    public boolean getChangeMusicStatus(){
         return this.changeMusic;
     }
 
-    public void SetSoundFilePath(String soundFileName){
+    public void setSoundFilePath(String soundFileName){
         this.soundFileName = soundFileName;
     }
 
-    public void PlaySoundFile(){
+    public void playSoundFile(){
         final String fileToPlay = this.soundFileName;
         audioExecutor.submit(() -> {
             if (USE_NATIVE_PIPEWIRE_PLAYER)
-                PlayViaPipeWire(fileToPlay);
+                playViaPipeWire(fileToPlay);
             else
-                PlayViaJavaSound(fileToPlay);
+                playViaJavaSound(fileToPlay);
         });
     }
 
-    public void StopMusic(){
+    public void stopMusic(){
         audioExecutor.submit(() -> {
             if (this.playbackProcess != null) {
                 this.playbackProcess.destroy();
@@ -88,7 +91,44 @@ public class MusicConfiguration {
         });
     }
 
-    private void PlayViaJavaSound(String fileToPlay){
+    /**
+     * Toggles the music on/off, picking the track that matches the current
+     * battle state whenever it is turned back on.
+     *
+     * @param battleState Whether the player is currently in a battle.
+     */
+    public void toggleMusicForCurrentState(boolean battleState){
+        if(this.musicStatus){
+            setMusicStatus(false);
+            stopMusic();
+        } else {
+            setSoundFilePath(battleState ? COMBAT_TRACK : OUTDOOR_TRACK);
+            setMusicStatus(true);
+            playSoundFile();
+        }
+    }
+
+    /**
+     * Switches the playing track to match the battle state after a player
+     * command has been executed, if a change was flagged.
+     *
+     * @param battleState Whether the player is currently in a battle.
+     */
+    public void applyPostActionMusicChange(boolean battleState){
+        if(!this.changeMusic)
+            return;
+
+        stopMusic();
+        setSoundFilePath(battleState ? COMBAT_TRACK : OUTDOOR_TRACK);
+        setMusicStatus(true);
+
+        if(!battleState)
+            setChangeMusicStatus(false);
+
+        playSoundFile();
+    }
+
+    private void playViaJavaSound(String fileToPlay){
         try {
             URL url = MusicConfiguration.class.getResource("/MusicAssets/" + fileToPlay);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -103,7 +143,7 @@ public class MusicConfiguration {
 
     // Pipes the sound resource straight into `pw-play`'s stdin so it works
     // both run from the classes directory and packaged inside the jar.
-    private void PlayViaPipeWire(String fileToPlay){
+    private void playViaPipeWire(String fileToPlay){
         try {
             InputStream soundData = MusicConfiguration.class.getResourceAsStream("/MusicAssets/" + fileToPlay);
             if (soundData == null)
@@ -122,7 +162,7 @@ public class MusicConfiguration {
                 try (soundData; var out = process.getOutputStream()) {
                     soundData.transferTo(out);
                 } catch (IOException e) {
-                    // Expected when StopMusic() kills the process mid-stream.
+                    // Expected when stopMusic() kills the process mid-stream.
                 }
             }, "music-writer");
             writer.setDaemon(true);

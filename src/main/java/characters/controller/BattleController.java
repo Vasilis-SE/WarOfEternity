@@ -1,6 +1,6 @@
 package characters.controller;
 
-import GameFileConfiguration.MusicConfiguration;
+import utils.MusicConfiguration;
 import item.model.ItemModel;
 import map.controller.DirectionController;
 import characters.model.EnemyModel;
@@ -64,11 +64,11 @@ public class BattleController implements Serializable {
 
         if (!resultMessage.equals("The enemy is dead!")) {
             resultMessage += "\n" + battleService.attackFromEnemyToPlayerProcess(eligibleEnemy, player);
-            mcf.SetChangeMusicStatus(false);
+            mcf.setChangeMusicStatus(false);
         } else {
             playerService.battleExperienceEarned(player, eligibleEnemy);
             this.setBattleState(false);
-            mcf.SetChangeMusicStatus(true);
+            mcf.setChangeMusicStatus(true);
 
             if (eligibleEnemy.getName().equals("Alzor The Destroyer") && actionBeforeBattle.equals("sink")) {
                 player.setLocation(eligibleEnemy.getLocation());
