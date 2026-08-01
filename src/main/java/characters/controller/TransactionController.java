@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import characters.model.MerchantModel;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import characters.service.CaptainService;
 import characters.service.MerchantService;
-import characters.service.PlayerService;
+import player.service.PlayerFactoryService;
+import player.service.PlayerService;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 
@@ -51,7 +52,7 @@ public class TransactionController {
      * file. 
      */
     public void setMerchantSectionDataControllingMethod(){
-        this.listOfMerchants = new MerchantService(new PlayerService()).loadMerchants(this.listOfGameAreaModels);
+        this.listOfMerchants = new MerchantService(new PlayerService(new PlayerFactoryService())).loadMerchants(this.listOfGameAreaModels);
     }
     
     public String transactionCommandProcessControll(PlayerModel player, List<DockYardModel> docksList, List<ItemModel> listOfItems){
@@ -69,15 +70,15 @@ public class TransactionController {
             resultMessage = (String) jObj.get("message");
         }
         else if(((!this.verbPart.equals("sell")) || (!this.verbPart.equals("buy"))) && (personToContact.contains("merchant") || personToContact.contains("merchandise"))){
-            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService()));
+            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService(new PlayerFactoryService())));
             resultMessage = mc.talkToMerchantProcess(player);
         }
         else if(this.verbPart.equals("buy")){
-            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService()));
+            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService(new PlayerFactoryService())));
             resultMessage = mc.buyItem(player, this.nounPart);
         }
         else if(this.verbPart.equals("sell")){
-            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService()));
+            MerchantController mc = new MerchantController(listOfItems, this.listOfMerchants, new MerchantService(new PlayerService(new PlayerFactoryService())));
             resultMessage = mc.sellItem(player, this.nounPart);
         }
         else{

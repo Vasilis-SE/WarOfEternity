@@ -3,7 +3,7 @@ package map.service;
 import item.model.ItemModel;
 import item.model.ItemConnectionModel;
 import characters.enums.CaptainMessagesEnum;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import characters.service.CaptainService;
 import map.enums.DockYardMessagesEnum;
 import map.model.DockYardModel;

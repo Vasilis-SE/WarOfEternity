@@ -49,7 +49,7 @@ public enum CommandsEnum {
     // Transaction Commands
     BUY("buy", "transaction"),
     SELL("sell", "transaction"),
-    TALK("talk", "conversation"),
+    TALK("talk", "transaction"),
     PURCHASE("purchase", "transaction"),
     BARGAIN("bargain", "transaction");
 

@@ -3,7 +3,7 @@ package serialization.controller;
 import serialization.model.LoadedGameData;
 import serialization.service.LoadGameService;
 import serialization.service.SaveGameService;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import item.controller.ItemController;
 import map.controller.MapController;
 

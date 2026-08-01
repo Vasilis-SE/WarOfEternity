@@ -5,9 +5,9 @@ import utils.MusicConfiguration;
 import item.model.ItemModel;
 import map.controller.DirectionController;
 import characters.model.EnemyModel;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import characters.service.BattleService;
-import characters.service.PlayerService;
+import player.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 

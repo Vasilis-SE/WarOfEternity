@@ -2,7 +2,7 @@ package characters.controller;
 
 import item.model.ItemModel;
 import characters.model.MerchantModel;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import characters.service.MerchantService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;

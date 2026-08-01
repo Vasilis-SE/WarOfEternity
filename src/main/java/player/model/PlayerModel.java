@@ -1,7 +1,8 @@
-package characters.model;
+package player.model;
 
 import item.model.ItemModel;
-import characters.enums.PlayerClassesEnum;
+import characters.model.CharacterAbstractModel;
+import player.enums.PlayerClassesEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

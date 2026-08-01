@@ -1,7 +1,7 @@
 package characters.service;
 
 import characters.enums.DoctorMessagesEnum;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

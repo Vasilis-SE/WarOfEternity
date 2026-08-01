@@ -1,12 +1,13 @@
-package characters.service;
+package player.service;
 
+import characters.model.EnemyModel;
 import item.model.ItemModel;
 import map.model.AreaModel;
-import characters.enums.PlayerClassesEnum;
-import characters.model.EnemyModel;
-import characters.model.PlayerModel;
+import player.enums.PlayerClassesEnum;
+import player.interfaces.PlayerInterface;
+import player.model.PlayerAttributeStatsModel;
+import player.model.PlayerModel;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,56 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlayerService {
 
+    private final PlayerFactoryService playerClassServiceFactory;
 
     public PlayerModel createNewPlayer(PlayerClassesEnum playerClass, String name, AreaModel startingAreaModel) {
-        PlayerModel player = switch (playerClass) {
-            case PlayerClassesEnum.WARRIOR -> PlayerModel.builder()
-                    .playerClass(playerClass)
-                    .strength(14)
-                    .intelligence(6)
-                    .agility(8)
-                    .name(name)
-                    .location(startingAreaModel)
-                    .health(100)
-                    .experience(0)
-                    .inventory(new ArrayList<>())
-                    .equippedItems(new ArrayList<>())
-                    .build();
-            case PlayerClassesEnum.ROGUE -> PlayerModel.builder()
-                    .name(name)
-                    .location(startingAreaModel)
-                    .health(100)
-                    .experience(0)
-                    .playerClass(playerClass)
-                    .strength(6)
-                    .intelligence(8)
-                    .agility(14)
-                    .level(1)
-                    .experience(0)
-                    .inventory(new ArrayList<>())
-                    .equippedItems(new ArrayList<>())
-                    .build();
-            case PlayerClassesEnum.MAGE -> PlayerModel.builder()
-                    .name(name)
-                    .location(startingAreaModel)
-                    .health(100)
-                    .experience(0)
-                    .playerClass(playerClass)
-                    .strength(5)
-                    .intelligence(14)
-                    .agility(9)
-                    .level(1)
-                    .experience(0)
-                    .inventory(new ArrayList<>())
-                    .equippedItems(new ArrayList<>())
-                    .build();
-        };
+        PlayerModel player = playerClassServiceFactory.getPlayer(playerClass).initPlayer(name, startingAreaModel);
 
         calculateGeneralPlayerDamage(player);
 
         return player;
     }
-
 
 
     /**
@@ -170,28 +130,13 @@ public class PlayerService {
     /**
      * Method that calculates the final player damage. The attribute of the character
      * makes the 60% of the final damage while the item damage the 30% and the
-     * players level the 10%.
+     * players level the 10%. The exact attribute used depends on the player's class.
      */
     public void calculateGeneralPlayerDamage(PlayerModel player){
         int equippedItemDam = this.calculatePlayersDamageFromEquippedItems(player);
-        int damage;
+        PlayerInterface classService = playerClassServiceFactory.getPlayer(player.getPlayerClass());
 
-        switch(player.getPlayerClass()){
-            case PlayerClassesEnum.WARRIOR:
-                damage = (int) ((equippedItemDam * 0.3) + (player.getStrength() * 0.6) + (player.getLevel() * 0.1));
-                player.setDamage(damage);
-                break;
-
-            case PlayerClassesEnum.ROGUE:
-                damage = (int) ((equippedItemDam * 0.3) + (player.getAgility() * 0.6) + (player.getLevel() * 0.1));
-                player.setDamage(damage);
-                break;
-
-            case PlayerClassesEnum.MAGE:
-                damage = (int) ((equippedItemDam * 0.3) + (player.getIntelligence() * 0.6) + (player.getLevel() * 0.1));
-                player.setDamage(damage);
-                break;
-        }
+        player.setDamage(classService.calculateDamage(player, equippedItemDam));
     }
 
 
@@ -200,28 +145,13 @@ public class PlayerService {
      * of the player.
      */
     public void calculatePlayersAttributePoints(PlayerModel player){
-        int strengthAttribute = 0;
-        int agilityAttribute = 0;
-        int intelligenceAttribute = 0;
+        PlayerInterface classService = playerClassServiceFactory.getPlayer(player.getPlayerClass());
+        PlayerAttributeStatsModel startingStats = classService.getStartingAttributeStats();
+        PlayerAttributeStatsModel itemAttributeBonuses = getAttributePointsFromEquippedItems(player);
 
-        JSONObject jObj = getPlayerClassStartingStats(player);
-
-        for(ItemModel eachEquippedItem : player.getEquippedItems()){
-
-            if(eachEquippedItem.getItemType() == 3 && eachEquippedItem.getAttributeType().equals("str"))
-                strengthAttribute += eachEquippedItem.getAttributeValue();
-
-            if(eachEquippedItem.getItemType() == 3 && eachEquippedItem.getAttributeType().equals("agi"))
-                agilityAttribute += eachEquippedItem.getAttributeValue();
-
-            if(eachEquippedItem.getItemType() == 3 && eachEquippedItem.getAttributeType().equals("int"))
-                intelligenceAttribute += eachEquippedItem.getAttributeValue();
-
-        }
-
-        player.setStrength(strengthAttribute + (int) jObj.get("strength"));
-        player.setAgility(agilityAttribute + (int) jObj.get("agility"));
-        player.setIntelligence(intelligenceAttribute + (int) jObj.get("intelligence"));
+        player.setStrength(itemAttributeBonuses.getStrength() + startingStats.getStrength());
+        player.setAgility(itemAttributeBonuses.getAgility() + startingStats.getAgility());
+        player.setIntelligence(itemAttributeBonuses.getIntelligence() + startingStats.getIntelligence());
     }
 
 
@@ -272,8 +202,7 @@ public class PlayerService {
         return player.getLocation().getAreaName().equals("Jade Sea Depths");
     }
 
-    private JSONObject getAttributePointsFromEquippedItems(PlayerModel player){
-        JSONObject jObj = new JSONObject();
+    private PlayerAttributeStatsModel getAttributePointsFromEquippedItems(PlayerModel player){
         int strFromItems = 0;
         int agiFromItems = 0;
         int intelFromItems = 0;
@@ -298,11 +227,7 @@ public class PlayerService {
             }
         }
 
-        jObj.put("itemstr", strFromItems);
-        jObj.put("itemagi", agiFromItems);
-        jObj.put("itemint", intelFromItems);
-
-        return jObj;
+        return new PlayerAttributeStatsModel(strFromItems, agiFromItems, intelFromItems);
     }
 
     /**
@@ -313,36 +238,14 @@ public class PlayerService {
         player.setLevel(player.getLevel() + 1);
         player.setArmor(player.getArmor() + 2);
 
-        JSONObject JSONBasicAttr = getPlayerClassStartingStats(player);
-        JSONObject JSONItemAttr = getAttributePointsFromEquippedItems(player);
+        PlayerInterface classService = playerClassServiceFactory.getPlayer(player.getPlayerClass());
+        PlayerAttributeStatsModel startingStats = classService.getStartingAttributeStats();
+        PlayerAttributeStatsModel itemAttributeBonuses = getAttributePointsFromEquippedItems(player);
 
-        switch(player.getPlayerClass()){
-
-            case PlayerClassesEnum.WARRIOR:
-                player.setStrength(((int) JSONBasicAttr.get("strength")) + ((int) JSONItemAttr.get("itemstr")) + ((player.getLevel() * 2) - 2));
-                player.setAgility(((int) JSONBasicAttr.get("agility")) + ((int) JSONItemAttr.get("itemagi")) + (player.getLevel() - 1));
-                player.setIntelligence(((int) JSONBasicAttr.get("intelligence")) + ((int) JSONItemAttr.get("itemint")) + (player.getLevel() - 1));
-                break;
-
-            case PlayerClassesEnum.ROGUE:
-                player.setStrength(((int) JSONBasicAttr.get("strength")) + ((int) JSONItemAttr.get("itemstr")) + (player.getLevel() - 1));
-                player.setAgility(((int) JSONBasicAttr.get("agility")) + ((int) JSONItemAttr.get("itemagi")) + ((player.getLevel() * 2) - 2));
-                player.setIntelligence(((int) JSONBasicAttr.get("intelligence")) + ((int) JSONItemAttr.get("itemint")) + (player.getLevel() - 1));
-                break;
-
-            case PlayerClassesEnum.MAGE:
-                player.setStrength(((int) JSONBasicAttr.get("strength")) + ((int) JSONItemAttr.get("itemstr")) + (player.getLevel() - 1));
-                player.setAgility(((int) JSONBasicAttr.get("agility")) + ((int) JSONItemAttr.get("itemagi")) + (player.getLevel() - 1));
-                player.setIntelligence(((int) JSONBasicAttr.get("intelligence")) + ((int) JSONItemAttr.get("itemint")) + ((player.getLevel() * 2) - 2));
-                break;
-        }
+        classService.applyLevelUpAttributeGrowth(player, startingStats, itemAttributeBonuses);
 
         this.calculateGeneralPlayerDamage(player);
     }
-
-
-
-
 
 
     /**
@@ -360,49 +263,4 @@ public class PlayerService {
         return sum;
     }
 
-
-    /**
-     * Method that returns the starting attribute points for each class.
-     * @return Returns a JSON object which contains the starting attribute points for each class.
-     */
-    private JSONObject getPlayerClassStartingStats(PlayerModel player){
-
-        JSONObject jObj = new JSONObject();
-        int strength = 0;
-        int agility = 0;
-        int intelligence = 0;
-
-        switch(player.getPlayerClass()){
-
-            case PlayerClassesEnum.WARRIOR:
-                strength = 14;
-                agility = 8;
-                intelligence = 6;
-                break;
-
-            case PlayerClassesEnum.ROGUE:
-                strength = 6;
-                agility = 14;
-                intelligence = 8;
-                break;
-
-            case PlayerClassesEnum.MAGE:
-                strength = 5;
-                agility = 9;
-                intelligence = 14;
-                break;
-        }
-
-        jObj.put("strength", strength);
-        jObj.put("agility", agility);
-        jObj.put("intelligence", intelligence);
-
-        return jObj;
-    }
-
-
 }
-
-
-
-

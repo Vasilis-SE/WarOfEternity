@@ -1,4 +1,4 @@
-package characters.enums;
+package player.enums;
 
 import lombok.Getter;
 

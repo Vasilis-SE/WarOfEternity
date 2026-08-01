@@ -2,7 +2,7 @@ package serialization.service;
 
 import serialization.enums.SaveLoadMessagesEnum;
 import serialization.model.LoadedGameData;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import item.controller.ItemController;
 import map.controller.MapController;
 

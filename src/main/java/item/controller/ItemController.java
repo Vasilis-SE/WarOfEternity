@@ -2,9 +2,10 @@ package item.controller;
 
 import characters.controller.BattleController;
 import characters.model.EnemyModel;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import characters.service.BattleService;
-import characters.service.PlayerService;
+import player.service.PlayerFactoryService;
+import player.service.PlayerService;
 import item.enums.ItemMessagesEnum;
 import item.model.ItemModel;
 import item.service.ItemService;
@@ -56,7 +57,7 @@ public class ItemController implements Serializable{
      */
     public void setItemDataForGame(){
 
-        ItemService itemService = new ItemService(new PlayerService(), new BattleService());
+        ItemService itemService = new ItemService(new PlayerService(new PlayerFactoryService()), new BattleService());
         this.listOfItems = itemService.setItemDataList(this.listOfAreaModels);
         itemService.setItemConnectionMainMethod(this.listOfItems, this.listOfAreaModels);
     }
@@ -65,13 +66,13 @@ public class ItemController implements Serializable{
      * Method that restocks consumable items (potions) that have run out.
      */
     public void restockDepletedConsumables(){
-        new ItemService(new PlayerService(), new BattleService()).restockDepletedConsumables(this.listOfItems);
+        new ItemService(new PlayerService(new PlayerFactoryService()), new BattleService()).restockDepletedConsumables(this.listOfItems);
     }
 
     public String itemActionCommandProcessController(PlayerModel player, BattleController enemyController, EnemyModel enemyToCombat){
 
         String resultMessage = null;
-        ItemService itemService = new ItemService(new PlayerService(), new BattleService());
+        ItemService itemService = new ItemService(new PlayerService(new PlayerFactoryService()), new BattleService());
 
         if(this.verbPartOfCommand.equals("equip")){
             resultMessage = itemService.equipItemPlayerAction(player, this.nounPartOfCommand);

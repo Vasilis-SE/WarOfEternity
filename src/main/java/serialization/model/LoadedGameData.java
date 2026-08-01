@@ -1,6 +1,6 @@
 package serialization.model;
 
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import item.controller.ItemController;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

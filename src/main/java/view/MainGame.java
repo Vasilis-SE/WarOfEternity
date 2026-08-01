@@ -9,13 +9,14 @@ import serialization.model.LoadedGameData;
 import map.controller.DockYardController;
 import characters.controller.BattleController;
 import characters.controller.EnemyController;
-import characters.controller.PlayerController;
+import player.controller.PlayerController;
 import characters.controller.TransactionController;
-import characters.enums.PlayerClassesEnum;
-import characters.model.PlayerModel;
+import player.enums.PlayerClassesEnum;
+import player.model.PlayerModel;
 import characters.service.BattleService;
 import characters.service.EnemyService;
-import characters.service.PlayerService;
+import player.service.PlayerFactoryService;
+import player.service.PlayerService;
 import org.vosk.Model;
 import view.enums.MainGameMessagesEnum;
 import voice.controller.VoiceRecognitionController;
@@ -58,7 +59,7 @@ public class MainGame extends javax.swing.JFrame {
     public MainGame(String playerName, boolean newGameProcess, LoadedGameData loadedGameData, PlayerClassesEnum playerClass) {
         initComponents();
 
-        playerController = new PlayerController(null, null, new PlayerService());
+        playerController = new PlayerController(null, null, new PlayerService(new PlayerFactoryService()));
         mapController = new MapController();
         musicConfiguration = new MusicConfiguration();
         voiceRecognitionController = new VoiceRecognitionController();
@@ -77,7 +78,7 @@ public class MainGame extends javax.swing.JFrame {
         enemyController = new EnemyController(mapController.getAreasList(), new EnemyService());
         enemyController.loadEnemiesForGame();
 
-        battleController = new BattleController(itemController.getListOfItems(), new PlayerService(), new BattleService(), enemyController);
+        battleController = new BattleController(itemController.getListOfItems(), new PlayerService(new PlayerFactoryService()), new BattleService(), enemyController);
 
         this.voskModel = voiceRecognitionController.loadVoiceRecognitionModel();
 

@@ -1,8 +1,9 @@
 package item.controller;
 
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import characters.service.BattleService;
-import characters.service.PlayerService;
+import player.service.PlayerFactoryService;
+import player.service.PlayerService;
 import item.enums.ItemMessagesEnum;
 import item.model.ItemModel;
 import item.service.ItemService;
@@ -32,7 +33,7 @@ public class TabletItemsController {
     public String tabletInspectActionCommand(PlayerModel player){
 
         String message;
-        ItemService itemService = new ItemService(new PlayerService(), new BattleService());
+        ItemService itemService = new ItemService(new PlayerService(new PlayerFactoryService()), new BattleService());
 
         JSONObject integrityJSON = itemService.getStoneTabletOnAreaIfExists(player, this.listOfItems);
         if(!(boolean) integrityJSON.get("status"))

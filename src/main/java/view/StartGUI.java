@@ -1,7 +1,7 @@
 package view;
 
 import characters.controller.BattleController;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import characters.controller.TransactionController;
 import utils.MainFolderConfig;
 import utils.SaveFolderConfig;

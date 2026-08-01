@@ -1,4 +1,4 @@
-package characters.controller;
+package player.controller;
 
 import utils.MusicConfiguration;
 import item.model.ItemModel;
@@ -8,12 +8,15 @@ import map.controller.DirectionController;
 import map.controller.DockYardController;
 import map.model.AreaModel;
 import map.model.DockYardModel;
-import characters.enums.PlayerClassesEnum;
-import characters.enums.PlayerDisplayMessagesEnum;
+import characters.controller.BattleController;
+import characters.controller.TransactionController;
 import characters.model.EnemyModel;
 import characters.model.MerchantModel;
-import characters.model.PlayerModel;
-import characters.service.PlayerService;
+import player.enums.PlayerClassesEnum;
+import player.enums.PlayerDisplayMessagesEnum;
+import player.model.PlayerModel;
+import player.service.PlayerFactoryService;
+import player.service.PlayerService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +47,7 @@ public class PlayerController {
     PlayerController() {
         enemyToBattle = new EnemyModel();
         playerCommandBeforeBattle = "";
-        playerService = new PlayerService();
+        playerService = new PlayerService(new PlayerFactoryService());
     }
 
 
@@ -52,7 +55,7 @@ public class PlayerController {
                                                                BattleController enemyController, List<AreaModel> areasList, List<DockYardModel> docksList,
                                                                List<MerchantModel> listOfMerchants, MusicConfiguration mcf,
                                                                String parsingDecision, String nounPartOfCommand, String verbPartOfCommand){
-        
+
         String resultMessage = "";
 
         //Calls the method which checks the integrity of the battle (the type of commands to be used).
@@ -76,17 +79,17 @@ public class PlayerController {
         //Switch-case that calls the right action method for the specific verb that the
         //user has typed.
         switch(parsingDecision){
-            
+
             case "direction" :
                 DirectionController dc = new DirectionController(nounPartOfCommand, itemList);
                 resultMessage = dc.playerActionCommand(player);
             break;
-        
+
             case "item" :
                 ItemController ic = new ItemController(verbPartOfCommand, nounPartOfCommand, itemList);
                 resultMessage = ic.itemActionCommandProcessController(player, enemyController, this.enemyToBattle);
             break;
-                
+
             case "transaction" :
                 TransactionController tc = new TransactionController(areasList, listOfMerchants, nounPartOfCommand, verbPartOfCommand);
                 resultMessage = tc.transactionCommandProcessControll(player, docksList, itemList);
@@ -100,7 +103,7 @@ public class PlayerController {
                 DockYardController dyc = new DockYardController(areasList, itemList);
                 resultMessage = dyc.dockYardCommandActionProcess(player, docksList, nounPartOfCommand, verbPartOfCommand);
             break;
-                
+
             case "inspect" :
                 TabletItemsController tbc = new TabletItemsController(verbPartOfCommand, nounPartOfCommand, itemList);
                 resultMessage = tbc.tabletInspectActionCommand(player);

@@ -6,7 +6,7 @@ import item.model.ItemConnectionModel;
 import map.enums.DirectionMessagesEnum;
 import map.model.AreaConnectionModel;
 import characters.model.EnemyModel;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

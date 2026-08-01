@@ -1,7 +1,7 @@
 package characters.service;
 
 import characters.enums.CaptainMessagesEnum;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import lombok.RequiredArgsConstructor;
 import map.model.DockYardModel;
 import org.json.simple.JSONObject;

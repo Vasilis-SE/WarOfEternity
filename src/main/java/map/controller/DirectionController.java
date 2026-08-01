@@ -1,6 +1,6 @@
 package map.controller;
 
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import item.model.ItemConnectionModel;
 import item.model.ItemModel;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package map.controller;
 
 import item.model.ItemModel;
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import lombok.Getter;
 import map.model.AreaModel;
 import map.model.DockYardModel;

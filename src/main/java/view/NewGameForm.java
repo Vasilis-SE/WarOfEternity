@@ -1,7 +1,7 @@
 package view;
 
 import serialization.controller.SaveLoadController;
-import characters.enums.PlayerClassesEnum;
+import player.enums.PlayerClassesEnum;
 import view.enums.NewGameMessagesEnum;
 
 import java.awt.Window;

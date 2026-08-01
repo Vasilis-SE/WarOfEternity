@@ -1,6 +1,6 @@
 package serialization.service;
 
-import characters.model.PlayerModel;
+import player.model.PlayerModel;
 import item.controller.ItemController;
 import map.controller.MapController;
 
